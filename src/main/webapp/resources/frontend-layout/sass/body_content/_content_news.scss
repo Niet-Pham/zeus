@@ -1,0 +1,94 @@
+.content-news {
+    margin-top: 5rem;
+    .title-news {
+        h1 {
+            text-align: center;
+            width: 100%;
+            padding-bottom: 2rem;
+            color: $primary-color;
+            text-transform: uppercase;
+
+            &._news {
+                padding-top: 2rem;
+            }
+        }
+    }
+    .content {
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            margin-bottom: 2rem;
+        }
+        p {
+            padding: 1rem 0;
+        }
+    }
+    .top-news {
+        .row {
+            margin-bottom: 1.5rem;
+        }
+        a {
+            text-decoration: none;
+        }
+        &__img {
+            img {
+                width: 280px;
+                height: 170px;
+                object-fit: cover;
+                border-radius: 1rem;
+            }
+        }
+        &__detail {
+            padding-left: 2rem;
+            p {
+                margin: 0;
+                &:nth-child(1) {
+                    font-weight: bold;
+                    font-size: 22px;
+                    padding-bottom: 0.5rem;
+                    color: $primary-color;
+                    &:hover {
+                        color: $primary-color-blur;
+                        text-decoration: underline;
+                    }
+                }
+                &:nth-child(2) {
+                    font-style: italic;
+                    font-size: 14px;
+                    padding-bottom: 0.5rem;
+                    color: $secondary-color-copy;
+                    span {
+                        font-style: initial;
+                        background-color: $primary-color;
+                        color: $third-color;
+                        padding: 5px 10px;
+                        border-radius: 10px;
+                        margin-right: 0.5rem;
+                        &:hover {
+                            background-color: $red-color;
+                        }
+                    }
+                }
+                &:nth-child(3) {
+                    color: $secondary-color-copy;
+                }
+            }
+        }
+    }
+    .more-news {
+        a {
+            width: 100%;
+            text-align: right;
+            text-decoration: none;
+            span {
+                color: $primary-color;
+                font-size: 18px;
+                &:hover {
+                    color: $primary-color-blur;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:selectOneMenu id="tinhThanhPho" value="#{cityDistrictCommuneController.cityDistrictDto.provinceId}"
+                     autoWidth="false" effect="fade" disabled="#{cityDistrictCommuneController.checkDisable}"
+                     filter="true" filterMatchMode="contains"
+                     required="false" label="Tỉnh/tp">
+        <f:selectItem itemLabel="Tỉnh/TP" itemValue=""/>
+        <f:selectItems value="#{cityDistrictCommuneController.listProvince}" var="tinhTp" itemLabel="#{cityDistrictCommuneController.upperCaseFirstChar(tinhTp.name)}"
+                       itemValue="#{tinhTp.provinceId}"/>
+        <p:ajax event="change" global="false" listener="#{cityDistrictCommuneController.onChangeCity}"
+                update="quanHuyen phuongXa"/>
+    </p:selectOneMenu>
+
+    <p:selectOneMenu id="quanHuyen" value="#{cityDistrictCommuneController.cityDistrictDto.districtId}"
+                     autoWidth="false" effect="fade" disabled="#{cityDistrictCommuneController.checkDisable}"
+                     filter="true" filterMatchMode="contains" label="Quận/huyện">
+        <f:selectItem itemLabel="Quận/huyện" itemValue=""/>
+        <f:selectItems value="#{cityDistrictCommuneController.listDistrict}" var="quanHuyen"
+                       itemLabel="#{cityDistrictCommuneController.upperCaseFirstChar(quanHuyen.name)}" itemValue="#{quanHuyen.districtId}"/>
+        <p:ajax event="change" global="false" listener="#{cityDistrictCommuneController.onChangeDistrict}" update="phuongXa"/>
+    </p:selectOneMenu>
+    <p:selectOneMenu id="phuongXa" value="#{cityDistrictCommuneController.cityDistrictDto.communeId}"
+                     autoWidth="false" effect="fade" disabled="#{cityDistrictCommuneController.checkDisable}"
+                     filter="true" filterMatchMode="contains" label="Phường/xã">
+        <f:selectItem itemLabel="Phường/xã" itemValue=""/>
+        <f:selectItems value="#{cityDistrictCommuneController.listCommune}" var="phuongXa" itemLabel="#{cityDistrictCommuneController.upperCaseFirstChar(phuongXa.name)}"
+                       itemValue="#{phuongXa.communeId}"/>
+    </p:selectOneMenu>
+
+</ui:composition>

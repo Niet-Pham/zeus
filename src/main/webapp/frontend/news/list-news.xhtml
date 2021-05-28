@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/frontend/template/template2.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{newsFEController.initData}"/>
+    </f:metadata>
+    <ui:define name="title">Danh sách tin tức</ui:define>
+
+    <ui:define name="body-content">
+        <div class="content-news">
+            <div class="container">
+                <div class="title-news">
+                    <div class="row">
+                        <h1 class="_news">Danh sách tin tức</h1>
+                    </div>
+                </div>
+                <div class="top-news">
+                    <h:form id="productList" prependId="false">
+                        <div class="row">
+                            <p:repeat value="#{newsFEController.pagination.data}" var="newsDto">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="top-news__img">
+                                            <p:commandLink actionListener="#{newsFEController.viewNewsDetail(newsDto)}">
+                                                <p:graphicImage name="#{newsDto.imgPath}"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <div class="top-news__detail">
+                                            <p:commandLink actionListener="#{newsFEController.viewNewsDetail(newsDto)}">
+                                                <p>#{newsDto.title}</p>
+                                            </p:commandLink>
+                                            <p>
+                                                <h:link outcome="/frontend/news/list-news.xhtml?catid=#{newsDto.categoryId}">
+                                                    <span>#{newsDto.categoryName}</span>
+                                                </h:link>
+                                                <h:outputText value="#{newsDto.updateDate}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p>#{commonController.abbreviate(newsDto.shortContent, 100)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:repeat>
+                        </div>
+                    </h:form>
+                </div>
+                <ui:include src="../template/paginate/pagination.xhtml">
+                    <ui:param name="pagination" value="#{newsFEController.pagination}"/>
+                </ui:include>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

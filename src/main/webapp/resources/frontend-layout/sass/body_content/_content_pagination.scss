@@ -1,0 +1,61 @@
+.pagination-area {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: block;
+  float: left;
+  width: 100%;
+}
+
+.pagination-bottom {
+  display: inline-block;
+  float: right;
+}
+
+.page-numbers {
+  margin-bottom: 0px;
+  margin-top: 5px;
+  float: right;
+  &.current {
+    background: $primary_color;
+    border-color: $primary_color;
+    color: $third-color;
+  }
+  li {
+    display: inline-block;
+    span {
+      color: $primary_color;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      width: 30px;
+      border: 1px solid #c1c1c1;
+      border-radius: 3px;
+    }
+    a {
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      width: 30px;
+      border: 1px solid #c1c1c1;
+      border-radius: 3px;
+      color: $primary-color;
+      &:hover {
+        background: $primary_color;
+        border-color: $primary_color;
+        color: $third-color;
+      }
+    }
+  }
+}
+
+.dataTables_length {
+  span {
+    display: inline-block;
+  }
+  select {
+    width: 70px;
+    display: inline-block;
+  }
+}

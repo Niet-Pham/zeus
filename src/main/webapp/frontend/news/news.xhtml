@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/frontend/template/template2.xhtml">
+
+    <ui:define name="title">Tin tức</ui:define>
+
+    <ui:define name="body-content">
+        <div class="content-news">
+            <div class="container">
+                <div class="title-news">
+                    <div class="row">
+                        <h1 class="_news">#{newsFEController.newsDto.title}</h1>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="image-news">
+                        <p:graphicImage name="#{newsFEController.newsDto.imgPath}"/>
+                    </div>
+                    <h:outputText escape="false" value="#{newsFEController.newsDto.content}"/>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

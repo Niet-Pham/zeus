@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <div class="inputfile-box">
+        <p:fileUpload id="fileUpload" mode="advanced"
+                      styleClass="inputfile" auto="true"
+                      fileUploadListener="#{uploadSingleFileFEController.onUploadFile}"
+                      update="#{Constant.ERROR_FE_GROWL_ID}"/>
+        <label for="fileUpload_input" class="lable-for-file">
+            <span id="file-name" class="file-box">Chọn file hồ sơ đính kèm</span>
+            <span class="file-button"><i class="fa fa-folder-o" aria-hidden="true"/></span>
+        </label>
+    </div>
+
+    <span class="help-block">
+        <mdall>Vui lòng chọn tài liệu định dạng PDF, DOCX, JPG, JPEG, PNG dung lượng ảnh nhỏ hơn 5MB</mdall>
+    </span>
+
+    <h:panelGroup id="fileUploadFilename">
+        <script>
+            document.getElementById("fileUpload_input").addEventListener("change", function () {
+                if ("#{uploadSingleFileFEController.getAcceptFileString()}".indexOf(this.files[0].name.split(".").pop()) >= 0) {
+                    document.getElementById("file-name").innerHTML = this.files[0].name;
+                } else {
+                    document.getElementById("file-name").innerHTML = "Chọn file hồ sơ đính kèm";
+                }
+            });
+        </script>
+    </h:panelGroup>
+
+</ui:composition>

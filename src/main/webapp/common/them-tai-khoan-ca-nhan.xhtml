@@ -1,0 +1,213 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <p:focus id="focus"/>
+    <p:scrollPanel mode="native" style="width: 100%; max-height: 450px;border: none">
+        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                     styleClass="ui-panelgrid-blank" layout="grid">
+            <p:outputLabel value="Họ và tên:" for="name"/>
+            <p:outputPanel>
+                <p:inputText id="name" placeholder="Nhập họ tên" required="true"
+                             requiredMessage="Bạn vui lòng nhập họ tên"
+                             onchange="this.value = this.value.trim()" maxlength="50"
+                             value="#{accountController.accountDto.fullName}"/>
+                <p:message id="id1" for="name" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Tên đăng nhập:" for="username"/>
+            <p:outputPanel>
+                <p:inputText id="username" placeholder="Nhập tên đăng nhập" required="true"
+                             requiredMessage="Bạn vui lòng nhập tên đăng nhập"
+                             disabled="#{not empty accountController.accountDto.accountId}"
+                             onchange="this.value = this.value.trim()" maxlength="50"
+                             onkeyup="this.value=this.value.replace(/[^\w\d\.\_]/g, '');"
+                             value="#{accountController.accountDto.username}"
+                             validatorMessage="Tên đăng nhập phải có ít nhất 6 ký tự, được phép bao gồm ký tự '_' và '-'">
+                    <f:validateRegex pattern="^\s*[\w\-\_]{6,50}\s*$"/>
+                    <p:tooltip style="width: 250px;"
+                               value="Tên đăng nhập phải có ít nhất 6 ký tự, được phép bao gồm ký tự '_' và '-'"
+                               id="toolTipFocus" for="username" showEvent="focus" hideEvent="blur"/>
+                </p:inputText>
+                <p:message id="id2" for="username" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Giới tính:" for="gender"/>
+            <p:outputPanel>
+                <p:selectOneMenu id="gender" value="#{accountController.accountDto.sex}" required="true"
+                                 requiredMessage="Bạn vui lòng chọn giới tính">
+                    <f:selectItem itemLabel="Chọn giới tính" itemValue=""/>
+                    <f:selectItems value="#{accountController.apiSexList}"/>
+                </p:selectOneMenu>
+                <p:message id="id3" for="gender" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Ngày sinh: " for="dateOfBirth"/>
+            <p:outputPanel>
+                <p:calendar id="dateOfBirth" styleClass="calendar"
+                            navigator="true" mode="popup" yearRange="c-100:c"
+                            required="true" requiredMessage="Bạn vui lòng nhập ngày sinh"
+                            onchange="this.value = this.value.trim()"
+                            autocomplete="off"
+                            placeholder="Chọn ngày sinh"
+                            value="#{accountController.accountDto.dateOfBirth}"
+                            validatorMessage="Ngày sinh không hợp lệ "
+                            maxdate="#{accountController.now}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:calendar>
+                <p:message id="id5" for="dateOfBirth" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Số CMND/CCCD:" for="cmnd"/>
+            <p:outputPanel>
+                <p:inputText id="cmnd" placeholder="Nhập số CMND/CCCD" maxlength="12" required="true"
+                             requiredMessage="Bạn vui lòng nhập số CMND/CCCD"
+                             onchange="this.value = this.value.trim()" validatorMessage="Số CMND/CCCD sai định dạng"
+                             onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                             value="#{accountController.accountDto.idCardNumber}">
+                    <f:validateRegex pattern="^[0-9]{9}(?:[0-9]{3})?$"/>
+                </p:inputText>
+                <p:message id="id4" for="cmnd" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel styleClass="requireLabel" value="Nơi cấp:"/>
+            <p:outputPanel>
+                <p:selectOneMenu id="provinceId" value="#{accountController.accountDto.provinceIdOfIssue}" dynamic="true" style="min-width: 104px"
+                                 required="true" requiredMessage="Bạn vui lòng chọn nơi cấp" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Chọn nơi cấp" itemValue=""/>
+                    <f:selectItems value="#{accountController.listProvinceAccount}"/>
+                </p:selectOneMenu>
+                <p:message id="id6" for="provinceId" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Ngày cấp: " for="dateOfIssue"/>
+            <p:outputPanel>
+                <p:calendar id="dateOfIssue" styleClass="calendar set-width-field" navigator="true"
+                            mode="popup"
+                            yearRange="c-50:c" placeholder="Chọn ngày cấp CMND/CCCD"
+                            required="true" requiredMessage="Bạn vui lòng nhập ngày cấp"
+                            autocomplete="off"
+                            onchange="this.value = this.value.trim()"
+                            validatorMessage="Ngày cấp không hợp lệ "
+                            value="#{accountController.accountDto.dateOfIssue}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:calendar>
+                <p:message id="id8" for="dateOfIssue" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Số điện thoại:" for="phone"/>
+            <p:outputPanel>
+                <p:inputText id="phone" required="true" requiredMessage="Bạn vui lòng nhập số điện thoại"
+                             onchange="this.value = this.value.trim()" placeholder="Nhập số điện thoại"
+                             value="#{accountController.accountDto.phone}"
+                             maxlength="11" validatorMessage="Số điện thoại sai định dạng">
+                    <f:validateRegex pattern="^0[1-9]{1}[0-9]{8,9}$"/>
+                </p:inputText>
+                <p:message id="id9" for="phone" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Địa chỉ email:" for="email"/>
+            <p:outputPanel>
+                <p:inputText id="email" required="true" requiredMessage="Bạn vui lòng nhập địa chỉ email"
+                             onchange="this.value = this.value.trim()" placeholder="Nhập email" maxlength="50"
+                             value="#{accountController.accountDto.email}" validatorMessage="Email không đúng định dạng">
+                    <f:validateRegex
+                            pattern="^\s*[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})\s*$"/>
+                </p:inputText>
+                <p:message id="id13" for="email" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel for="permanentResidence" value="Hộ khẩu thường trú:"/>
+            <p:outputPanel>
+                <p:inputText id="permanentResidence" required="true" requiredMessage="Bạn vui lòng nhập hộ khẩu thường trú"
+                             onchange="this.value = this.value.trim()" placeholder="Nhập hộ khẩu thường trú"
+                             value="#{accountController.accountDto.permanentResidence}" maxlength="100"/>
+                <p:message id="id14" for="permanentResidence" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+        </p:panelGrid>
+
+        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10"
+                     styleClass="ui-panelgrid-blank" layout="grid" style="padding-bottom: 5px">
+            <p:outputLabel value="Địa chỉ: " for="tinhThanhPho"/>
+            <p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank"
+                         columnClasses="ui-no-margin-padding,ui-no-margin-padding,ui-no-margin-padding">
+                <ui:include src="/common/city-district-commune.xhtml"/>
+                <div></div>
+                <p:message id="id7" for="tinhThanhPho" styleClass="focus-input-text" display="text"/>
+                <p:message id="id71" for="quanHuyen" styleClass="focus-input-text" display="text"/>
+                <p:message id="id72" for="phuongXa" styleClass="focus-input-text" display="text"/>
+            </p:panelGrid>
+            <p:outputLabel value="Địa chỉ nhà:" for="address"/>
+            <p:inputText id="address" placeholder="Nhập địa chỉ nhà"
+                         required="true" requiredMessage="Bạn vui lòng nhập địa chỉ nhà"
+                         onchange="this.value = this.value.trim()"
+                         maxlength="100" value="#{accountController.accountDto.address}"/>
+            <div></div>
+            <p:message id="id7-address" for="address" styleClass="focus-input-text" display="text"/>
+        </p:panelGrid>
+
+        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10"
+                     styleClass="ui-panelgrid-blank" layout="grid" style="padding-bottom: 5px">
+            <p:outputLabel styleClass="requireLabel" value="Tình trạng hôn nhân:" for="panelRelativeInfor"/>
+            <p:outputPanel id="panelRelativeInfor">
+                <p:selectOneRadio value="#{accountController.married}">
+                    <p:ajax event="change" global="false" update="marridPanel"/>
+                    <f:selectItem itemLabel="Độc thân" itemValue="false"/>
+                    <f:selectItem itemLabel="Đã kết hôn" itemValue="true"/>
+                </p:selectOneRadio>
+                <p:message id="id10" for="panelRelativeInfor" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+        </p:panelGrid>
+
+        <p:panelGrid>
+            <p:panelGrid id="marridPanel" columns="3" columnClasses="ui-grid-col-2, ui-grid-col-3, ui-grid-col-7"
+                         styleClass="ui-panelgrid-blank" layout="grid">
+                <p:outputLabel/>
+                <p:outputLabel for="txtMarridName" value="Họ tên vợ/chồng:" rendered="#{accountController.married}"/>
+                <p:outputPanel>
+                    <p:inputText id="txtMarridName" placeholder="Nhập tên vợ/chồng"
+                                 onchange="this.value = this.value.trim()"
+                                 value="#{accountController.accountDto.relativeName}"
+                                 rendered="#{accountController.married}" maxlength="100" required="true"
+                                 requiredMessage="Bạn vui lòng nhập tên vợ/chồng"/>
+                    <p:message id="id11" for="txtMarridName" styleClass="focus-input-text" display="text"
+                               rendered="#{accountController.married}"/>
+                </p:outputPanel>
+
+                <p:outputLabel/>
+                <p:outputLabel for="txtIdNumber" value="Số CMND/CCCD vợ/chồng:"
+                               rendered="#{accountController.married}"/>
+                <p:outputPanel>
+                    <p:inputText id="txtIdNumber" autoWidth="false" effect="fade"
+                                 onchange="this.value = this.value.trim()"
+                                 placeholder="Nhập số CMND/CCCD vợ/chồng"
+                                 value="#{accountController.accountDto.relativeIdCardNumber}" maxlength="12"
+                                 required="true"
+                                 requiredMessage="Bạn vui lòng nhập số CMND/CCCD vợ/chồng"
+                                 rendered="#{accountController.married}"
+                                 validatorMessage="Số CMND/CCCD vợ/chồng không đúng định dạng "
+                                 onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        <f:validateRegex pattern="^[0-9]{9}(?:[0-9]{3})?$"/>
+                    </p:inputText>
+                    <p:message id="id12" for="txtIdNumber" styleClass="focus-input-text" display="text"
+                                              rendered="#{accountController.married}"/>
+                </p:outputPanel>
+            </p:panelGrid>
+        </p:panelGrid>
+    </p:scrollPanel>
+
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-1.5,ui-grid-col-1.5" styleClass="ui-panelgrid-blank"
+                 layout="grid">
+        <p:commandButton value="Lưu" id="pesonalSave"
+                         actionListener="#{accountController.onSaveData()}"
+                         icon="fa fa-save" style="width: 90px;"
+                         update="id1 id2 id3 id4 id5 id6 id7 id8 id9 id10 id11 id12 id13 id14 id71 id72 id7-address searchForm focus"/>
+        <p:commandButton value="Đóng" styleClass="close"
+                         global="false"
+                         actionListener="#{accountController.resetDialog}"
+                         oncomplete="PF('dialogInsertUpdate').hide()" icon="fa fa-close"
+                         style="width: 80px;"/>
+        <p:defaultCommand target="pesonalSave" />
+    </p:panelGrid>
+
+</ui:composition>

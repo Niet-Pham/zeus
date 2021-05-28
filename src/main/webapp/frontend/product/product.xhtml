@@ -1,0 +1,213 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/frontend/template/template.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{productFEController.initData}"/>
+    </f:metadata>
+    <ui:define name="title">Danh sách sản phẩm</ui:define>
+
+    <ui:define name="body-content">
+        <div class="content-products">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="title-products">
+                            <div class="row">
+                                <h1 class="_search">Tìm kiếm</h1>
+                            </div>
+                        </div>
+                        <div class="search-product">
+                            <h:form id="searchForm" prependId="false">
+                                <div class="form-group">
+                                    <h:outputLabel value="Mã sản phẩm:" for="codeSearch"/>
+                                    <h:inputText styleClass="form-control" name="codeSearch" id="codeSearch" type="text" maxlength="100" placeholder="Mã sản phẩm"
+                                                 onblur="this.value = this.value.trim()" value="#{productFEController.productSearchDto.code}"/>
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Tên sản phẩm:" for="nameSearch"/>
+                                    <h:inputText styleClass="form-control" name="codeSearch" id="nameSearch" type="text" maxlength="200" placeholder="Tên sản phẩm"
+                                                 onblur="this.value = this.value.trim()" value="#{productFEController.productSearchDto.productName}"/>
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Chọn loại sản phẩm:" />
+                                    <h:selectOneMenu styleClass="form-control" value="#{productFEController.productSearchDto.categoryId}">
+                                        <f:selectItem itemValue="" itemLabel="Chọn loại" />
+                                        <f:selectItems value="#{productFEController.categories}" var="cate"
+                                                       itemValue="#{cate.value}"
+                                                       itemLabel="#{cate.label}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Chọn thương hiệu sản phẩm:" />
+                                    <h:selectOneMenu styleClass="form-control" value="#{productFEController.productSearchDto.brandId}">
+                                        <f:selectItem itemValue="" itemLabel="Chọn thương hiệu" />
+                                        <f:selectItems value="#{productFEController.brands}" var="brand"
+                                                       itemValue="#{brand.value}"
+                                                       itemLabel="#{brand.label}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Chọn màu sản phẩm:" />
+                                    <h:selectOneMenu styleClass="form-control" value="#{productFEController.productSearchDto.optionColorId}">
+                                        <f:selectItem itemValue="-1" itemLabel="Chọn màu" />
+                                        <f:selectItems value="#{productFEController.colorOptions}" var="color"
+                                                       itemValue="#{color.value}"
+                                                       itemLabel="#{color.label}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Chọn dung lượng sản phẩm:" />
+                                    <h:selectOneMenu styleClass="form-control" value="#{productFEController.productSearchDto.optionSizeId}">
+                                        <f:selectItem itemValue="-1" itemLabel="Chọn dung lượng" />
+                                        <f:selectItems value="#{productFEController.sizeOptions}" var="size"
+                                                       itemValue="#{size.value}"
+                                                       itemLabel="#{size.label}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Chọn phiên bản sản phẩm:" />
+                                    <h:selectOneMenu styleClass="form-control" value="#{productFEController.productSearchDto.optionReleaseId}">
+                                        <f:selectItem itemValue="-1" itemLabel="Chọn phiên bản" />
+                                        <f:selectItems value="#{productFEController.releaseOptions}" var="release"
+                                                       itemValue="#{release.value}"
+                                                       itemLabel="#{release.label}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Chọn thông tin khác:" />
+                                    <h:selectOneMenu styleClass="form-control" value="#{productFEController.productSearchDto.optionOtherId}">
+                                        <f:selectItem itemValue="-1" itemLabel="Chọn khác" />
+                                        <f:selectItems value="#{productFEController.otherOptions}" var="other"
+                                                       itemValue="#{other.value}"
+                                                       itemLabel="#{other.label}"/>
+                                    </h:selectOneMenu>
+                                </div>
+
+                                <div class="form-group">
+                                    <h:selectBooleanCheckbox value="#{productFEController.productSearchDto.enableSearchPrice}" id="enablePrice" />
+                                    <h:outputLabel value="Tìm kiếm theo mức giá" for="enablePrice" styleClass="search-by-price" />
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Mức giá tối thiểu: " for="minPrice">
+                                        <h:outputText id="currentMinPrice" value="" />
+                                    </h:outputLabel>
+                                    <h:inputText id="minPrice" styleClass="form-control search-price" type="range" min="#{Constant.MIN_PRICE}" max="#{Constant.MAX_PRICE}" step="#{Constant.STEP_PRICE}" value="#{productFEController.productSearchDto.minPrice}" />
+                                </div>
+                                <div class="form-group">
+                                    <h:outputLabel value="Mức giá tối đa: " for="maxPrice">
+                                        <h:outputText id="currentMaxPrice" value="" />
+                                    </h:outputLabel>
+                                    <h:inputText id="maxPrice" styleClass="form-control search-price" type="range" min="#{Constant.MIN_PRICE}" max="#{Constant.MAX_PRICE}" step="#{Constant.STEP_PRICE}" value="#{productFEController.productSearchDto.maxPrice}" />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6" style="text-align: right;">
+                                        <h:commandButton type="button" action="#{productFEController.resetDialog()}"
+                                                         onclick="window.location.reload();"
+                                                         class="btn btn-warning btn-clear" value="Làm mới">
+                                            <f:ajax execute="@form" render="#{Constant.ERROR_FE_GROWL_ID}"/>
+                                        </h:commandButton>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p:remoteCommand name="search" actionListener="#{productFEController.onSearchDialog}" update="#{Constant.ERROR_FE_GROWL_ID}"/>
+                                        <button class="btn btn-success btn-search" type="submit" onclick="search();">Tìm kiếm</button>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="title-products">
+                            <div class="row">
+                                <h1 class="_product">Danh sách sản phẩm</h1>
+                            </div>
+                        </div>
+                        <div class="all-products container">
+                            <h:panelGroup layout="block" rendered="#{empty productFEController.pagination.data}">
+                                <p class="all-products__empty">Không có sản phẩm nào.</p>
+                            </h:panelGroup>
+                            <h:form id="productList" prependId="false" rendered="#{not empty productFEController.pagination.data}">
+                                <div class="row">
+                                    <p:repeat value="#{productFEController.pagination.data}" var="productDto">
+                                        <div class="col-lg-3 grid-style">
+                                            <p:commandLink actionListener="#{productFEController.viewDetailProduct(productDto)}">
+                                                <p:graphicImage styleClass="all-products__img"
+                                                                rendered="#{not empty productDto.imageToShow}"
+                                                                name="#{productDto.imageToShow}"/>
+
+                                                <p class="all-products__title">#{productDto.productName}</p>
+                                                <p class="all-products__discount #{productDto.discount eq null ? 'display-none' : ''}">
+                                                    Giảm
+                                                    <h:outputText value="#{productDto.discount}">
+                                                        <f:convertNumber pattern="#####,00%"/>
+                                                    </h:outputText>
+                                                </p>
+                                                <p class="all-products__price #{productDto.discount eq null ? '' : 'special-price'}">
+                                                    <h:outputText value="#{productDto.price}">
+                                                        <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                         maxFractionDigits="6"
+                                                                         minFractionDigits="0" locale="vi_VN"/>
+                                                    </h:outputText>
+                                                </p>
+                                                <p class="all-products__price #{productDto.discount eq null ? 'display-none' : ''}">
+                                                    <h:outputText value="#{productDto.priceAfterDiscount}">
+                                                        <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                         maxFractionDigits="6"
+                                                                         minFractionDigits="0" locale="vi_VN"/>
+                                                    </h:outputText>
+                                                </p>
+                                                <p:commandLink styleClass="add-to-cart" actionListener="#{productDetailFEController.addToCartCommon(productDto, 1)}"
+                                                               update="#{Constant.ERROR_FE_GROWL_ID}" rendered="#{productDto.quantity ne 0}">
+                                                    <i class="fa fa-cart-plus"/>
+                                                    <span>Thêm vào giỏ hàng</span>
+                                                    <i class="fas fa-caret-right"/>
+                                                </p:commandLink>
+                                                <p:outputLabel styleClass="out-of-stock" rendered="#{productDto.quantity eq 0}">
+                                                    <i class="fas fa-cart-arrow-down"/>
+                                                    <span>Hết hàng</span>
+                                                    <i class="fas fa-times"/>
+                                                </p:outputLabel>
+                                            </p:commandLink>
+                                        </div>
+                                    </p:repeat>
+                                </div>
+                            </h:form>
+
+                            <div class="#{empty productFEController.pagination.data ? 'display-none' : ''}">
+                                <ui:include src="../template/paginate/pagination.xhtml">
+                                    <ui:param name="pagination" value="#{productFEController.pagination}"/>
+                                </ui:include>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="jslibrary">
+        <script>
+            function onChangeValuePrice(value, valueOn) {
+                const v_df = (parseInt($(value).val())).toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
+                $(valueOn).html(v_df);
+                $(value).change(function () {
+                    const v_up = (parseInt($(value).val())).toLocaleString('it-IT', {
+                        style: 'currency',
+                        currency: 'VND'
+                    });
+                    $(valueOn).html(v_up);
+                })
+            }
+
+            $(document).ready(function(){
+                onChangeValuePrice('#minPrice', '#currentMinPrice');
+                onChangeValuePrice('#maxPrice', '#currentMaxPrice');
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

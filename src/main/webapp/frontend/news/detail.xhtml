@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/frontend/template/template_detail.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{decisionNewsFEController.initData}"/>
+    </f:metadata>
+
+    <ui:define name="title">Tin tức</ui:define>
+    <ui:param name="bodyStyleClass" value="about" />
+    <ui:param name="headerStyleClass" value="is-sticky fixed-header" />
+    <ui:param name="mainContentStyle" value="detail-news" />
+
+    <ui:define name="breadcrumb">
+        <li><h:link styleClass="home" value="Tin tức" outcome="/frontend/news/category_news.xhtml"/></li>
+        <li style="margin-left: 5px;">Chi tiết tin tức</li>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <style type="text/css">
+            .zoom {
+                padding: 50px;
+                transition: transform .2s;
+                width: auto;
+                height: auto;
+                margin: 0 auto;
+
+                z-index: 1000;
+            }
+
+            .zoom:hover {
+                transform: scale(1.5);
+            }
+
+            .detail-news h4 {
+                text-transform: none;
+                font-family: "Roboto Condensed";
+                font-style: normal;
+                font-weight: bold;
+                font-size: 18px;
+                line-height: 26px;
+                margin-bottom: 10px;
+            }
+
+            .image-single-bg {
+                height: 298.766px;
+                border-radius: 5px;
+                background-color: #F9F9F9;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+        </style>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-sm-12 col-xs-12" style="text-align: justify">
+                    <h2>#{decisionNewsFEController.decisionNews.title}</h2>
+                    <p><i class="custom-icon calendar"/><h:outputText value="#{decisionNewsFEController.decisionNews.createDate}"><f:convertDateTime type="date" pattern="dd/MM/yyyy"/></h:outputText></p>
+                    <h4><h:outputText value="#{decisionNewsFEController.decisionNews.decisionSummary}" escape="false"/></h4>
+                    <div class="image-news" style="margin-bottom: 15px;">
+                        <a data-fancybox="gallery"
+                           href="#{resource[decisionNewsFEController.decisionNewsFile.imagePath]}">
+                            <h:panelGroup rendered="#{decisionNewsFEController.decisionNewsFile.imagePath ne null}">
+                                <div class="image-single-bg" style="background-image: url('#{resource[decisionNewsFEController.decisionNewsFile.imagePath]}');"></div>
+                            </h:panelGroup>
+                        </a>
+                    </div>
+                    <h:outputText escape="false" value="#{decisionNewsFEController.decisionNews.content}"/>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 sidebar mb-f-r ">
+                    <aside class="widget widget_worktime ">
+                        <div class="title-widget has-divider ">
+                            <h3 class="title-sidebar "><span>Tin mới nhất</span></h3>
+                        </div>
+                        <ui:include src="new-news.xhtml"/>
+                    </aside>
+                    <aside class="widget widget_newdocument ">
+                        <div class="title-widget has-divider ">
+                            <h3 class="title-sidebar "><span>Văn bản mới nhất</span></h3>
+                        </div>
+                        <ui:include src="new-decision-text.xhtml"/>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

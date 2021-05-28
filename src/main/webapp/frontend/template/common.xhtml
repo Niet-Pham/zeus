@@ -1,0 +1,8 @@
+<ui:composition
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:idleMonitor timeout="#{Constant.SESSION_EXPIRE_IN}"
+                   onidle="simpleNotify.notify({message: 'Phiên làm việc đã hết hạn, hệ thống sẽ làm mới lại trang sau 3 giây', level: 'danger'});setTimeout(function(){location.reload()},3000);"/>
+
+</ui:composition>

@@ -1,0 +1,602 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/frontend/template/template.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{homeFEController.initData}"/>
+    </f:metadata>
+    <ui:define name="title">Trang chủ</ui:define>
+
+    <ui:define name="slide-bar">
+        <div class="container-fluid slide-bar">
+            <ui:include src="template/slidebar.xhtml"/>
+        </div>
+    </ui:define>
+
+    <ui:define name="body-content">
+        <div class="content-introduce">
+            <div class="container">
+                <div class="row">
+                    <div class="content-introduce-title">
+                        <h1>Chúng tôi có</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                        <div class="content-introduce-detail">
+                            <div class="content-introduce-detail__content">
+                                <div class="icon-title">
+                                    <i class="fas fa-concierge-bell fa-2x"/>
+                                </div>
+                                <div class="title">
+                                    <h2>Dịch vụ</h2>
+                                </div>
+                                <div class="detail">
+                                    <p>
+                                        Cung cấp các dịch vụ, sản phẩm đa dạng - chất lượng - uy tín đa nền tảng như: Mobile Phone, Desktop, Laptop, Smart Watch, Wireless Headphone.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                        <div class="content-introduce-detail animated">
+                            <div class="content-introduce-detail__content">
+                                <div class="icon-title">
+                                    <i class="fas fa-shopping-bag fa-2x"/>
+                                </div>
+                                <div class="title">
+                                    <h2>Sản phẩm</h2>
+                                </div>
+                                <div class="detail">
+                                    <p>
+                                        Cung cấp những sản phẩm chính hãng đến khách hàng với rất nhiều ưu đãi danh cho người sử dụng. Mọi sản phẩm đều được đảm bảo về chất lượng trước khi được giao đến tay khách hàng.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+                        <div class="content-introduce-detail animated">
+                            <div class="content-introduce-detail__content">
+                                <div class="icon-title icon-special">
+                                    <i class="fas fa-shipping-fast fa-2x"/>
+                                </div>
+                                <div class="title">
+                                    <h2>Giao hàng</h2>
+                                </div>
+                                <div class="detail">
+                                    <p>
+                                        Chúng tôi cung cấp những dịch giao hàng thuận lợi cho khách hàng. Cam kết giao hàng đúng thời hạn. An toàn, tiết kiệm và uy tín.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="technology-life">
+            <div class="background-image"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <h1 class="title">
+                            Công nghệ cho cuộc sống
+                        </h1>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <p class="detail">
+                            K2 Store cung cấp cho bạn các sản phẩm công nghệ
+                            <br/> đem lại cảm giác tối ưu nhất cho bạn trong mọi tác vụ, công việc của bạn.
+                        </p>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <button type="button" class="btn btn-link hvr-sweep-to-right">
+                            Xem thêm về K2 Store
+                            <i class="fas fa-arrow-circle-right fa-lg"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-news">
+            <div class="container">
+                <div class="title-news">
+                    <div class="row">
+                        <h1>Tin tức mới nhất</h1>
+                    </div>
+                </div>
+                <div class="top-news">
+                    <h:form>
+                        <p:repeat value="#{homeFEController.newsDtoList}" var="newsDto">
+                            <p:remoteCommand name="cmdViewNews#{newsDto.newsId}"
+                                             actionListener="#{homeFEController.viewNewsDetail(newsDto)}"/>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="top-news__img">
+                                        <p:graphicImage onclick="cmdViewNews#{newsDto.newsId}();"
+                                                        name="#{newsDto.imgPath}"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="top-news__detail">
+                                        <p onclick="cmdViewNews#{newsDto.newsId}();">#{newsDto.title}</p>
+                                        <p>
+                                            <h:link outcome="/frontend/news/list-news.xhtml?catid=#{newsDto.categoryId}">
+                                                <span>#{newsDto.categoryName}</span>
+                                            </h:link>
+                                            <h:outputText value="#{newsDto.updateDate}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p>
+                                        <p>#{commonController.abbreviate(newsDto.shortContent, 100)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:repeat>
+                    </h:form>
+                </div>
+                <div class="more-news">
+                    <div class="row">
+                        <h:link outcome="/frontend/news/list-news.xhtml">
+                            <span>Xem thêm <i class="fas fa-angle-double-right"/></span>
+                        </h:link>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-brands">
+            <div class="container-fluid">
+                <div class="row">
+                    <h1>Thương hiệu của chúng tôi</h1>
+                    <div class="owl-carousel owl-theme content-brands-slides">
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_APPLE_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_apple.jpg" alt="k2-demo"/>
+                        </h:link>
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_XIAOMI_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_xiaomi.jpg" alt="k2-demo"/>
+                        </h:link>
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_ASUS_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_asus.jpg" alt="k2-demo"/>
+                        </h:link>
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_HUAWEI_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_huawei.jpeg" alt="k2-demo"/>
+                        </h:link>
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_LG_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_lg.jpg" alt="k2-demo"/>
+                        </h:link>
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_SAMSUNG_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_samsung.jpg" alt="k2-demo"/>
+                        </h:link>
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_SONY_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_sony.jpg" alt="k2-demo"/>
+                        </h:link>
+                        <h:link outcome="/frontend/product/product.xhtml?braid=#{Constant.BRAND_VINFAST_ID}">
+                            <img src="../resources/frontend-layout/img/demo/brand_vin.png" alt="k2-demo"/>
+                        </h:link>
+                    </div>
+                    <h:link outcome="/frontend/product/product.xhtml">
+                        <span>Xem thêm</span>
+                        <i class="fas fa-angle-double-right"/>
+                    </h:link>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-products">
+            <h:panelGroup layout="block" rendered="#{not empty homeFEController.mobileList}">
+                <div class="container">
+                    <div class="title-products">
+                        <div class="row">
+                            <h1>Điện thoại mới nhất</h1>
+                        </div>
+                    </div>
+                    <div class="mobile-products">
+                        <h:form prependId="false">
+                            <div class="row">
+                                <p:repeat value="#{homeFEController.mobileList}" var="productDto">
+                                    <div class="col-lg-3 grid-style">
+                                        <p:commandLink actionListener="#{productFEController.viewDetailProduct(productDto)}">
+                                            <p:graphicImage styleClass="mobile-products__img"
+                                                            rendered="#{not empty productDto.imageToShow}"
+                                                            name="#{productDto.imageToShow}"/>
+
+                                            <p class="mobile-products__title">#{productDto.productName}</p>
+                                            <p class="mobile-products__discount #{productDto.discount eq null ? 'display-none' : ''}">
+                                                Giảm
+                                                <h:outputText value="#{productDto.discount}">
+                                                    <f:convertNumber pattern="#####,00%"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="mobile-products__price #{productDto.discount eq null ? '' : 'special-price'}">
+                                                <h:outputText value="#{productDto.price}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="mobile-products__price #{productDto.discount eq null ? 'display-none' : ''}">
+                                                <h:outputText value="#{productDto.priceAfterDiscount}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p:commandLink styleClass="add-to-cart"
+                                                           actionListener="#{productDetailFEController.addToCartCommon(productDto)}"
+                                                           update="#{Constant.ERROR_FE_GROWL_ID}"
+                                                           rendered="#{productDto.quantity ne 0}">
+                                                <i class="fa fa-cart-plus"/>
+                                                <span>Thêm vào giỏ hàng</span>
+                                                <i class="fas fa-caret-right"/>
+                                            </p:commandLink>
+                                            <p:outputLabel styleClass="out-of-stock"
+                                                           rendered="#{productDto.quantity eq 0}">
+                                                <i class="fas fa-cart-arrow-down"/>
+                                                <span>Hết hàng</span>
+                                                <i class="fas fa-times"/>
+                                            </p:outputLabel>
+                                        </p:commandLink>
+                                    </div>
+                                </p:repeat>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="more-products">
+                        <div class="row">
+                            <h:link outcome="/frontend/product/product.xhtml?catid=#{Constant.CATE_PHONE}">
+                                <span>
+                                    Xem thêm
+                                    <i class="fas fa-angle-double-right"/>
+                                </span>
+                            </h:link>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" rendered="#{not empty homeFEController.laptopList}">
+                <div class="container">
+                    <div class="title-products">
+                        <div class="row">
+                            <h1>Laptop - Desktop mới nhất</h1>
+                        </div>
+                    </div>
+                    <div class="laptop-products">
+                        <h:form prependId="false">
+                            <div class="row">
+                                <p:repeat value="#{homeFEController.laptopList}" var="productDto">
+                                    <div class="col-lg-3 grid-style">
+                                        <p:commandLink actionListener="#{productFEController.viewDetailProduct(productDto)}">
+                                            <p:graphicImage styleClass="laptop-products__img"
+                                                            rendered="#{not empty productDto.imageToShow}"
+                                                            name="#{productDto.imageToShow}"/>
+
+                                            <p class="laptop-products__title">#{productDto.productName}</p>
+                                            <p class="laptop-products__discount #{productDto.discount eq null ? 'display-none' : ''}">
+                                                Giảm
+                                                <h:outputText value="#{productDto.discount}">
+                                                    <f:convertNumber pattern="#####,00%"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="laptop-products__price #{productDto.discount eq null ? '' : 'special-price'}">
+                                                <h:outputText value="#{productDto.price}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="laptop-products__price #{productDto.discount eq null ? 'display-none' : ''}">
+                                                <h:outputText value="#{productDto.priceAfterDiscount}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p:commandLink styleClass="add-to-cart"
+                                                           actionListener="#{productDetailFEController.addToCartCommon(productDto)}"
+                                                           update="#{Constant.ERROR_FE_GROWL_ID}"
+                                                           rendered="#{productDto.quantity ne 0}">
+                                                <i class="fa fa-cart-plus"/>
+                                                <span>Thêm vào giỏ hàng</span>
+                                                <i class="fas fa-caret-right"/>
+                                            </p:commandLink>
+                                            <p:outputLabel styleClass="out-of-stock"
+                                                           rendered="#{productDto.quantity eq 0}">
+                                                <i class="fas fa-cart-arrow-down"/>
+                                                <span>Hết hàng</span>
+                                                <i class="fas fa-times"/>
+                                            </p:outputLabel>
+                                        </p:commandLink>
+                                    </div>
+                                </p:repeat>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="more-products">
+                        <div class="row">
+                            <h:link outcome="/frontend/product/product.xhtml?catid=#{Constant.CATE_LAPTOP}">
+                            <span>
+                                Xem thêm
+                                <i class="fas fa-angle-double-right"/>
+                            </span>
+                            </h:link>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" rendered="#{not empty homeFEController.watchList}">
+                <div class="container">
+                    <div class="title-products">
+                        <div class="row">
+                            <h1>Đồng hồ thông minh mới nhất</h1>
+                        </div>
+                    </div>
+                    <div class="watch-products">
+                        <h:form prependId="false">
+                            <div class="row">
+                                <p:repeat value="#{homeFEController.watchList}" var="productDto">
+                                    <div class="col-lg-3 grid-style">
+                                        <p:commandLink actionListener="#{productFEController.viewDetailProduct(productDto)}">
+                                            <p:graphicImage styleClass="watch-products__img"
+                                                            rendered="#{not empty productDto.imageToShow}"
+                                                            name="#{productDto.imageToShow}"/>
+
+                                            <p class="watch-products__title">#{productDto.productName}</p>
+                                            <p class="watch-products__discount #{productDto.discount eq null ? 'display-none' : ''}">
+                                                Giảm
+                                                <h:outputText value="#{productDto.discount}">
+                                                    <f:convertNumber pattern="#####,00%"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="watch-products__price #{productDto.discount eq null ? '' : 'special-price'}">
+                                                <h:outputText value="#{productDto.price}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="watch-products__price #{productDto.discount eq null ? 'display-none' : ''}">
+                                                <h:outputText value="#{productDto.priceAfterDiscount}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p:commandLink styleClass="add-to-cart"
+                                                           actionListener="#{productDetailFEController.addToCartCommon(productDto)}"
+                                                           update="#{Constant.ERROR_FE_GROWL_ID}"
+                                                           rendered="#{productDto.quantity ne 0}">
+                                                <i class="fa fa-cart-plus"/>
+                                                <span>Thêm vào giỏ hàng</span>
+                                                <i class="fas fa-caret-right"/>
+                                            </p:commandLink>
+                                            <p:outputLabel styleClass="out-of-stock"
+                                                           rendered="#{productDto.quantity eq 0}">
+                                                <i class="fas fa-cart-arrow-down"/>
+                                                <span>Hết hàng</span>
+                                                <i class="fas fa-times"/>
+                                            </p:outputLabel>
+                                        </p:commandLink>
+                                    </div>
+                                </p:repeat>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="more-products">
+                        <div class="row">
+                            <h:link outcome="/frontend/product/product.xhtml?catid=#{Constant.CATE_WATCH}">
+                            <span>
+                                Xem thêm
+                                <i class="fas fa-angle-double-right"/>
+                            </span>
+                            </h:link>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" rendered="#{not empty homeFEController.airList}">
+                <div class="container">
+                    <div class="title-products">
+                        <div class="row">
+                            <h1>Tai nghe - Loa mới nhất</h1>
+                        </div>
+                    </div>
+                    <div class="wireless-products">
+                        <h:form prependId="false">
+                            <div class="row">
+                                <p:repeat value="#{homeFEController.airList}" var="productDto">
+                                    <div class="col-lg-3 grid-style">
+                                        <p:commandLink actionListener="#{productFEController.viewDetailProduct(productDto)}">
+                                            <p:graphicImage styleClass="wireless-products__img"
+                                                            rendered="#{not empty productDto.imageToShow}"
+                                                            name="#{productDto.imageToShow}"/>
+
+                                            <p class="wireless-products__title">#{productDto.productName}</p>
+                                            <p class="wireless-products__discount #{productDto.discount eq null ? 'display-none' : ''}">
+                                                Giảm
+                                                <h:outputText value="#{productDto.discount}">
+                                                    <f:convertNumber pattern="#####,00%"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="wireless-products__price #{productDto.discount eq null ? '' : 'special-price'}">
+                                                <h:outputText value="#{productDto.price}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p class="wireless-products__price #{productDto.discount eq null ? 'display-none' : ''}">
+                                                <h:outputText value="#{productDto.priceAfterDiscount}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </p>
+                                            <p:commandLink styleClass="add-to-cart"
+                                                           actionListener="#{productDetailFEController.addToCartCommon(productDto)}"
+                                                           update="#{Constant.ERROR_FE_GROWL_ID}"
+                                                           rendered="#{productDto.quantity ne 0}">
+                                                <i class="fa fa-cart-plus"/>
+                                                <span>Thêm vào giỏ hàng</span>
+                                                <i class="fas fa-caret-right"/>
+                                            </p:commandLink>
+                                            <p:outputLabel styleClass="out-of-stock"
+                                                           rendered="#{productDto.quantity eq 0}">
+                                                <i class="fas fa-cart-arrow-down"/>
+                                                <span>Hết hàng</span>
+                                                <i class="fas fa-times"/>
+                                            </p:outputLabel>
+                                        </p:commandLink>
+                                    </div>
+                                </p:repeat>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="more-products">
+                        <div class="row">
+                            <h:link outcome="/frontend/product/product.xhtml?catid=#{Constant.CATE_HEADPHONE}">
+                            <span>
+                                Xem thêm
+                                <i class="fas fa-angle-double-right"/>
+                            </span>
+                            </h:link>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </div>
+
+        <div class="feedbacks-slide">
+            <div class="container">
+                <div class="feedback-slide">
+                    <div class="feedback-slide__title">
+                        <div class="row">
+                            <h1>Khách hàng nói gì về chúng tôi ?</h1>
+                        </div>
+                    </div>
+                    <div class="feedback-slide__contents">
+                        <div class="carousel-wrap">
+                            <div class="owl-carousel owl-theme my-feedback-slide">
+                                <div class="item">
+                                    <div class="item__details">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 no-padding-left">
+                                                <img src="../resources/frontend-layout/img/founder.jpg"
+                                                     alt="customer-demo-1"/>
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 no-padding">
+                                                <div class="customer-infor">
+                                                    <p class="no-margin customer-name">Parker Frankie</p>
+                                                    <p class="no-margin customer-position">CEO, Founder K2 Store</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <p>
+                                                K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại. K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item__details">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 no-padding-left">
+                                                <img src="../resources/frontend-layout/img/founder.jpg"
+                                                     alt="customer-demo-1"/>
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 no-padding">
+                                                <div class="customer-infor">
+                                                    <p class="no-margin customer-name">Parker Frankie</p>
+                                                    <p class="no-margin customer-position">CEO, Founder K2 Store</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <p>
+                                                K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại. K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item__details">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 no-padding-left">
+                                                <img src="../resources/frontend-layout/img/founder.jpg"
+                                                     alt="customer-demo-1"/>
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 no-padding">
+                                                <div class="customer-infor">
+                                                    <p class="no-margin customer-name">Parker Frankie</p>
+                                                    <p class="no-margin customer-position">CEO, Founder K2 Store</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <p>
+                                                K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại. K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item__details">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 no-padding-left">
+                                                <img src="../resources/frontend-layout/img/founder.jpg"
+                                                     alt="customer-demo-1"/>
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 no-padding">
+                                                <div class="customer-infor">
+                                                    <p class="no-margin customer-name">Parker Frankie</p>
+                                                    <p class="no-margin customer-position">CEO, Founder K2 Store</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <p>
+                                                K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại. K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item__details">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 no-padding-left">
+                                                <img src="../resources/frontend-layout/img/founder.jpg"
+                                                     alt="customer-demo-1"/>
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 no-padding">
+                                                <div class="customer-infor">
+                                                    <p class="no-margin customer-name">Parker Frankie</p>
+                                                    <p class="no-margin customer-position">CEO, Founder K2 Store</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <p>
+                                                K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại. K2 Store cung cấp các sản phẩm công nghệ chất lượng, uy tín. Tôi tin tưởng vào các sản phẩm công nghệ mà K2 Store mang lại.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

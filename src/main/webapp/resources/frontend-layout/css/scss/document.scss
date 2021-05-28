@@ -1,0 +1,74 @@
+/* -----------------------------
+   Document
+------------------------------*/
+
+.list-documents {
+    .list-area {
+        padding-left: 50px;
+    }
+    .document-item {
+        margin-top: 30px;
+        padding-left: 50px;
+        border-left: 1px solid #FFF2E9;
+        position: relative;
+        &:first-child {
+            margin-top: 0px;
+        }
+        &::before {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            position: absolute;
+            top: 0px;
+            left: -28px;
+            content: "";
+            background: #FFF2E9 url("\#{resource['frontend-layout:images/folder.svg']}") no-repeat;
+            background-position: center center;
+        }
+        .image-news {
+            width: 100%;
+            margin-bottom: 10px;
+            img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+        }
+        h4 {
+            font-family: $title_heading_font;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 19px;
+            text-transform: none;
+            &.title-news {
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+        }
+        a.view-more {
+            color: $primary-color;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.widget_list_file {
+    ul {
+        li {
+            padding: 10px 0px 10px 15px;
+            &.active {
+                background: #FFF2E9;
+            }
+            a {
+                font-size: 16px;
+                line-height: 25px;
+            }
+        }
+    }
+}
+
+.document-viewer {
+    margin-bottom: 40px;
+}

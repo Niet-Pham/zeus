@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:messages id="#{Constant.ERROR_GROWL_ID}" closable="true"/>
+
+    <p:fileUpload id="taiLieu" required="true"
+                  mode="advanced"
+                  skinSimple="true"
+                  multiple="true"
+                  auto="true"
+                  dragDropSupport="true"
+                  label="Tải lên file đính kèm"
+                  fileUploadListener="#{uploadMultipleFileController.onUploadFile}"
+                  update="fileListPanel #{Constant.ERROR_GROWL_ID}">
+    </p:fileUpload>
+
+    <p:outputPanel id="fileListPanel">
+        <p:repeat value="#{uploadMultipleFileController.uploadMultipleFileNameDto.listToShow}" var="itemVar" varStatus="varStatus">
+            <div class="ui-g-12 ui-lg-4 my-card-image-border" style="margin-top: 5px">
+                <div class="ui-g-6 ui-lg-6">
+                    <i class="fa fa-fw fa-file"/>
+                    <p:spacer height="20" width="10"/>
+                    <p:commandLink value="File #{varStatus.index + 1}"
+                                   ajax="false"
+                                   style="text-overflow: ellipsis;">
+                        <p:fileDownload value="#{uploadMultipleFileController.getFileDownload(itemVar)}"/>
+                    </p:commandLink>
+                </div>
+                <div class="ui-g-6 ui-lg-6">
+                    <p:commandButton value="Tải về" style="width:80px;" icon="fa fa-fw fa-download">
+                        <p:fileDownload value="#{uploadMultipleFileController.getFileDownload(itemVar)}"/>
+                    </p:commandButton>
+                    <p:commandButton
+                            actionListener="#{uploadMultipleFileController.onRemoveFile(itemVar)}"
+                            update="updateForm:fileListPanel"
+                            style="width:80px; margin-top: 5px;"
+                            process="@this"
+                            icon="ui-icon-trash" styleClass="red-btn" value="Xóa">
+                        <p:confirm header="Xác nhận xóa file đính kèm"
+                                   message="Bạn chắc chắn muốn xóa file đính kèm này?"/>
+                    </p:commandButton>
+                </div>
+            </div>
+        </p:repeat>
+    </p:outputPanel>
+
+</ui:composition>

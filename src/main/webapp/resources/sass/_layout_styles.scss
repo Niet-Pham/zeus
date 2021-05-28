@@ -1,0 +1,83 @@
+/* Add your customizations of layout here */
+#bell_menu {
+  width: 400px;
+  border: 0;
+  max-height: 650px;
+  overflow-y: auto;
+  background-color: #ffffffee;
+  border-radius: 1rem;
+
+  .ui-menu-list {
+    margin: 5px;
+  }
+
+  .noti-text-date {
+    color: #6b6b7e;
+  }
+
+  .noti-text-link {
+    color: #004AD7;
+  }
+
+  .new {
+    font-weight: bold;
+  }
+
+  &.ui-menu {
+    .ui-menu-list {
+      .ui-menuitem {
+        border-bottom: 1px solid #eee;
+        border-radius: 5px;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &.ui-state-hover {
+          .ui-menuitem-link {
+            .ui-menuitem-icon {
+              color: $primaryTextColor;
+            }
+          }
+          .ui-menuitem-text {
+            .target {
+              span, b, i {
+                color: $primaryTextColor !important;
+                font-weight: bold;
+              }
+            }
+          }
+
+        }
+
+        .ui-menuitem-link {
+          padding: 1rem;
+          border-radius: 5px;
+          position: relative;
+
+          .count-time {
+            font-size: 14px;
+          }
+
+          .ui-menuitem-icon {
+            position: absolute;
+            right: 0;
+            top: 40%;
+            color: $primaryColor;
+          }
+
+          .ui-menuitem-text {
+            .target {
+              span {
+                color: #0d86e3;
+              }
+              b, i {
+                color: $primaryColor;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,142 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/frontend/template/template2.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{productDetailFEController.initData}"/>
+    </f:metadata>
+    <ui:define name="title">Chi tiết sản phẩm</ui:define>
+
+    <ui:define name="body-content">
+        <h:form prependId="false" id="content-detail">
+            <div class="content-products">
+                <div class="container">
+                    <div class="title-products">
+                        <div class="row">
+                            <h1 class="_product">#{productDetailFEController.productDtoView.productName}</h1>
+                        </div>
+                    </div>
+                    <div class="detail-products">
+                        <div class="row detail-products__option">
+                            <div class="col-lg-5 option-img">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <a id="mainImgHref" href="#{resource[productDetailFEController.productImageList.get(0).imagePath]}" data-fancybox="gallery">
+                                            <p:graphicImage id="mainImg" styleClass="main-img" name="#{productDetailFEController.productImageList.get(0).imagePath}"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <p:repeat value="#{productDetailFEController.productImageList}" var="img">
+                                            <a href="#{resource[img.imagePath]}" data-fancybox="gallery">
+                                                <p:graphicImage styleClass="child-img _id#{img.productImageId}" name="#{img.imagePath}" onclick="onChangeImage('#{img.productImageId}', '#{resource[img.imagePath]}');"/>
+                                            </a>
+                                        </p:repeat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 option-detail">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h2 class="option-detail__price #{not empty productDetailFEController.productDtoView.priceAfterDiscount ? 'underline' : ''}">
+                                            <h:outputText value="#{productDetailFEController.productDtoView.price}">
+                                                <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                 maxFractionDigits="6"
+                                                                 minFractionDigits="0"
+                                                                 locale="vi_VN"/>
+                                            </h:outputText>
+                                        </h2>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h2 class="option-detail__price-discount #{empty productDetailFEController.productDtoView.priceAfterDiscount ? 'display-none' : ''}">
+                                            <h:outputText value="#{productDetailFEController.productDtoView.priceAfterDiscount}">
+                                                <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                 maxFractionDigits="6"
+                                                                 minFractionDigits="0"
+                                                                 locale="vi_VN"/>
+                                            </h:outputText>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <h3 class="option-detail__title">Thông tin tuỳ chọn của sản phẩm</h3>
+                                </div>
+                                <div class="row #{productDetailFEController.optionList.size() > 6 ? 'option-scroll' : ''}">
+                                    <p:repeat value="#{productDetailFEController.optionList}" var="option">
+                                        <div class="col-lg-4 no-padding">
+                                            <p:remoteCommand name="child#{option.value}"
+                                                             actionListener="#{productDetailFEController.onChangeItem(option.value)}"/>
+                                            <h:outputLabel styleClass="option-detail__selected">
+                                                <i class="fas #{option.value eq productDetailFEController.productDtoView.productId ? 'fa-check-circle' : 'fa-circle'}" />
+                                            </h:outputLabel>
+                                            <p class="option-detail__detail #{option.value eq productDetailFEController.productDtoView.productId ? 'selected' : ''}"
+                                               onclick="child#{option.value}();">#{option.label}</p>
+                                        </div>
+                                    </p:repeat>
+                                </div>
+                                <div class="row" style="margin-top: 2rem">
+                                    <div class="col-lg-6">
+                                        <h:inputText styleClass="form-control option-detail__qty-custom" name="qty" id="qty" type="number"
+                                                     placeholder="Số lượng"
+                                                     onblur="this.value = this.value.trim()" min="1"
+                                                     max="#{productDetailFEController.productDtoView.quantity}"
+                                                     value="#{productDetailFEController.quantity}"/>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p:remoteCommand name="addToCart" actionListener="#{productDetailFEController.addToCart}" />
+                                        <button class="btn btn-warning option-detail__add-to-cart" onclick="addToCart();">Thêm vào giỏ hàng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-products__content">
+                            <div class="content-title">
+                                <h1>Thông tin chi tiết sản phẩm</h1>
+                            </div>
+                            <div class="content-detail">
+                                <h:outputText value="#{productDetailFEController.productDtoView.description}"
+                                              escape="false"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <style>
+            .fancybox-thumbs__list a {
+                background-size: contain;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="jslibrary">
+        <script>
+            //<![CDATA[
+            $('[data-fancybox]').fancybox({
+                animationEffect: "slide",
+                loop: true,
+            });
+
+            (function() {
+                onSelected('#{productDetailFEController.productImageList.get(0).productImageId}');
+            })();
+
+            function onChangeImage(index, path) {
+                const img = document.getElementById('mainImg');
+                img.src = path;
+                onSelected(index);
+                const mainHref = document.getElementById('mainImgHref');
+                mainHref.href = path;
+            }
+
+            function onSelected(index) {
+                $('.child-img').removeClass('selected');
+                $('._id' + index).addClass('selected');
+            }
+            //]]>
+        </script>
+    </ui:define>
+</ui:composition>

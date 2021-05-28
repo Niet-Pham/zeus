@@ -1,0 +1,53 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+
+        <div class="topbar clearfix">
+
+            <h:outputLabel styleClass="logo-admin" value="ADMIN" />
+
+            <a id="menu-button" href="#">
+                <i class="fa fa-navicon"/>
+            </a>
+
+            <a href="#" class="profile">
+                <h:form id="topbar">
+                    <p:graphicImage rendered="#{empty authorizationController.accountDto.imagePath}"
+                                    name="images/noavatar.png" library="apollo-layout"/>
+                    <p:graphicImage rendered="#{not empty authorizationController.accountDto.imagePath}"
+                                    name="#{authorizationController.accountDto.imagePath}"
+                                    style="width: 40px; height: 40px;border-radius: 50%; object-fit: cover;"/>
+                    <span class="username">Xin chào: #{authorizationController.accountDto.fullName}</span>
+                    <i class="fa fa-angle-double-down"/>
+                </h:form>
+            </a>
+
+            <ul class="topbar-menu fadeInDown">
+                <li role="menuitem">
+                    <p:link outcome="/admin/my-account">
+                        <i class="fa fa-fw fa-user"/>
+                        <span>Tài khoản của tôi</span>
+                    </p:link>
+                </li>
+
+                <li role="menuitem">
+                    <p:link outcome="/admin/change-password">
+                        <i class="fa fa-fw fa-cog"/>
+                        <span>Đổi mật khẩu</span>
+                    </p:link>
+                </li>
+
+                <li role="menuitem">
+                    <p:commandLink actionListener="#{authorizationController.logout}">
+                        <i class="fa fa-fw fa-sign-out"/>
+                        <span>Đăng xuất</span>
+                    </p:commandLink>
+                </li>
+            </ul>
+
+            <h:panelGroup styleClass="topbar-panel panel-notification">
+                <ui:include src="../template/notification.xhtml" />
+            </h:panelGroup>
+        </div>
+</ui:composition>

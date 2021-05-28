@@ -1,0 +1,148 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="navbar">
+        <h:link styleClass="navbar-brand" outcome="/frontend/index2.html">
+            <img src="#{resource['frontend-layout:img/zeus_banner.jpg']}" class="d-inline-block align-top" alt="logo"
+                 style="width: 100%; height: 50px; object-fit: cover;width: 300px"/>
+        </h:link>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"/>
+            <span class="icon-bar"/>
+            <span class="icon-bar"/>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav navbar-nav navbar-primary ml-auto">
+                <li class="nav-item active">
+                    <h:link styleClass="nav-link nav-link__home" outcome="/frontend/index2.html">
+                        <i class="fas fa-home"/>
+                        <span class="uppercase">Trang chủ</span>
+                        <span class="sr-only">(current)</span>
+                    </h:link>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarNews" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="far fa-newspaper"/>
+                        <span class="uppercase">Tin tức</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarNews">
+                        <h:link class="dropdown-item"
+                                outcome="/frontend/news/list-news.xhtml">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Tất cả tin tức</span>
+                        </h:link>
+                        <h:link class="dropdown-item" value="Fashion"
+                                outcome="/frontend/news/list-news.xhtml?catid=#{Constant.CATE_FASHION}">
+                            <i class="fas fa-vest-patches"></i>
+                            <span>Fashion</span>
+                        </h:link>
+                        <h:link class="dropdown-item"
+                                outcome="/frontend/news/list-news.xhtml?catid=#{Constant.CATE_FOOTWARE}">
+                            <i class="fas fa-shoe-prints"></i>
+                            <span>Footware</span>
+                        </h:link>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarProducts" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-shopping-cart"/>
+                        <span class="uppercase">Sản phẩm</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarProducts">
+                        <h:link class="dropdown-item"
+                                outcome="/frontend/product/product2.xhtml">
+                            <i class="fas fa-cart-plus"/>
+                            <span>Tất cả sản phẩm</span>
+                        </h:link>
+                        <h:link class="dropdown-item"
+                                outcome="/frontend/product/product2.xhtml?catecode=#{Constant.CATE_AO}">
+                            <i class="fas fa-tshirt"></i>
+                            <span>Áo</span>
+                        </h:link>
+                        <h:link class="dropdown-item"
+                                outcome="/frontend/product/product2.xhtml?catecode=#{Constant.CATE_QUAN}">
+                            <i class="fas fa-socks"></i>
+                            <span>Quần</span>
+                        </h:link>
+                        <h:link class="dropdown-item"
+                                outcome="/frontend/product/product2.xhtml?catecode=#{Constant.CATE_GIAY}">
+                            <i class="fas fa-shoe-prints"></i>
+                            <span>Quần</span>
+                        </h:link>
+                        <h:link class="dropdown-item"
+                                outcome="/frontend/product/product2.xhtml?catecode=#{Constant.CATE_PHU_KIEN}">
+                            <i class="fas fa-hat-cowboy-side"></i>
+                            <span>Phụ kiện</span>
+                        </h:link>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarOrders" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cart-arrow-down"/>
+                        <span class="uppercase">Đơn hàng</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarOders">
+                        <h:link class="dropdown-item" outcome="/frontend/order/my-orders.xhtml">
+                            <i class="fas fa-cart-arrow-down"/>
+                            <span>Giỏ hàng</span>
+                        </h:link>
+                        <h:link class="dropdown-item" outcome="/frontend/order/my-bill.xhtml"
+                                rendered="#{authorizationFEController.hasLogged()}">
+                            <i class="fas fa-wallet"/>
+                            <span>Lịch sử mua hàng</span>
+                        </h:link>
+                    </div>
+                </li>
+
+                <h:panelGroup rendered="#{!authorizationFEController.hasLogged()}">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link__login" data-toggle="modal" data-target="#login-modal">
+                            <i class="fas fa-sign-in-alt"/>
+                            <span class="uppercase">Đăng nhập</span>
+                        </a>
+                    </li>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{authorizationFEController.hasLogged()}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle dropdown-toggle__profile" href="#" id="navbarProfile"
+                           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="profile">
+                                <p:graphicImage styleClass="profile__avatar"
+                                                name="#{authorizationFEController.accountDto.imagePath == null ? resource['frontend-layout:img/founder.jpg'] : authorizationFEController.accountDto.imagePath}"/>
+                                <span class="profile__name">#{authorizationFEController.accountDto.fullName == null ? 'Vũ Văn Hùng' : authorizationFEController.accountDto.fullName}</span>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarProfile">
+                            <h:link class="dropdown-item" outcome="/frontend/account/profile.xhtml">
+                                <i class="fas fa-user"/>
+                                <span>Thông tin cá nhân</span>
+                            </h:link>
+                            <h:form>
+                                <h:commandLink styleClass="dropdown-item" onclick="logout();"
+                                               actionListener="#{authorizationFEController.logout}">
+                                    <i class="fas fa-sign-out-alt"/>
+                                    <span>Đăng xuất</span>
+                                </h:commandLink>
+                            </h:form>
+                        </div>
+                    </li>
+                    <li class="nav-item nav-item__last-child dropdown">
+                        <ui:include src="notification.xhtml"/>
+                    </li>
+                </h:panelGroup>
+            </ul>
+            <ui:include src="search.xhtml"/>
+        </div>
+    </nav>
+
+</ui:composition>

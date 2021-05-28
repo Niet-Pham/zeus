@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <div class="form-group">
+        <div class="row">
+            <label class="col-lg-4 col-md-4 col-sm-12 required-label">Ảnh giấy phép ĐKKD:</label>
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <h:panelGroup id="multipleImage">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="inputfile-box">
+                            <p:fileUpload id="fileUploadMultiple" mode="advanced"
+                                          multiple="true"
+                                          allowTypes="/(\.|\/)(gif|GIF|jpe?g|JPE?G|png|PNG)$/"
+                                          fileUploadListener="#{authorizationFEController.onUploadMultipleFile}"
+                                          label="Chọn giấy phép ĐKKD"
+                                          fileLimit="4"
+                                          fileLimitMessage="Bạn chỉ được tải lên tối đa 4 file giấy phép ĐKKD"
+                                          update="multipleImage"
+                                          dragDropSupport="true" auto="true"
+                                          onstart="loadingScreen();" oncomplete="stopLoadingScreen();">
+                                <h:panelGroup>
+                                    <ui:repeat value="#{authorizationFEController.accuracyCompanyFilePathMap.entrySet().toArray()}" var="index" varStatus="indexFile">
+                                        <div class="col-lg-6">
+                                            <a data-fancybox="gallery" href="#{resource[index.value]}">
+                                                <img src="#{resource[index.value]}"/>
+                                            </a>
+                                            <a class="remove-file" title="Xoá ảnh giấy phép ĐKKD"  onclick="confirmRemoveFiles(#{indexFile.index});"><i class="fa fa-remove"/></a>
+                                            <h:commandLink styleClass="removeFile#{indexFile.index}"
+                                                           style="display: none !important;"
+                                                           actionListener="#{authorizationFEController.onRemoveFile(index.key)}">
+                                                <f:ajax render="multipleImage"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </ui:repeat>
+                                </h:panelGroup>
+                            </p:fileUpload>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmRemoveFiles(e) {
+            bootbox.confirm({
+                title: "Xác nhận xóa",
+                message: "Bạn có chắc chắn muốn xóa?",
+                className: "confirmStore modal-login",
+                swapButtonOrder: true,
+                buttons: {
+                    confirm: {
+                        label: 'XÁC NHẬN',
+                        className: 'btn btn-custom main-color'
+                    },
+                    cancel: {
+                        label: 'HỦY BỎ',
+                        className: 'btn btn-default btn-custom reset'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        jQuery(".removeFile" + e).click();
+                    }
+                }
+            });
+        }
+    </script>
+</ui:composition>

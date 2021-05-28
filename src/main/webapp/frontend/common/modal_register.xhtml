@@ -1,0 +1,77 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+    <!-- Modal Register-->
+    <div class="modal fade" id="RegisterPopup">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal">&#xd7;</button>
+                <div class="register-area">
+                    <div class="register-form">
+                        <h3>Đăng ký</h3>
+                        <p>Bạn đã có tài khoản?
+                            <a href="#" onclick="closeModal('#RegisterPopup');openModalLogin(this);" data-toggle="modal" data-target="#loginPopup" >Đăng nhập ngay</a>
+                        </p>
+                            <div class="row type-register">
+                                <div class="col-md-3 col-xs-12 col-sm-12">
+                                    <label class="register-label">Loại hình đăng ký</label>
+                                </div>
+                                <div class="col-md-9 col-xs-12 col-sm-12 choice-type">
+                                    <div class="row">
+                                        <div class="col-md-2 col-xs-6 col-sm-6">
+                                            <label class="radio">Cá nhân
+                                                <input id="radioPersonal" type="radio"
+                                                       name="typeRegister"
+                                                       value="personal"/>
+                                                <span class="checkround"/>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-2 col-xs-6 col-sm-6">
+                                            <label class="radio">Tổ chức
+                                                <input type="radio"
+                                                       name="typeRegister"
+                                                       value="company"/>
+                                                <span class="checkround"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="warning-text col-md-12 col-xs-12 col-sm-12">
+                                    <p>Vui lòng điền tất cả thông tin</p>
+                                </div>
+                                <div id="personal-content-form" class="personal box active">
+                                    <h:form role="form" id="personal-form" prependId="false" autocomplete="off">
+                                        <ui:include src="personal_register_detail.xhtml"/>
+                                    </h:form>
+                                </div>
+                                <div id="company-content-form" class="company box" style="display: none;">
+                                    <h:form role="form" id="company-form" prependId="false" autocomplete="off">
+                                        <ui:include src="company_register_detail.xhtml"/>
+                                    </h:form>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function focusRemoveReadOnly(e) {
+            if (e.getAttribute('readonly') !== null) {
+                e.removeAttribute('readonly');
+                e.blur();
+                setTimeout(function() {
+                    e.focus();
+                }, 10)
+            }
+        }
+    </script>
+
+    <p:remoteCommand name="cmdOpenModalRegister" update="personal-form company-form scriptResetListener"
+                     actionListener="#{accountFEController.resetAll()}"/>
+</ui:composition>

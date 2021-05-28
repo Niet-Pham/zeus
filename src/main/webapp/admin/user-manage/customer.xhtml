@@ -1,0 +1,242 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/admin/template/template.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{accountManageController.initDataCustomer()}"/>
+    </f:metadata>
+
+    <ui:define name="title">Quản lý khách hàng</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/admin/user-manage/customer">Quản trị người dùng / Quản lý khách hàng</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:outputPanel styleClass="ui-g">
+            <div class="ui-g-12" style="padding-top:0">
+                <div class="card no-margin">
+                    <p:commandButton value="Thêm mới" icon="fa fa-plus"
+                                     actionListener="#{accountManageController.resetDialog}"
+                                     oncomplete="PF('dialogInsertUpdate').show();" update="dlForm"/>
+                </div>
+            </div>
+        </p:outputPanel>
+
+        <div class="ui-fluid">
+            <p:dialog id="dlg" header="Thông tin khách hàng" widgetVar="dialogInsertUpdate" modal="true" width="800">
+                <h:form id="dlForm">
+                    <p:scrollPanel mode="native" style="width: 100%; max-height: 400px; border: none" id="panel">
+                        <p:focus id="focus"/>
+                        <p:panelGrid id="basicPanel1" columns="2"
+                                     columnClasses="ui-grid-col-3,ui-grid-col-9"
+                                     styleClass="ui-panelgrid-blank" layout="grid">
+
+                            <p:outputLabel value="Tài khoản:" for="userName" styleClass="requireLabel"/>
+                            <p:inputText id="userName" placeholder="Nhập tài khoản"
+                                         value="#{accountManageController.accountDto.userName}"
+                                         maxlength="200"/>
+
+                            <p:outputLabel  value="Mật khẩu:" rendered="#{accountManageController.accountDto.accountId ne null}"/>
+                            <p:commandButton value="Reset mật khẩu" action="#{accountManageController.resetPassword(accountDto)}"
+                                             icon="fa fa-sync" style="width: 30%;float:left" rendered="#{accountManageController.accountDto.accountId ne null}"
+                                             update="searchForm focus growl"/>
+
+                            <p:outputLabel value="Tên khách hàng:" for="fullName" styleClass="requireLabel"/>
+                            <p:inputText id="fullName" placeholder="Nhập tên khách hàng"
+                                         value="#{accountManageController.accountDto.fullName}"
+                                         maxlength="200"/>
+
+                            <p:outputLabel for="gender" value="Giới tính:" styleClass="requireLabel"/>
+                            <p:selectOneRadio id="gender" value="#{accountManageController.accountDto.gender}"
+                                              unselectable="false" style="margin-bottom: 15px;">
+                                <f:selectItem itemLabel="Nam" itemValue="#{DbConstant.MAN}"/>
+                                <f:selectItem itemLabel="Nữ" itemValue="#{DbConstant.WOMAN}"/>
+                            </p:selectOneRadio>
+
+                            <p:outputLabel value="Ngày sinh:" for="dateOfBirth" styleClass="requireLabel"/>
+                            <p:outputPanel style="margin-bottom: 15px;">
+                                <p:calendar id="dateOfBirth" placeholder="Nhập ngày sinh"
+                                            readonlyInput="true"
+                                            validatorMessage="Ngày sinh không hợp lệ"
+                                            value="#{accountManageController.accountDto.dateOfBirth}"
+                                            locale="de" navigator="true" pattern="dd/MM/yyyy"
+                                            maxdate="#{myAccountController.today}"
+                                            styleClass="input-new-style"/>
+                            </p:outputPanel>
+
+                            <p:outputLabel value="Số điện thoại:" for="phoneNumber" styleClass="requireLabel"/>
+                            <p:inputText id="phoneNumber" placeholder="Nhập số điện thoại"
+                                         onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                         onchange="this.value = this.value.trim()"
+                                         value="#{accountManageController.accountDto.phone}"
+                                         maxlength="11" styleClass="input-new-style" style="margin-bottom: 15px;"/>
+
+                            <p:outputLabel value="Email:" for="email" styleClass="requireLabel"/>
+                            <p:inputText id="email" placeholder="Nhập email:"
+                                         value="#{accountManageController.accountDto.email}"
+                                         maxlength="50" styleClass="input-new-style"/>
+
+                            <p:outputLabel value="Địa chỉ:" for="address" styleClass="requireLabel"/>
+                            <p:outputPanel>
+                                <p:panelGrid id="address" columns="3" layout="grid" styleClass="ui-panelgrid-blank"
+                                             columnClasses="ui-no-margin-padding,ui-no-margin-padding,ui-no-margin-padding">
+                                    <ui:include src="/common/tinh-quan-phuong.xhtml"/>
+                                </p:panelGrid>
+                                <p:message id="id-address" for="address" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+                            <p:outputLabel/>
+                            <p:inputText id="address-home" placeholder="Nhập địa chỉ nhà"
+                                         onchange="this.value = this.value.trim()"
+                                         maxlength="100" value="#{accountManageController.accountDto.address}"/>
+
+                            <p:outputLabel value="Ảnh đại diện:" for="singleImage" />
+                            <p:outputPanel>
+                                <p:outputPanel id="singleImage" style="width: 245px; margin: auto; margin-bottom: 10px;">
+                                    <div class="my-card-image-border row parent-image-file">
+                                        <p:graphicImage styleClass="image-file"
+                                                        style="width:200px;height: 200px;border-radius: 50%"
+                                                        rendered="#{not empty uploadSingleImageController.imagePath}"
+                                                        name="#{uploadSingleImageController.imagePath}"/>
+                                        <p:graphicImage styleClass="image-file"
+                                                        style="width:200px;height: 200px;border-radius: 50%"
+                                                        rendered="#{empty uploadSingleImageController.imagePath}"
+                                                        name="images/noavatar.png" library="apollo-layout"/>
+                                        <p:commandLink
+                                                actionListener="#{uploadSingleImageController.onRemoveImage}"
+                                                styleClass="command-hover"
+                                                rendered="#{uploadSingleImageController.showDeleteButton}"
+                                                update="singleImage"
+                                                process="@this">
+                                            <p:confirm header="Xác nhận xóa ảnh"
+                                                       message="Bạn chắc chắn muốn xóa ảnh này?"/>
+                                            <i class="fa fa-times"/>
+                                        </p:commandLink>
+                                    </div>
+                                </p:outputPanel>
+                                <p:outputLabel/>
+
+                                <p:fileUpload mode="advanced" id="uploadImage"
+                                              auto="true" label="Tải ảnh"
+                                              style="text-align: center; margin-bottom: 20px; width: auto"
+                                              onstart="PF('statusDialog').show();"
+                                              oncomplete="PF('statusDialog').hide();"
+                                              fileUploadListener="#{uploadSingleImageController.onUploadImage}"
+                                              update="singleImage #{Constant.ERROR_GROWL_ID}"/>
+                            </p:outputPanel>
+
+                        </p:panelGrid>
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-6,ui-grid-col-6"
+                                     styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Lưu" action="#{accountManageController.onSave}"
+                                             icon="fa fa-save" style="width: 80px;float:right"
+                                             update="searchForm focus growl"/>
+                            <p:commandButton value="Ðóng" styleClass="close"
+                                             oncomplete="PF('dialogInsertUpdate').hide()" icon="fa fa-close"
+                                             style="width: 80px"/>
+                        </p:panelGrid>
+                    </p:scrollPanel>
+                </h:form>
+            </p:dialog>
+        </div>
+
+
+        <h:form id="searchForm">
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12" style="padding-top:0">
+                        <div class="card no-margin">
+                            <p:panel id="searchCode" header="Tìm kiếm khách hàng" style="margin-bottom:5px">
+                                <p:panelGrid id="searchPanel" columns="3"
+                                             columnClasses="ui-grid-col-4,ui-grid-col-1.5,ui-grid-col-1.5"
+                                             styleClass="ui-panelgrid-blank" layout="grid">
+
+                                    <p:inputText id="smanhomquyen" placeholder="Nhập tên khách hàng"
+                                                 value="#{accountManageController.searchDto.keyword}"/>
+
+                                    <p:commandButton value="Tìm kiếm"
+                                                     actionListener="#{accountManageController.onSearch(DbConstant.ROLE_ID_USER)}"
+                                                     update="searchForm tblSearchResult" icon="fa fa-search"
+                                                     style="width: auto"/>
+
+                                    <p:commandButton value="Làm mới"
+                                                     actionListener="#{accountManageController.resetAll(DbConstant.ROLE_ID_USER)}"
+                                                     update="searchForm tblSearchResult" icon="fa fa-refresh"
+                                                     styleClass="orange-btn" style="width: auto"/>
+                                </p:panelGrid>
+                            </p:panel>
+
+
+                            <p:panel id="searchResult" header="Kết quả tìm kiếm" style="margin-bottom:5px">
+                                <p:dataTable id="tblSearchResult" tableStyle="table-layout: auto;"
+                                             widgetVar="wdgNhomQuyen"
+                                             resizableColumns="true" paginator="true"
+                                             reflow="true" rows="10"
+                                             value="#{accountManageController.lazyDataModel}"
+                                             lazy="true" pageLinks="5" paginatorPosition="top" var="resultDto"
+                                             paginatorAlwaysVisible="true" rowsPerPageTemplate="10,20,50,100"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="#{t['lbl.recordTotal']}: #{accountManageController.lazyDataModel.rowCount}"
+                                             emptyMessage="Không có bản ghi nào" rowIndexVar="rowIndex"
+                                             rowKey="#{resultDto.accountId}">
+
+                                    <p:column headerText="STT" width="30" style="text-align: center">
+                                        <h:outputText value="#{rowIndex + 1}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Tên khách hàng " sortBy="#{resultDto.fullName}">
+                                        <h:outputText value="#{resultDto.fullName}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Tài khoản " sortBy="#{resultDto.userName}">
+                                        <h:outputText value="#{resultDto.userName}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Số điện thoại" sortBy="#{resultDto.phone}">
+                                        <h:outputText value="#{resultDto.phone}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Email" sortBy="#{resultDto.email}">
+                                        <h:outputText value="#{resultDto.email}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Sửa"
+                                              exportable="false" style="width: 30px">
+                                        <div class="my-data-table">
+                                            <p:commandLink styleClass="edit"
+                                                           oncomplete="PF('dialogInsertUpdate').show();"
+                                                           update="dlForm growl"
+                                                           actionListener="#{accountManageController.showUpdatePopup(resultDto)}">
+                                                <i class="fa fa-edit"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Xóa"
+                                              exportable="false" style="width: 30px">
+                                        <div class="my-data-table">
+                                            <p:commandLink styleClass="delete"
+                                                           actionListener="#{accountManageController.onDelete(resultDto)}"
+                                                           update="tblSearchResult growl searchForm">
+                                                <p:confirm header="Xác nhận xóa" message="Bạn chắc chắn muốn xóa ?"
+                                                           icon="fa fa-question-circle"/>
+                                                <i class="fa fa-remove"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

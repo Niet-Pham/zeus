@@ -1,0 +1,67 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+    <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+        <f:facet name="start">
+            <i class="ajax-status-icon fa fa-spinner fa-spin"/>
+        </f:facet>
+
+        <f:facet name="complete">
+            <h:outputText />
+        </f:facet>
+    </p:ajaxStatus>
+
+    <p:ajaxStatus onstart="PF('statusDialog').show();"
+                  onsuccess="PF('statusDialog').hide();" />
+
+    <p:dialog modal="true" widgetVar="statusDialog" showHeader="false" resizable="false" draggable="false" closable="false"
+              style="max-height: 90vh; max-width: 90vw">
+        <p:graphicImage value="/resources/images/loading.gif" width="50" height="50" />
+    </p:dialog>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Đồng ý" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+        <p:commandButton value="Hủy" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+    </p:confirmDialog>
+
+    <p:dialog id="dialogNotify" header="Thông báo" widgetVar="dialogNotify" showEffect="clip" hideEffect="clip" modal="true" width="700"
+              style="max-height: 90vh; max-width: 90vw">
+        <p:scrollPanel mode="native" style="width: 100%; max-height: 500px; border: none">
+            <h:outputText id="dialog-content" value="" />
+        </p:scrollPanel>
+    </p:dialog>
+
+    <p:idleMonitor timeout="#{Constant.SESSION_EXPIRE_IN}"
+                   onidle="showErrorMessage('Cảnh báo', 'Phiên làm việc đã hết hạn, hệ thống sẽ chuyển về trang đăng nhập sau 3 giây');setTimeout(function(){location.reload()},3000);"/>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        function start() {
+            PF('statusDialog').show();
+        }
+
+        function stop() {
+            PF('statusDialog').hide();
+        }
+        // disable backspace function on IE
+        $(document).keydown(function(e){
+            if (e.keyCode === 8 && ('INPUT,TEXTAREA'.indexOf(e.target.tagName) < 0 || e.target.readOnly))
+                e.preventDefault();
+        })
+        //]]>
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<!--    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-146720894-3"></script>-->
+<!--    <script>-->
+<!--        window.dataLayer = window.dataLayer || [];-->
+<!--        function gtag(){dataLayer.push(arguments);}-->
+<!--        gtag('js', new Date());-->
+
+<!--        gtag('config', 'UA-146720894-3');-->
+<!--    </script>-->
+</ui:composition>

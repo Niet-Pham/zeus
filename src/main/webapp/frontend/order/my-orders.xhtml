@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/frontend/template/template2.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{orderFEController.initData}"/>
+    </f:metadata>
+    <ui:define name="title">Giỏ hàng của tôi</ui:define>
+
+    <ui:define name="body-content">
+        <div class="content-orders">
+            <div class="container">
+                <div class="title-orders">
+                    <div class="row">
+                        <h1>Thông tin giỏ hàng</h1>
+                    </div>
+                </div>
+                <div class="orders-infor">
+                    <h:panelGroup layout="block" rendered="#{empty orderFEController.productCartMap}">
+                        <p class="orders-infor__empty">
+                            Bạn chưa có giỏ hàng nào?
+                            <h:link value="Mua hàng ngay" outcome="/frontend/product/product2.xhtml"/>.
+                        </p>
+                    </h:panelGroup>
+                    <h:form id="orderList" prependId="false" rendered="#{not empty orderFEController.productCartMap}">
+                        <h:panelGroup layout="block" styleClass="row orders-infor__info" rendered="#{orderFEController.info}">
+                            <div class="form-group">
+                                <label for="order-code" class="required-label">Mã đơn hàng:</label>
+                                <h:inputText id="order-code" styleClass="form-control" value="#{orderFEController.ordersDto.code}" disabled="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-name" class="required-label">Tên khách hàng:</label>
+                                <h:inputText id="order-name" styleClass="form-control" value="#{orderFEController.ordersDto.customerName}" placeholder="Nhập họ và tên"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-phone" class="required-label">Số điện thoại:</label>
+                                <h:inputText id="order-phone" styleClass="form-control" value="#{orderFEController.ordersDto.phone}" placeholder="Nhập số điện thoại"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-email" class="required-label">Email:</label>
+                                <h:inputText id="order-email" styleClass="form-control" value="#{orderFEController.ordersDto.email}" placeholder="Nhập email"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-address" class="required-label">Địa chỉ giao hàng:</label>
+                                <h:inputText id="order-address" styleClass="form-control" value="#{orderFEController.ordersDto.address}" placeholder="Nhập địa chỉ giao hàng"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-note">Ghi chú:</label>
+                                <h:inputTextarea id="order-note" styleClass="form-control" rows="3" value="#{orderFEController.ordersDto.note}" placeholder="Nhập ghi chú" />
+                            </div>
+                            <div class="form-group">
+                                <label for="select-shipfee" class="required-label">Đơn vị vận chuyển:</label>
+                                <h:selectOneMenu id="select-shipfee" styleClass="form-control" value="#{orderFEController.ordersDto.shippingId}">
+                                    <f:selectItem itemValue="-1" itemLabel="Chọn đơn vị vận chuyển" />
+                                    <f:selectItems value="#{orderFEController.shippingItem}" var="ship"
+                                                   itemValue="#{ship.value}"
+                                                   itemLabel="#{ship.label}"/>
+                                    <f:ajax execute="@form" listener="#{orderFEController.onChangeShipping}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <h:panelGroup layout="block" styleClass="form-group" rendered="#{orderFEController.checkShipping}">
+                                <div class="row">
+                                    <label for="order-shipfee" class="required-label">Phí vận chuyển:</label>
+                                    <h:inputText id="order-shipfee" styleClass="form-control" value="#{orderFEController.ordersDto.shipping}" disabled="true">
+                                        <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                         maxFractionDigits="6"
+                                                         minFractionDigits="0" locale="vi_VN"/>
+                                    </h:inputText>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <p:graphicImage styleClass="order-shipimg" name="#{orderFEController.pathShipping}"/>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h:outputLabel styleClass="order-shipinfo" value="#{orderFEController.infoShipping}" />
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <table class="table table-hover order-product">
+                            <thead>
+                                <tr class="order-product__header">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Hình ảnh</th>
+                                    <th scope="col">Tên sản phẩm</th>
+                                    <th scope="col">Mã sản phẩm</th>
+                                    <th scope="col">Đơn giá</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <h:outputScript>var index = 1;</h:outputScript>
+                                <p:repeat value="#{orderFEController.productCartMap.values()}" var="ordersDetailDto">
+                                    <tr>
+                                        <td scope="row" class="order-product__id">
+                                            <p class="id-#{ordersDetailDto.productDto.productId}"/>
+                                            <h:outputScript>$('.id-#{ordersDetailDto.productDto.productId}').text(index)</h:outputScript>
+                                        </td>
+                                        <td class="order-product__img">
+                                            <p:graphicImage styleClass="profile__avatar" name="#{ordersDetailDto.productDto.imageToShow}"/>
+                                        </td>
+                                        <td class="order-product__name">#{ordersDetailDto.productDto.productName}</td>
+                                        <td class="order-product__code">#{ordersDetailDto.productDto.code}</td>
+                                        <td class="order-product__price">
+                                            <h:outputText value="#{ordersDetailDto.amount}">
+                                                <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                 maxFractionDigits="6"
+                                                                 minFractionDigits="0" locale="vi_VN"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td class="order-product__qty">
+                                            #{ordersDetailDto.quantity}
+                                        </td>
+                                        <td class="order-product__action">
+                                            <p:remoteCommand name="cmdRemoveProduct#{ordersDetailDto.productDto.productId}" update="orderList #{Constant.ERROR_FE_GROWL_ID}"
+                                                             actionListener="#{orderFEController.removeProduct(ordersDetailDto)}"/>
+                                            <i class="fas fa-times" onclick="cmdRemoveProduct#{ordersDetailDto.productDto.productId}();"/>
+                                        </td>
+                                    </tr>
+                                    <h:outputScript>index += 1</h:outputScript>
+                                </p:repeat>
+                            </tbody>
+                        </table>
+                        <div class="orders-infor__total">
+                            <div class="row">
+                                <h:panelGroup layout="block" rendered="#{orderFEController.info}">
+                                    <div class="col-lg-10">
+                                        <p>Tổng số lượng:</p>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <p class="qty"><h:outputText value="#{orderFEController.totalQty}" /></p>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <p>Tổng thanh toán:</p>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <p class="money">
+                                            <h:outputText value="#{orderFEController.totalMoney}">
+                                                <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                 maxFractionDigits="6"
+                                                                 minFractionDigits="0" locale="vi_VN"/>
+                                            </h:outputText>
+                                        </p>
+                                    </div>
+                                </h:panelGroup>
+                                <div class="col-lg-9"></div>
+                                <div class="col-lg-3">
+                                    <h:commandButton styleClass="btn btn-warning btn-custom" value="Mua ngay" actionListener="#{orderFEController.confirmInfo}" rendered="#{!orderFEController.info}">
+                                        <f:ajax execute="@form" render="#{Constant.ERROR_FE_GROWL_ID}"/>
+                                    </h:commandButton>
+                                    <h:commandButton styleClass="btn btn-success btn-custom" value="Đặt hàng" actionListener="#{orderFEController.onSaveOrderFE}" rendered="#{orderFEController.info}">
+                                        <f:ajax execute="@form" render="#{Constant.ERROR_FE_GROWL_ID}"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:dialog header="Chi tiết file tải lên" modal="true" widgetVar="dlg#{index}" minHeight="40" showEffect="clip" hideEffect="clip"
+              style="max-height: 90vh; max-width: 90vw"
+              styleClass="text-center">
+        <p:commandButton value="Tải về" style="width:auto;" ajax="false" immediate="true" icon="fa fa-fw fa-download"
+                         rendered="#{not commonController.isPdfFile(documentPath)}">
+            <p:fileDownload value="#{commonController.getFileDownload(documentPath)}" />
+        </p:commandButton>
+        <p:media value="/resources#{documentPath}" width="900px" height="500px" player="pdf" rendered="#{commonController.isPdfFile(documentPath)}">
+            Không thể hiển thị được file tải lên, <h:outputLink value="#{request.contextPath}/resources#{documentPath}">bấm vào đây</h:outputLink> để tải file về
+        </p:media>
+    </p:dialog>
+
+</ui:composition>

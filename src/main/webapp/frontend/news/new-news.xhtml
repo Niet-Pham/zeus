@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:repeat value="#{decisionNewsFEController.newsList}" var="ds" maxsize="5">
+        <div class="news-item">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-4" style="padding: 0">
+                    <h:link outcome="/frontend/news/detail.xhtml?id=#{ds.decisionNewsId}">
+                        <div class="img-sidebar">
+                            <h:graphicImage name="images/tintuc.png" library="apollo-layout" rendered="#{empty ds.imagePath}"/>
+                            <h:graphicImage name="#{ds.imagePath}" rendered="#{not empty ds.imagePath}"/>
+                        </div>
+                    </h:link>
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-8">
+                    <h:link outcome="/frontend/news/detail.xhtml?id=#{ds.decisionNewsId}" style="text-align: justify; margin-top: 10px"
+                            value="#{commonController.abbreviate(ds.title, DbConstant.LIMITCHARACTER_HOME)}"/>
+                    <p style="font-size: 13px"><i class="custom-icon calendar"/><h:outputText value="#{ds.createDate}"><f:convertDateTime
+                            pattern="dd/MM/yyyy"/></h:outputText></p>
+                </div>
+            </div>
+        </div>
+    </ui:repeat>
+
+</ui:composition>

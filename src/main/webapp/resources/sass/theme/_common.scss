@@ -1,0 +1,133 @@
+body {
+    .my-data-table {
+        float: right;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+
+        a {
+            color: $textSecondaryColor;
+            display: inline-block;
+            width: 42px;
+            height: 42px;
+            font-size: 20px;
+            line-height: 42px;
+            text-align: center;
+            @include transition(background-color $transitionDuration);
+
+            &:hover {
+                background-color: $primaryColor;
+                color: $primaryTextColor;
+            }
+
+            i {
+                line-height: inherit;
+            }
+        }
+    }
+    .card {
+        background-color: $contentBgColor;
+    }
+    
+    .ui-no-margin-padding {
+    	padding: 0 !important;
+    	margin: 0 !important;
+    }
+    .ui-no-margin-padding-2 {
+    	margin: 0 !important;
+    	padding: 0 !important;
+    }
+    
+    .ui-widget,
+    .ui-widget .ui-widget {
+        font-family: $fontFamily;
+        text-decoration: none;
+    }
+
+    .ui-widget-content {
+        background-color: $contentBgColor;
+        border: 1px solid #cccccc;
+    }
+    
+    .ui-widget-header {
+        background: $headerBgColor;
+        color: $headerTextColor;
+        border: 1px solid $headerBorderColor;
+        font-weight: 700;
+    }
+
+    .ui-state-default {
+
+    }
+
+    .ui-state-hover {
+
+    }
+
+    .ui-state-focus {
+
+    }
+
+    .ui-state-active, .ui-state-highlight {
+        background-color: $primaryColor;
+        color: $primaryTextColor;
+    }
+    
+    //.ui-state-error, .ui-widget.ui-state-error {
+	//    border: 1px solid $errorColor;
+    //}
+    
+    .ui-icon {
+        width: $iconWidth;
+        font-size: $iconFontSize;
+    }
+
+    .ui-state-disabled {
+        opacity: .35;
+        filter: Alpha(Opacity=35);
+        background-image: none;
+    }
+
+    .ui-corner-all {
+        @include border-radius($borderRadius);
+    }
+
+    .ui-corner-top {
+        @include border-radius-top($borderRadius);
+    }
+
+    .ui-corner-bottom {
+        @include border-radius-bottom($borderRadius);
+    }
+
+    .ui-corner-left {
+        @include border-radius-left($borderRadius);
+    }
+
+    .ui-corner-right {
+        @include border-radius-right($borderRadius);
+    }
+
+    .ui-widget-overlay {
+        background-color: $contentBgColor2;
+        @include opacity(.3);
+    }
+    
+    .ui-shadow {
+        //@include shadow();
+    }
+    
+    a {
+        color: $primaryColor;
+        text-decoration: none;
+        
+        &:hover {
+            color: darken($primaryColor,5%);
+        }
+    }
+    
+    .ajax-loader {
+        font-size: 28px;
+        color: $primaryColor;
+    }
+}

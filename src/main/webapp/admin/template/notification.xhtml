@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{notificationController.initData}"/>
+    </f:metadata>
+
+    <h:form prependId="false" id="notificationForm">
+        <p:remoteCommand name="seenAllNoti" global="false" update="count-record"
+                         actionListener="#{notificationController.seenAllNotification}"/>
+        <p:remoteCommand name="cmdLoadmoreNotification" global="false" update="loadMoreNoti"
+                         actionListener="#{notificationController.loadMoreAds()}"
+                         oncomplete="loadMoreNoti();"/>
+        <p:remoteCommand name="redirectPage" global="false"
+                         actionListener="#{notificationController.redirectPage()}"/>
+
+        <p:menuButton id="bell" icon="fa fa-bell"/>
+
+        <h:panelGroup id="count-record"
+                      styleClass="text-notification-#{notificationController.countRecord} text-notification #{notificationController.countRecord > 9 ? 'text-two-letter' : ''} noselect"
+                      onclick="$('#bell_button').click();">#{notificationController.countRecord}</h:panelGroup>
+    </h:form>
+
+    <h:panelGroup id="loadMoreNoti">
+        <script>
+            //<![CDATA[
+            (function () {
+                // load more to add more record
+                var data = '#{notificationController.notificationJson}';
+                if (data != '') {
+                    data = JSON.parse(data);
+                } else {
+                    return;
+                }
+                data.forEach(function (e) {
+                    var hover = 'onmouseover="$(this).addClass(\'ui-state-hover\')" onmouseout="$(this).removeClass(\'ui-state-hover\')" onmousedown="$(this).addClass(\'ui-state-active\')" onmouseup="$(this).removeClass(\'ui-state-active\')"';
+                    $('#bell_menu .ui-menu-list').append(
+                        "<li class='ui-menuitem ui-widget ui-corner-all' role='menuitem' " + hover +">" +
+                        "<a tabindex='-1' class='ui-menuitem-link ui-corner-all advertise-id-" + e.receive_notification_id + "' href='#' onclick=\"redirectPage([{name:'notificationId',value:'" + e.receive_notification_id + "'}]);\">" +
+                        "<span class='ui-menuitem-icon ui-icon " + (e.status ? '' : 'fa fa-circle') + "' aria-hidden='true'></span>" +
+                        "<span class='ui-menuitem-text'>" +
+                        "<span class='target main-noti-" + e.status + "'>" + e.send_content + "</span>" +
+                        "<br>" +
+                        "<i class='count-time'>" + e.date_before_now + "</i>" +
+                        "</span>" +
+                        "</a>" +
+                        "</li>"
+                    );
+                });
+                let bellMenu = $('#bell_menu');
+                if ($.isArray(data) && data.length < '#{Constant.NOTIFICATION_PAGE_SIZE}' && !bellMenu.hasClass("ended-scroll")) {
+                    bellMenu.addClass("ended-scroll");
+                    $('#bell_menu .ui-menu-list').append(
+                        "<li class='ui-menuitem ui-widget ui-corner-all' role='menuitem'><a tabindex='-1' class='ui-menuitem-link ui-corner-all'>Không có thông báo mới.</a></li>"
+                    );
+                }
+            })();
+            //]]>
+        </script>
+    </h:panelGroup>
+</ui:composition>

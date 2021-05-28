@@ -1,0 +1,142 @@
+.projects-slide {
+    .container {
+        padding: 0;
+        .project-slide {
+            margin-top: 7rem;
+            &__title {
+                text-align: center;
+                h2 {
+                    padding-bottom: 2rem;
+                    font-size: 2.5rem;
+                }
+            }
+            &__images {
+                .carousel-wrap {
+                    width: 1000px;
+                    margin: auto;
+                    position: relative;
+                    .owl-carousel {
+                        .owl-stage-outer {
+                            .owl-stage {
+                                .owl-item {
+                                    transform: scale(0.7);
+                                    padding-bottom: 10px 0;
+                                    transition: all .5s;
+                                    .item {
+                                        text-align: center;
+                                        height: 300px;
+                                        &__img {
+                                            width: 90%;
+                                            height: 100%;
+                                            margin: 10px auto;
+                                            position: relative;
+                                            img {
+                                                width: 100%;
+                                                height: 100%;
+                                                object-fit: cover;
+                                                border-radius: 10px;
+                                            }
+                                        }
+                                        &__detail {
+                                            width: 90%;
+                                            height: 100%;
+                                            margin: 10px auto;
+                                            position: relative;
+                                            background-color: $primary-color;
+                                            color: $third-color;
+                                            padding: 30px;
+                                            border-radius: 10px;
+                                            &:hover {
+                                                animation: fadein ease 2s;
+                                                -webkit-animation: fadein ease 2s;
+                                                -moz-animation: fadein ease 2s;
+                                                -o-animation: fadein ease 2s;
+                                                -ms-animation: fadein ease 2s;
+                                            }
+                                            @keyframes fadein {
+                                                from {
+                                                    background-color: $primary-color-blur;
+                                                }
+                                                to {
+                                                    background-color: $primary-color;
+                                                }
+                                            }
+                                            i {
+                                                &:hover {
+                                                    cursor: pointer;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    &.active {
+                                        &.center {
+                                            transform: scale(1.3);
+                                            z-index: 999;
+                                            -webkit-transform: scale(1);
+                                            transform: scale(1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .owl-nav {
+                            overflow: hidden;
+                            height: 0px;
+                            .owl-prev.disabled,
+                            .owl-next.disable {
+                                pointer-events: none;
+                                opacity: 0.2;
+                            }
+                            .nav-btn {
+                                height: 47px;
+                                position: absolute;
+                                width: 26px;
+                                cursor: pointer;
+                                top: 130px !important;
+                                &.prev-slide {
+                                    background: url("\#{resource['frontend-layout:img/nav-icon.png']}") no-repeat scroll 0 0;
+                                    left: -33px;
+                                    &:hover {
+                                        background-position: 0px -53px;
+                                    }
+                                }
+                                &.next-slide {
+                                    background: url("\#{resource['frontend-layout:img/nav-icon.png']}") no-repeat scroll -24px 0px;
+                                    right: -33px;
+                                    &:hover {
+                                        background-position: -24px -53px;
+                                    }
+                                }
+                            }
+                        }
+                        .owl-dots {
+                            margin-top: 1rem;
+                            .owl-dot {
+                                &.active,
+                                &:hover {
+                                    span {
+                                        background: $primary-color;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .projects-slide {
+        .container {
+            .project-slide {
+                &__images {
+                    .carousel-wrap {
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+}

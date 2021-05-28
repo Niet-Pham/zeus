@@ -1,0 +1,138 @@
+.my-footer {
+    background-image: url('../../resources/frontend-layout/img/footer-min.png');
+    background-size: 100%;
+    margin-top: 7rem;
+    color: $third-color;
+    .container {
+        >.row {
+            padding: 4rem 2rem;
+            .k2-infor {
+                &__detail {
+                    p {
+                        padding: 1rem 7rem 1rem 0;
+                        margin: 0;
+                    }
+                }
+                &__link {
+                    p {
+                        margin: 0;
+                        a {
+                            color: $third-color;
+                            padding: 0 0.5rem;
+                            &:hover {
+                                cursor: pointer;
+                                color: $primary-color;
+                                text-decoration: none;
+                            }
+                        }
+                    }
+                }
+            }
+            .k2-linked {
+                &__label {
+                    h5 {
+                        @include set-border-bottom-linear;
+                    }
+                }
+                &__content {
+                    padding: 0.5rem 0;
+                    a {
+                        color: $third-color;
+                        &:hover {
+                            color: $primary-color;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .k2-technology {
+                &__label {
+                    h5 {
+                        @include set-border-bottom-linear;
+                    }
+                }
+                &__tech {
+                    padding: 0.5rem 0;
+                    p {
+                        color: $third-color;
+                        &:hover {
+                            color: $primary-color;
+                        }
+                    }
+                }
+            }
+            .k2-register {
+                &__label {
+                    h5 {
+                        @include set-border-bottom-linear;
+                    }
+                }
+                &__form {
+                    p {
+                        margin: 0;
+                        padding: 0.5rem 0 1rem 0;
+                        color: $third-color;
+                    }
+                    .form-group {
+                        &__input {
+                            color: $third-color;
+                            background: transparent;
+                            border: 1px solid $third-color;
+                            &::placeholder {
+                                color: $third-color;
+                            }
+                            &:focus {
+                                border: 1px solid $primary-color;
+                            }
+                        }
+                    }
+                    .btn-custom {
+                        width: 61px;
+                        height: 36px;
+                        background: transparent !important;
+                        border: 1px solid $third-color;
+                        &.hvr-rectangle-out {
+                            overflow: hidden;
+                            &::before {
+                                background: $primary-color;
+                                border-radius: 2px;
+                                border: 1px solid $primary-color;
+                            }
+                            &:active,
+                            &:focus,
+                            &:hover {
+                                color: $third-color;
+                                border: 1px solid $primary-color;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.my-copyright {
+    background-image: url('../img/copyright-min.png');
+    background-size: 100%;
+    color: $third-color;
+    background: #000000;
+    .container {
+        >.row {
+            padding: 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .my-copyright {
+        .container {
+            >.row {
+                p {
+                    font-size: 0.6rem;
+                }
+            }
+        }
+    }
+}

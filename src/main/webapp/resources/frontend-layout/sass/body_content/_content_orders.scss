@@ -1,0 +1,117 @@
+.content-orders {
+  margin-top: 5rem;
+
+  .title-orders {
+    h1 {
+      text-align: center;
+      width: 100%;
+      padding-bottom: 2rem;
+      color: $primary-color;
+      text-transform: uppercase;
+      padding-top: 2rem;
+    }
+  }
+
+  .orders-infor {
+    &__empty {
+      text-align: center;
+      font-size: 18px;
+    }
+
+    &__info {
+      border-bottom: 3px solid $red-color;
+      margin-bottom: 1rem !important;
+
+      .form-group {
+        width: 100%;
+
+        &:last-child {
+          margin-bottom: 1rem;
+        }
+
+        .order-shipimg {
+          width: 300px;
+          height: 200px;
+          object-fit: cover;
+          margin-top: 1rem;
+          border-radius: 1rem;
+        }
+
+        .order-shipinfo {
+          padding-top: 1rem;
+          word-break: break-word;
+          width: 100%;
+        }
+      }
+    }
+
+    .order-product {
+      &__header {
+        background-color: $primary-color;
+        color: $third-color;
+        border-radius: 1rem;
+
+        th {
+          text-align: center;
+          vertical-align: middle;
+
+          &:first-child {
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+          }
+
+          &:last-child {
+            border-top-right-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+          }
+        }
+      }
+
+      td {
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      &__img {
+        img {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+          border-radius: 1rem;
+        }
+      }
+
+      &__action {
+        i {
+          color: $primary-color;
+
+          &:hover {
+            color: $red-color;
+          }
+        }
+      }
+    }
+
+    &__total {
+      border-top: 3px solid $red-color;
+
+      .row {
+        padding-top: 1rem;
+
+        p {
+          width: 100%;
+          text-align: right;
+        }
+
+        .qty, .money {
+          color: $red-color;
+        }
+
+        .btn-custom {
+          width: 100%;
+          color: $third-color;
+        }
+      }
+    }
+  }
+}

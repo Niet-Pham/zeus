@@ -1,0 +1,185 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/admin/template/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{shippingController.initData}"/>
+    </f:metadata>
+
+    <ui:define name="breadcrumb">
+        <li>/</li>
+        <li>
+            <p:link outcome="/admin/news-manage/news">Quản lý chung / Quản lý đơn vị vận chuyển</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="title">Quản lý đơn vị vận chuyển</ui:define>
+
+
+    <ui:define name="content">
+        <p:outputPanel styleClass="ui-g">
+            <div class="ui-g-12" style="padding-top:0">
+                <div class="card no-margin">
+                    <p:commandButton value="Thêm mới" icon="fa fa-plus"
+                                     actionListener="#{shippingController.resetDialog}"
+                                     oncomplete="PF('dialogInsertUpdate').show();" update="dlForm"/>
+                </div>
+            </div>
+        </p:outputPanel>
+
+        <div class="ui-fluid">
+            <p:dialog id="dlg" header="Thông tin danh sách tin tức" widgetVar="dialogInsertUpdate" modal="true"
+                      width="1000">
+                <h:form id="dlForm">
+                    <p:scrollPanel mode="native" style="width: 100%; max-height: 600px; border: none" id="panel">
+                        <p:focus id="focus"/>
+                        <p:panelGrid id="basicPanel1" columns="2"
+                                     columnClasses="ui-grid-col-3,ui-grid-col-9"
+                                     styleClass="ui-panelgrid-blank" layout="grid">
+
+                            <p:outputLabel value="Tên đơn vị:" for="name" styleClass="requireLabel"/>
+                            <p:inputText id="name" placeholder="Nhập tên đơn vị"
+                                         value="#{shippingController.shippingDto.name}"
+                                         maxlength="200"/>
+
+                            <p:outputLabel value="Mã đơn vị:" for="code" styleClass="requireLabel"/>
+                            <p:inputText id="code" placeholder="Nhập mã đơn vị"
+                                         value="#{shippingController.shippingDto.code}"
+                                         maxlength="100"/>
+
+                            <p:outputLabel value="Chi phí giao hàng:" for="price" styleClass="requireLabel"/>
+                            <p:inputNumber id="price" placeholder="Nhập đơn giá(VNĐ)"
+                                           decimalPlaces="0"
+                                           thousandSeparator="."
+                                           maxValue="99999999999"
+                                           onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                           onchange="this.value = this.value.trim()"
+                                           value="#{shippingController.shippingDto.price}"/>
+
+                            <p:outputLabel value="Mô tả chi tiết:" for="detail" styleClass="requireLabel"/>
+                            <p:inputText id="detail" placeholder="Nhập mô tả chi tiết"
+                                         value="#{shippingController.shippingDto.detail}"/>
+
+                            <p:outputLabel value="Hình ảnh:" for="singleImage" styleClass="requireLabel"/>
+                            <p:panelGrid>
+                                <ui:include src="/common/upload-single-image.xhtml"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-6,ui-grid-col-6"
+                                     styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Lưu" action="#{shippingController.onSave}"
+                                             icon="fa fa-save" style="width: 80px;float:right"
+                                             update="searchForm focus growl"/>
+                            <p:commandButton value="Ðóng" styleClass="close"
+                                             oncomplete="PF('dialogInsertUpdate').hide()" icon="fa fa-close"
+                                             style="width: 80px"/>
+                        </p:panelGrid>
+                    </p:scrollPanel>
+                </h:form>
+            </p:dialog>
+        </div>
+
+        <h:form id="searchForm">
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12" style="padding-top:0">
+                        <div class="card no-margin">
+                            <p:panel id="searchCode" header="Tìm kiếm tin tức" style="margin-bottom:5px">
+                                <p:panelGrid id="searchPanel" columns="3"
+                                             columnClasses="ui-grid-col-4,ui-grid-col-1.5,ui-grid-col-1.5"
+                                             styleClass="ui-panelgrid-blank" layout="grid">
+
+                                    <p:inputText id="smanhomquyen" placeholder="Nhập tên, mã, chi phí của đơn vị vận chuyển"
+                                                 value="#{shippingController.searchDto.keyword}"/>
+
+                                    <p:commandButton value="Tìm kiếm"
+                                                     actionListener="#{shippingController.onSearch()}"
+                                                     update="searchForm tblSearchResult" icon="fa fa-search"
+                                                     style="width: auto"/>
+
+                                    <p:commandButton value="Làm mới"
+                                                     actionListener="#{shippingController.resetAll()}"
+                                                     update="searchForm tblSearchResult" icon="fa fa-refresh"
+                                                     styleClass="orange-btn" style="width: auto"/>
+                                </p:panelGrid>
+                            </p:panel>
+
+
+                            <p:panel id="searchResult" header="Kết quả tìm kiếm" style="margin-bottom:5px">
+                                <p:dataTable id="tblSearchResult" tableStyle="table-layout: auto;"
+                                             widgetVar="wdgNhomQuyen"
+                                             resizableColumns="true" paginator="true"
+                                             reflow="true" rows="10"
+                                             value="#{shippingController.lazyDataModel}"
+                                             lazy="true" pageLinks="5" paginatorPosition="top" var="resultDto"
+                                             paginatorAlwaysVisible="true" rowsPerPageTemplate="10,20,50,100"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="#{t['lbl.recordTotal']}: #{shippingController.lazyDataModel.rowCount}"
+                                             emptyMessage="Không có bản ghi nào" rowIndexVar="rowIndex"
+                                             rowKey="#{resultDto.shippingId}">
+
+                                    <p:column headerText="STT" width="30" styleClass="text-center">
+                                        <h:outputText value="#{rowIndex + 1}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Tên đơn vị" sortBy="#{resultDto.name}">
+                                        <h:outputText value="#{resultDto.name}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Mã đơn vị" styleClass="text-center" sortBy="#{resultDto.code}">
+                                        <h:outputText value="#{resultDto.code}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Phí giao hàng" styleClass="text-center" sortBy="#{resultDto.price}">
+                                        <h:outputText value="#{resultDto.price}">
+                                            <f:convertNumber type="currency" currencySymbol="VNĐ" maxFractionDigits="6"
+                                                             minFractionDigits="0" locale="vi_VN"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Mô tả chi tiết">
+                                        <h:outputText value="#{resultDto.detail}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Hình ảnh đại diện" styleClass="text-center">
+                                        <p:graphicImage styleClass="image-grid" name="#{resultDto.path}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Sửa"
+                                              exportable="false" style="width: 30px">
+                                        <div class="my-data-table">
+                                            <p:commandLink styleClass="edit"
+                                                           oncomplete="PF('dialogInsertUpdate').show();"
+                                                           update="dlForm growl"
+                                                           actionListener="#{shippingController.showUpdatePopup(resultDto)}">
+                                                <i class="fa fa-edit"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Xóa"
+                                              exportable="false" style="width: 30px">
+                                        <div class="my-data-table">
+                                            <p:commandLink styleClass="delete"
+                                                           actionListener="#{shippingController.onDelete(resultDto)}"
+                                                           update="tblSearchResult growl searchForm">
+                                                <p:confirm header="Xác nhận xóa" message="Bạn chắc chắn muốn xóa ?"
+                                                           icon="fa fa-question-circle"/>
+                                                <i class="fa fa-remove"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

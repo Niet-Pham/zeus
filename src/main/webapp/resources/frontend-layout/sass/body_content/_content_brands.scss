@@ -1,0 +1,55 @@
+.content-brands {
+    //background-image: url("\#{resource['frontend-layout:img/brand_background1.jpg']}");
+    background-image: url("\#{resource['frontend-layout:img/after-brand.jpg']}");
+    background-size: contain;
+    margin-top: 5rem;
+    .container-fluid {
+        >.row {
+            padding: 0 4rem;
+            h1 {
+                text-transform: uppercase;
+            }
+            h1,
+            a {
+                color: $third-color;
+                text-align: center;
+                width: 100%;
+                padding-top: 2rem;
+                padding-bottom: 1rem;
+            }
+            .owl-carousel {
+                width: 100%;
+                padding: 2rem 0;
+                .owl-stage-outer {
+                    border-radius: 1rem;
+                    .owl-stage {
+                        .owl-item {
+                            width: 400px !important;
+                            height: 250px;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 1rem;
+                            }
+                        }
+                    }
+                }
+                .owl-nav,
+                .owl-dots {
+                    display: none;
+                }
+            }
+            a {
+                font-size: 18px;
+                i {
+                    padding: 0 0.7rem;
+                }
+                &:hover {
+                    color: $primary-color;
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

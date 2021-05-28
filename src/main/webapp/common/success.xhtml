@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/admin/template/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li><p:link outcome="/admin/common/success">Thành công</p:link></li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="mainForm">
+
+            <div class="ui-g-12 card no-margin">
+
+                <div class="ui-g-12 ui-fluid">
+                    <div class="ui-g">
+                        <div class="ui-g-12" style="text-align: center">
+                            <p:graphicImage name="images/completed.png" width="60" />
+                        </div>
+
+                        <div class="ui-g-12 my-detail-note my-border-bottom" style="text-align: center">Bạn đã lưu thông tin thành công !</div>
+                    </div>
+                </div>
+
+                <div class="ui-g-12" style="text-align: right">
+                    <p:button id="btnReset" value="Về trang chủ" icon="fa fa-check-circle" outcome="/admin/trang-chu"/>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

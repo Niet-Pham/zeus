@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <c:if test="#{formId == null}">
+        <c:set var="formId" value="dlForm"/>
+    </c:if>
+
+    <p:fileUpload id="hinhAnh" fileUploadListener="#{uploadMultipleImageController.onUploadImage}"
+                  mode="advanced"
+                  dragDropSupport="true"
+                  auto="true"
+                  multiple="true" update="fileListPanel growl"
+                  sizeLimit="10000000"
+                  fileLimit="10"
+                  label="Tải ảnh" uploadLabel="Tải lên" cancelLabel="Hủy bỏ"/>
+
+    <p:outputPanel id="fileListPanel" style="margin-top: 5px;">
+        <p:repeat value="#{uploadMultipleImageController.uploadMultipleFileDto.listToShow}" var="itemVar1" varStatus="status">
+            <div class="ui-g-12 ui-lg-3 my-card-image-border" style="text-align: center;">
+                <p:graphicImage id="galery_image_#{status.index}"
+                                style="height: 150px; width: 150px; object-fit: contain; border-radius: 10px;"
+                                name="#{itemVar1}"/>
+                <br/>
+                <p:commandButton
+                        actionListener="#{uploadMultipleImageController.onRemoveImage(itemVar1)}"
+                        update="#{formId}:fileListPanel"
+                        styleClass="red-btn"
+                        style="width:30px;"
+                        process="@this"
+                        icon="ui-icon-trash">
+                    <p:confirm header="Xác nhận xóa ảnh" message="Bạn chắc chắn muốn xóa ảnh này?"/>
+                </p:commandButton>
+            </div>
+        </p:repeat>
+    </p:outputPanel>
+
+</ui:composition>

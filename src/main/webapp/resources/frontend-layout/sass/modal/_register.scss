@@ -1,0 +1,48 @@
+#register-modal {
+  .modal-dialog {
+    .modal-content {
+      border: 1px solid $third-color;
+      border-radius: 1rem;
+      .modal-header {
+        background-color: $primary-color;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        .modal-title {
+          width: 100%;
+          text-align: center;
+          color: $third-color;
+        }
+        .close {
+          color: $third-color;
+        }
+      }
+      .modal-body {
+        .lost-password-btn {
+          text-align: right;
+          font-style: italic;
+          font-size: 14px;
+          a {
+            color: $primary-color;
+            &:hover {
+              color: $primary-color-blur;
+            }
+          }
+        }
+        .btn-custom {
+          background-color: $primary-color !important;
+          color: $third-color !important;
+          width: 100%;
+          &:hover {
+            background-color: $primary-color-blur;
+          }
+        }
+      }
+      .modal-footer {
+        text-align: center;
+        .signup {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

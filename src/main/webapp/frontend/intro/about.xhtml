@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                template="/frontend/template/template_detail.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{contactInfoLhFEController.findAboutInfo()}"/>
+    </f:metadata>
+
+    <ui:define name="title">Giới thiệu</ui:define>
+    <ui:param name="bodyStyleClass" value="about" />
+    <ui:param name="headerStyleClass" value="is-sticky fixed-header" />
+
+    <ui:define name="breadcrumb">
+        <li>Giới thiệu</li>
+    </ui:define>
+
+    <ui:define name="screenTitle">
+        <h2>Giới thiệu</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-md-9 col-sm-12 col-xs-12 unit-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Thông tin đơn vị</div>
+                    <div class="panel-body">
+                        <div class="info" style="text-align: justify">
+                            <h:outputText escape="false" value="#{contactInfoLhFEController.aboutUnitInfor}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Nhân sự</div>
+                    <div class="panel-body">
+                        <div class="info" style="text-align: justify">
+                            <h:outputText escape="false" value="#{contactInfoLhFEController.aboutHumanResource}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Chức năng nhiệm vụ</div>
+                    <div class="panel-body">
+                        <div class="info" style="text-align: justify">
+                            <h:outputText escape="false" value="#{contactInfoLhFEController.aboutFunction}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ui:include src="work-time.xhtml"/>
+        </div>
+    </ui:define>
+</ui:composition>

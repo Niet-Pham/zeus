@@ -1,0 +1,506 @@
+.product .breadcrumb {
+    margin-bottom: 0;
+}
+
+.schedul-list {
+    background: #f9f9f9 none repeat scroll 0 0;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.schedul-img {
+    float: left;
+    height: 203px;
+    margin-right: 30px;
+    width: 263px;
+}
+
+.schedul-content {
+    overflow: hidden;
+    padding: 0;
+    height: 203px;
+}
+
+.schedul-name {
+    padding-top: 28px;
+}
+
+.schedul-info {
+    border-right: 1px dashed #ebebeb;
+    float: left;
+    height: 100%;
+    width: 75%;
+}
+
+.schedul-price {
+    width: 25%;
+    float: left;
+    text-align: center;
+    padding-top: 35px;
+}
+
+.schedul-meta {
+    margin: 0 -12px;
+    padding-bottom: 15px;
+    padding-top: 10px;
+}
+
+.schedul-meta>p {
+    border-right: 1px solid #282828;
+    color: #969696;
+    display: inline-block;
+    font-style: italic;
+    line-height: 100%;
+    padding: 0 12px;
+}
+
+.schedul-meta>p:last-child {
+    border-right: none;
+}
+
+.schedul-meta p span {
+    color: #282828;
+}
+
+.schedul-desc>p {
+    color: #686767;
+    font-size: 13px;
+}
+
+.schedul-price .price {
+    padding-bottom: 31px;
+}
+
+.schedul-price .price>p {
+    color: #a4a3a3;
+    font-size: 16px;
+}
+
+.schedul-price .price>p span {
+    color: #e81e30;
+    font-size: 24px;
+    padding-top: 3px;
+    font-family: $title_heading_font;
+    display: block
+}
+
+.schedul-price .btn {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    color: #e81e30;
+}
+
+.schedul-price .btn:hover {
+    background: #e81e30;
+    border-color: #e81e30;
+    color: #fff;
+}
+
+
+/* -----------------------------
+   Slider 
+------------------------------*/
+
+.main-slide {
+    height: 600px;
+    display: table;
+    width: 100%;
+    background: url("\#{resource['frontend-layout:images/bg-new.jpg']}") no-repeat center center;
+    background-size: cover;
+    position: relative;
+    .slide {
+        height: 600px;
+        display: table-cell;
+        vertical-align: middle;
+        h2 {
+            color: #fff;
+            font-size: 45px;
+            font-weight: bold;
+        }
+        p {
+            color: #fff;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            font-family: $title_heading_font;
+        }
+        .btn-default {
+            background: none;
+            border-color: #fff;
+            &:hover {
+                background: #e81e30;
+                border-color: #e81e30;
+            }
+        }
+        .btn-primary {
+            padding: 15px 32px;
+            margin-right: 7px;
+        }
+        .content-slide {
+            border-left: 5px solid $primary_color;
+            padding-left: 14px;
+            margin-left: 100px;
+            h2 {
+                text-transform: none;
+            }
+            p {
+                font-size: 22px;
+            }
+            span {
+                background: url("\#{resource['frontend-layout:images/line.png']}") repeat-x;
+                padding-left: 25px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                background-size: cover;
+            }
+        }
+    }
+}
+
+.search-form {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    .form-control {
+        height: 42px;
+    }
+    .search-area {
+        background: $primary_color;
+        padding: 30px 30px 20px 30px;
+        border-radius: 8px;
+        position: relative;
+    }
+    .search-btn {
+        background: #F87211;
+        text-transform: uppercase;
+        font-size: 16px;
+        border: none;
+        width: 100%;
+        height: 42px;
+        line-height: 32px;
+    }
+}
+
+.home {
+    .main {
+        .title-heading {
+            margin-top: 30px;
+        }
+    }
+}
+
+.toolbar {
+    p {
+        display: inline-block;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 50px;
+        margin-right: 10px;
+        margin-top: 5px;
+
+        i {
+            margin-right: 10px;
+        }
+    }
+}
+
+.connect-slider {
+    margin-top: 70px;
+    img {
+        width: 100%;
+        height: 160px;
+    }
+    .slick-arrow {
+        background: #fff;
+        border: medium none;
+        height: 45px;
+        position: absolute;
+        top: 47%;
+        transform: translateY(-50%);
+        width: 48px;
+        font-size: 30px;
+        color: #000;
+        border-radius: 50%;
+        z-index: 9;
+    }
+    .btn-next.slick-arrow {
+        left: -25px;
+        background: #fff;
+        padding-right: 10px;
+        text-align: right;
+    }
+    .btn-prev.slick-arrow {
+        padding-left: 10px;
+        right: -25px;
+        text-align: left;
+    }
+}
+
+
+/* -----------------------------
+   Login
+------------------------------*/
+
+.modal-login {
+    margin-top: 5%;
+    border-radius: 5px;
+}
+
+.image-holder {
+    display: inline-block;
+    width: 488px;
+    float: left;
+    height: 579px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("\#{resource['frontend-layout:images/bg-new.jpg']}");
+    background-position: center;
+    //img {
+    //    border-top-left-radius: 5px;
+    //    border-bottom-left-radius: 5px;
+    //}
+}
+
+.form-holder {
+    display: inline-block;
+    width: 454px;
+    height: 538px;
+    .login-form {
+        padding: 30px 60px;
+        input[type=button] {
+            height: auto !important;
+            padding: 15px 30px;
+        }
+        input[type=submit] {
+            height: auto !important;
+            padding: 15px 30px;
+        }
+        .lost-password-btn {
+            display: inline-block;
+            float: right;
+            a {}
+        }
+        .checkbox,
+        .radio {
+            position: relative;
+            display: inline-block;
+            margin-top: 0px;
+            /* margin-bottom: 10px; */
+        }
+        .checkbox label:after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+        .checkbox label,
+        .radio label {
+            padding-left: 0px;
+        }
+        .checkbox .cr {
+            position: relative;
+            display: inline-block;
+            border: 1px solid $primary_color;
+            border-radius: .25em;
+            width: 1.3em;
+            height: 1.3em;
+            float: left;
+            margin-right: .5em;
+        }
+        .checkbox .cr .cr-icon {
+            position: absolute;
+            font-size: .8em;
+            line-height: 0;
+            top: 50%;
+            left: -10%;
+            color: $primary_color;
+        }
+        .checkbox label input[type="checkbox"] {
+            display: none;
+        }
+        .checkbox label input[type="checkbox"]+.cr>.cr-icon {
+            opacity: 0;
+        }
+        .checkbox label input[type="checkbox"]:checked+.cr>.cr-icon {
+            opacity: 1;
+        }
+        .checkbox label input[type="checkbox"]:disabled+.cr {
+            opacity: .5;
+        }
+    }
+    h3 {
+        text-transform: none;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    a {
+        display: inline-block;
+        color: $primary_color;
+    }
+    label {
+        color: $main_color;
+        margin-bottom: 5px;
+    }
+    .checkbox input[type=checkbox] {
+        top: -4px;
+    }
+    .form-group {
+        margin-top: 20px;
+    }
+}
+
+
+/* -----------------------------
+   Register
+------------------------------*/
+
+.register-form {
+    padding: 40px 40px 20px 40px;
+    line-height: 25px;
+    input[type=button] {
+        height: auto !important;
+    }
+    input[type=submit] {
+        height: auto !important;
+    }
+    .input-group-addon {
+        padding: 0px 0px;
+        background: #fff;
+        border-left: none;
+    }
+    input {
+        height: 38px;
+    }
+    form {
+        font-size: 13px;
+        margin-top: 30px;
+    }
+    h3 {
+        text-transform: none;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    a {
+        display: inline-block;
+        color: $primary_color;
+    }
+    label {
+        color: $main_color;
+        margin-bottom: 5px;
+        line-height: 40px;
+        span {
+            display: inline-block;
+        }
+    }
+    input[type="radio"] {
+        height: 16px;
+        display: inline-block;
+    }
+    /* The radio */
+    .radio {
+        display: block;
+        height: 30px;
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        cursor: pointer;
+        font-size: 13px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+    }
+    /* Hide the browser's default radio button */
+    .radio input {
+        position: relative;
+        opacity: 0;
+        cursor: pointer;
+    }
+    /* Create a custom radio button */
+    .checkround {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border-color: #FFC499;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 50%;
+    }
+    /* When the radio button is checked, add a blue background */
+    .radio input:checked~.checkround {
+        background-color: #fff;
+    }
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkround:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    /* Show the indicator (dot/circle) when checked */
+    .radio input:checked~.checkround:after {
+        display: block;
+    }
+    /* Style the indicator (dot/circle) */
+    .radio .checkround:after {
+        left: 4px;
+        top: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #F19B40;
+    }
+    .type-register {
+        border-bottom: 1px solid #ECECEC;
+        border-top: 1px solid #ECECEC;
+    }
+    .btn-custom {
+        padding: 15px 30px;
+    }
+    .input-group {
+        &.date {
+            input {
+                border-right: none;
+            }
+        }
+    }
+}
+
+
+/* -----------------------------
+   My Account
+------------------------------*/
+
+.update-info {
+    .register-form {
+        padding: 0px 0px;
+        margin-bottom: 50px;
+        form {
+            margin-top: 0px;
+        }
+    }
+}
+
+.auction-form {
+    .row {
+        line-height: 20px;
+    }
+    .btn-custom {
+        padding: 15px 30px;
+    }
+    input[type=button] {
+        height: auto !important;
+    }
+    input[type=submit] {
+        height: auto !important;
+    }
+}
+
+.registed-asset {
+    padding-bottom: 40px;
+    .product-one-columns {
+        margin-top: 0px;
+    }
+}

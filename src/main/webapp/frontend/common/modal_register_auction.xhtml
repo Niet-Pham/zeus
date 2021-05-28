@@ -1,0 +1,136 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{storeReqFEController.showInfo}"/>
+    </f:metadata>
+
+    <!-- Modal Register Store-->
+    <div class="modal fade" id="storePopup">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal">&#xd7;</button>
+                <div class="register-area store-form">
+                    <div class="register-form">
+                        <h3>Đăng ký bán tài sản</h3>
+                        <h:form role="form" id="store_form_register" prependId="false">
+                            <div class="row">
+                                <div class="warning-text col-md-12 col-xs-12 col-sm-12 mb-20">
+                                    <p>Bạn vui lòng nhập đầy đủ các trường</p>
+                                    <h:outputLabel rendered="#{authorizationFEController.getAccountDto().getAccountId() eq null}" style="display: inline-flex">
+                                        <h:messages id="#{Constant.ERROR_MESSAGE_ID_1}" style="color: #d33333"/>
+                                        <a href="#" onclick="closeModal('#RegisterPopup'); resetModal(this);focusInput('login_account')" data-toggle="modal" data-target="#loginPopup">Đăng nhập ngay</a>
+                                    </h:outputLabel>
+                                </div>
+                                <div id="personal-content-form" class="personal box active">
+                                    <div class="col-md-6 col-xs-12 col-sm-12">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12">Tên CN/TC</div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        <c:if test="#{!authorizationFEController.accountDto.org}">
+                                                            <b>#{authorizationFEController.accountDto.fullName}</b>
+                                                        </c:if>
+                                                        <c:if test="#{authorizationFEController.accountDto.org}">
+                                                            <b>#{authorizationFEController.accountDto.orgName}</b>
+                                                        </c:if>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12">Địa chỉ</div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        <b><h:outputText value="#{authorizationFEController.accountDto.address}, #{authorizationFEController.accountDto.nameCommune}, #{authorizationFEController.accountDto.nameDistrict}, #{authorizationFEController.accountDto.nameProvice}" rendered="#{!authorizationFEController.accountDto.org}" style="text-transform:capitalize;"/></b>
+                                                        <b><h:outputText value="#{authorizationFEController.accountDto.orgAddress}, #{authorizationFEController.accountDto.nameCommune}, #{authorizationFEController.accountDto.nameDistrict}, #{authorizationFEController.accountDto.nameProvice}" rendered="#{authorizationFEController.accountDto.org}" style="text-transform:capitalize;"/></b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-xs-12 col-sm-12">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12">Điện thoại CN/TC</div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        <b>#{authorizationFEController.accountDto.phone}</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12">Địa chỉ email</div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        <b>#{authorizationFEController.accountDto.email}</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 col-sm-12">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <label class="col-md-2 col-sm-4 col-xs-12">Tên tài sản</label>
+                                                    <div class="col-md-10 col-sm-8 col-xs-12">
+                                                        <h:inputText styleClass="form-control asset_name" name="asset_name" id="asset_name"
+                                                                     type="text" placeholder="Tên tài sản" maxlength="1000" onblur="this.value = this.value.trim()"
+                                                                     value="#{storeReqFEController.storeReq.assetName}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 col-sm-12">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <label class="col-md-2 col-sm-4 col-xs-12">Mô tả tài sản</label>
+                                                    <div class="col-md-10 col-sm-8 col-xs-12">
+                                                        <h:inputTextarea styleClass="form-control text-left asset_description" type="text" id="asset_description" name="asset_description"
+                                                                         rows="10" cols="50" placeholder="Nhập mô tả tài sản" onblur="this.value = this.value.trim()"
+                                                                         value="#{storeReqFEController.storeReq.assetDescription}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12 submit-area text-left">
+                                    <div class="form-wrap">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label class="col-md-8 col-sm-8 col-xs-12"/>
+                                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                                    <input type="submit" value="Đăng ký bán"
+                                                           Class="btn btn-custom main-color"
+                                                           onclick="validateForm()"/>
+                                                    <h:commandButton id="saveStoreReq" style="display: none"
+                                                                     action="#{storeReqFEController.saveStoreReq}">
+                                                        <f:ajax execute="@form" render="@form #{Constant.ERROR_FE_GROWL_ID} :scriptResetListener"/>
+                                                    </h:commandButton>
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                                    <input type="button" value="Hủy bỏ" class="btn btn-default btn-custom reset" onclick="closeModal('#storePopup');"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

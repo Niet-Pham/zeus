@@ -1,0 +1,45 @@
+/* -----------------------------
+   Regulation
+------------------------------*/
+
+.regulation_detail {
+    .side-breadcrumb {
+        h2 {
+            text-transform: none;
+        }
+    }
+    .time-wrap {
+        margin-bottom: 25px;
+        .icon-product {
+            margin: 25px 10px 25px 0px;
+        }
+        .countdown-wrapper {
+            display: inline-block;
+            text-align: center;
+        }
+    }
+    .icon-product {
+        margin: 10px 10px 10px 0px;
+    }
+    .time-start {
+        margin-bottom: 25px;
+    }
+    .circle {
+        margin-bottom: 30px;
+    }
+    .countdown-wrapper {
+        width: 85%;
+        padding: 5px 5px;
+    }
+}
+
+p.view-more {
+    text-align: right;
+    padding: 20px;
+    a {
+        color: $primary_color;
+        &:hover {
+            color: #F87211;
+        }
+    }
+}

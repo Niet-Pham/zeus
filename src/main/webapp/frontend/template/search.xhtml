@@ -1,0 +1,73 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{searchFEController.initData}"/>
+    </f:metadata>
+
+    <h:form prependId="false" styleClass="form-inline">
+        <i class="fas fa-search fa-sm search-function" onclick="searchClick(true);"/>
+        <div class="search-function__input">
+            <h:inputText id="txtSearch" styleClass="form-control mr-sm-2 nav-search"
+                         value="#{searchFEController.keyword}" placeholder="Tìm kiếm" onkeypress="getData();"/>
+            <i class="fas fa-times fa-sm search-cancel" onclick="searchClick(false);"/>
+        </div>
+        <p:remoteCommand name="getData" actionListener="#{searchFEController.onSearch}" update="loadDataSearch" />
+        <p:remoteCommand name="redirectPage" global="false" actionListener="#{searchFEController.redirectPage()}"/>
+        <h:panelGroup id="loadDataSearch">
+            <script>
+                //<![CDATA[
+                // press esc to exit search form
+                $(document).on('keydown', function(e) {
+                    if (e.keyCode === 27) {
+                        searchClick(false);
+                    }
+                });
+
+                var lang = {
+                    'product': 'Sản phẩm',
+                    'category': 'Nhãn hiệu',
+                    'brand': 'Thương hiệu',
+                    'news': 'Tin tức'
+                };
+
+                (function() {
+                    var data = '#{searchFEController.searchDtoJson}';
+                    if (data !== '') {
+                        data = JSON.parse(data);
+                    } else {
+                        return;
+                    }
+                    $('#txtSearch').autocomplete({
+                        source: function(request, response) {
+                            response($.map(data, function(obj, key) {
+                                var name = obj.name;
+                                if (name.indexOf(request.term) !== -1) {
+                                    return {
+                                        label: obj.name + ' (' + lang[obj.type] + ')',
+                                        value: obj.type + '_' + obj.object_id
+                                    }
+                                } else {
+                                    return null;
+                                }
+                            }));
+                        },
+                        focus: function(event, ui) {
+                            event.preventDefault();
+                        },
+                        select: function(event, ui) {
+                            event.preventDefault();
+                            $('#txtSearch').val(ui.item.label);
+                            redirectPage([{name:'data', value: ui.item.value}]);
+                        }
+                    });
+                })();
+                //]]>
+            </script>
+        </h:panelGroup>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,91 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+    <!-- Modal Login -->
+    <div class="modal fade" id="loginPopup">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal">&#xd7;</button>
+                <div class="login-area">
+                    <div class="image-holder"></div>
+                    <div class="form-holder">
+                        <div class="login-form">
+                            <h3>Đăng nhập</h3>
+                            <p>Bạn chưa có tài khoản?
+                                <a href="#" onclick="closeModal('#loginPopup');openModalRegister(this);" data-toggle="modal" data-target="#RegisterPopup" >Đăng ký ngay</a>
+                            </p>
+                            <h:form role="form" prependId="false" id="login-form">
+                                <input id="scrt_login" type="hidden" value="#{authorizationFEController.cryptoSecretKey}"/>
+                                <div class="form-wrap">
+                                    <h:panelGroup id="resend" layout="block">
+                                        <h:panelGroup rendered="#{authorizationFEController.checkActiveStatus}"
+                                                      layout="block"
+                                                      style="background: #fcf9b4;padding: 5px 10px;border-radius: 3px;border: 1px solid #fae490;margin-top: 5px">
+                                            <h:outputLabel value="Tài khoản của bạn chưa được kích hoạt" /><br/>
+                                            <h:commandLink value="Gửi lại email kích hoạt" actionListener="#{authorizationFEController.sendActiveEmail}">
+                                                <f:ajax execute="@this" render="resend #{Constant.ERROR_FE_GROWL_ID}" />
+                                            </h:commandLink>
+                                            <style>.form-holder .login-form { padding-top: 0; }</style>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                    <div class="form-group">
+                                        <label class="control-label" for="login_account">Tên đăng nhập</label>
+                                        <input class="form-control"
+                                               onkeyup="_inf_c_th(this, 'npt_accnt', 'scrt_login');"
+                                               onchange="_inf_c_th(this, 'npt_accnt', 'scrt_login');"
+                                               id="login_account"/>
+                                        <h:inputHidden id="npt_accnt" value="#{authorizationFEController.accountDto.userName}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="login_password">Mật khẩu</label>
+                                        <input class="form-control"
+                                               onkeyup="_inf_c_th(this, 'npt_psswd', 'scrt_login');"
+                                               onchange="_inf_c_th(this, 'npt_psswd', 'scrt_login');"
+                                               id="login_password" type="password"/>
+                                        <h:inputHidden id="npt_psswd" value="#{authorizationFEController.accountDto.password}"/>
+                                    </div>
+                                    <h:panelGroup id="recaptcha">
+                                        <h:panelGroup rendered="#{authorizationFEController.showCaptcha and authorizationFEController.requiredCaptcha}">
+                                            <div class="form-group">
+                                                <div class="g-recaptcha" id="login-g-pesonal" data-size="small"
+                                                     data-sitekey="#{initParam['primefaces.PUBLIC_CAPTCHA_KEY']}"></div>
+                                            </div>
+                                            <style>.form-holder .login-form { padding: 0 60px; }</style>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <h:selectBooleanCheckbox type="checkbox" value="#{authorizationFEController.rememberLogin}"/>
+                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"/></span>Nhớ tài khoản
+                                            </label>
+                                        </div>
+                                        <div class="lost-password-btn">
+                                            <a href="#" onclick="closeModal('#loginPopup');resetModal(this);onShowLostPassword();" data-toggle="modal" data-target="#lostPassPopup">Quên mật khẩu</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:commandButton id="loginButton"
+                                                         value="Đăng nhập"
+                                                         styleClass="btn btn-custom main-color"
+                                                         action="#{authorizationFEController.login}">
+                                            <f:ajax execute="@form" render="resend recaptcha loginButton #{Constant.ERROR_FE_GROWL_ID}"/>
+                                        </h:commandButton>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p:remoteCommand name="cmdOpenModalLogin" update="login-form"
+                     actionListener="#{authorizationFEController.initLoginModal()}"/>
+
+</ui:composition>

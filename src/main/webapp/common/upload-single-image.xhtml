@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:fileUpload mode="advanced" allowTypes="/(\.|\/)(gif|GIF|jpe?g|JPE?G|png|PNG)$/"
+                  auto="true" label="Tải ảnh"
+                  onstart="PF('statusDialog').show();"
+                  oncomplete="PF('statusDialog').hide();"
+                  fileUploadListener="#{uploadSingleImageController.onUploadImage}"
+                  update="singleImage #{Constant.ERROR_GROWL_ID}" />
+
+    <p:outputPanel id="singleImage" style="margin-top: 5px;">
+        <p:panel style="border: 0" rendered="#{not empty uploadSingleImageController.imagePath}">
+            <div class="my-card-image-border ui-g-12 ui-lg-3" style="text-align: center;">
+                <p:graphicImage  style="height: 150px; width: 150px; object-fit: contain;"
+                                name="#{uploadSingleImageController.imagePath}"/>
+                <br/>
+                <p:commandButton
+                        actionListener="#{uploadSingleImageController.onRemoveImage}"
+                        rendered="#{uploadSingleImageController.showDeleteButton}"
+                        update="singleImage" process="@this"
+                        styleClass="red-btn"
+                        style="width:auto;min-width: 30px;"
+                        icon="ui-icon-trash">
+                    <p:confirm header="Xác nhận xóa ảnh" message="Bạn chắc chắn muốn xóa ảnh này?"/>
+                </p:commandButton>
+            </div>
+        </p:panel>
+
+    </p:outputPanel>
+
+</ui:composition>

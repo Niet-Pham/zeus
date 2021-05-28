@@ -1,0 +1,159 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/admin/template/template.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{authorizationController.initMyAccount}"/>
+    </f:metadata>
+
+    <ui:define name="title">Tài khoản của tôi</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li><p:link outcome="/admin/tai-khoan-cua-toi">Tài khoản của tôi</p:link></li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="mainForm">
+            <style>
+                .city-district-style {
+                    padding-right: 0 !important;
+                }
+                .address-home-style {
+                    padding-left: 0 !important;
+                }
+            </style>
+            <div class="card no-margin">
+                <div class="ui-fluid">
+                    <p:panel id="condition" header="Thông tin tài khoản" style="margin-bottom:5px">
+                        <p:focus id="focus"/>
+                        <p:panelGrid id="basicPanel1" columns="4"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     styleClass="ui-panelgrid-blank" layout="grid">
+
+                            <p:outputLabel value="Họ và tên:" for="fullname"/>
+                            <p:outputPanel>
+                                <p:inputText id="fullname" placeholder="Họ và tên"
+                                             requiredMessage="Bạn vui lòng nhập họ tên" required="true"
+                                             onblur="this.value = this.value.trim()"
+                                             value="#{authorizationController.accountDto.fullName}" maxlength="50"/>
+                                <p:message id="id-fullname" for="fullname" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+
+
+                            <p:outputLabel value="Điện thoại:" for="phone"/>
+                            <p:outputPanel>
+                                <p:inputText id="phone" value="#{authorizationController.accountDto.phone}"
+                                             maxlength="11" minlength="10"
+                                             placeholder="Nhập số điện thoại" thousandSeparator="" decimalPlaces="0"
+                                             autoWidth="false" effect="fade" leadingZero="false" tabindex="11"
+                                             validatorMessage="Số điện thoại không đúng định dạng">
+                                    <f:validateRegex pattern="^0[1-9]{1}[0-9]{8,9}$"/>
+                                </p:inputText>
+                                <p:message id="id-phone" for="phone" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+
+                            <p:outputLabel value="Tên đăng nhập:" styleClass="requireLabel" for="username"/>
+                            <p:outputPanel>
+                                <p:inputText id="username" placeholder="#{authorizationController.accountDto.updateName}" disabled="true"/>
+                                <p:message id="id-username" for="username" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+
+                            <p:outputLabel value="Giới tính:" for="gender"/>
+                            <p:outputPanel>
+                                <p:selectOneMenu id="gender" value="#{authorizationController.accountDto.gender}">
+                                    <f:selectItem itemLabel="Chọn giới tính" itemValue=""/>
+                                    <f:selectItem itemValue="0" itemLabel="Nam"/>
+                                    <f:selectItem itemValue="1" itemLabel="Nữ"/>
+                                    <f:selectItem itemValue="2" itemLabel="Không xác định"/>
+                                </p:selectOneMenu>
+                                <p:message id="id-gender" for="gender" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+
+                            <p:outputLabel value="Địa chỉ email:" for="email"/>
+                            <p:outputPanel>
+                                <p:inputText id="email" placeholder="Nhập email" maxlength="50" required="true"
+                                             validatorMessage="Email không đúng định dạng"
+                                             onblur="this.value = this.value.trim()"
+                                             requiredMessage="Bạn vui lòng nhập địa chỉ email"
+                                             value="#{authorizationController.accountDto.email}">
+                                    <f:validateRegex
+                                            pattern="^\s*[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})\s*$"/>
+                                </p:inputText>
+                                <p:message id="id-email" for="email" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+
+                            <p:outputLabel value="Ngày sinh:" for="dateOfBirth"/>
+                            <p:outputPanel>
+                                <p:calendar id="dateOfBirth" styleClass="calendar"
+                                            mask="true"
+                                            navigator="true"
+                                            onchange="this.value = this.value.trim()"
+                                            mode="popup"
+                                            yearRange="c-50:c"
+                                            placeholder="Chọn ngày sinh"
+                                            value="#{authorizationController.accountDto.dateOfBirth}"
+                                            maxdate="#{authorizationController.now}"
+                                            validatorMessage="Ngày sinh không được lớn hơn ngày hiện tại!">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:calendar>
+                                <p:message id="id-dateOfBirth" for="dateOfBirth" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+
+
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="3" columnClasses="ui-grid-col-2, ui-grid-col-8 city-district-style, ui-grid-col-2 address-home-style"
+                                     styleClass="ui-panelgrid-blank" layout="grid" >
+                            <p:outputLabel value="Địa chỉ:" for="address"/>
+                            <p:outputPanel>
+                                <p:panelGrid id="address" columns="3" layout="grid" styleClass="ui-panelgrid-blank"
+                                             columnClasses="ui-no-margin-padding,ui-no-margin-padding,ui-no-margin-padding">
+                                    <ui:include src="/common/tinh-quan-phuong.xhtml"/>
+                                </p:panelGrid>
+                                <p:message id="id-address" for="address" styleClass="focus-input-text" display="text"/>
+                            </p:outputPanel>
+                            <p:inputText id="address-home" placeholder="Nhập địa chỉ nhà"
+                                         onchange="this.value = this.value.trim()"
+                                         maxlength="100" value="#{authorizationController.accountDto.address}"/>
+                        </p:panelGrid>
+
+                        <p:panelGrid id="avatar" columns="4"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     styleClass="ui-panelgrid-blank" layout="grid">
+                            <p:outputLabel value="Ảnh đại diện:"/>
+                            <p:panelGrid columns="1" columnClasses="ui-grid-col-12 ui-no-margin-padding">
+                                <p:fileUpload id="fileUpload" mode="advanced"
+                                              allowTypes="/(\.|\/)(gif|GIF|jpe?g|JPE?G|png|PNG)$/"
+                                              fileUploadListener="#{authorizationController.onUpload}"
+                                              label="Chọn hình ảnh"
+                                              update="mainForm"
+                                              dragDropSupport="false" auto="true">
+                                </p:fileUpload>
+                                <p:graphicImage rendered="#{empty authorizationController.accountDto.imagePath}"
+                                                name="images/noavatar.png" library="apollo-layout"
+                                                style="margin-top: 10px;"/>
+                                <p:graphicImage rendered="#{not empty authorizationController.accountDto.imagePath}"
+                                                name="#{authorizationController.accountDto.imagePath}"
+                                                style="width: 160px; height: 160px; margin-top: 10px;"/>
+                            </p:panelGrid>
+                            <p:outputPanel/>
+                            <p:outputPanel/>
+                        </p:panelGrid>
+
+                        <p:outputLabel>
+                            <p:commandButton actionListener="#{authorizationController.onSaveData()}"
+                                             value="Cập nhật"
+                                             update="mainForm topbar
+                                             id-fullname id-gender id-dateOfBirth
+                                             id-address id-phone id-email focus"
+                                             style="margin-top:5px;margin-left: 10px; width: auto;"
+                                             icon="fa fa-save"/>
+                        </p:outputLabel>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

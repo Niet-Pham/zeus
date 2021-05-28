@@ -1,0 +1,199 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/frontend/template/template2.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{profileController.initData}"/>
+    </f:metadata>
+
+    <ui:define name="title">Tài khoản của tôi</ui:define>
+
+    <ui:define name="head">
+        <style>
+            input[type="text"][disabled] {
+                color: #121113;
+            }
+
+            #uploadImage .ui-button-text {
+                padding-top: 8px !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="breadcrumb">
+        <p:menuitem value="Tài khoản của tôi" outcome="/frontend/profile.xhtml"/>
+    </ui:define>
+
+    <ui:define name="body-content">
+        <style>
+            .layout-content-container {
+                background-color: #EEF2F6;
+            }
+        </style>
+
+        <p:dialog header="Thay đổi địa chỉ email" widgetVar="changeEmailDialog" showEffect="clip" hideEffect="clip"
+                  width="600" height="auto" modal="true" id="dialogConfirmSaveEmail">
+            <h:form id="formDialog" styleClass="shows">
+                <div class="ui-fluid">
+                    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank"
+                                 columnClasses="ui-grid-col-12">
+                        <p:outputLabel value="Email mới: " for="newEmail" styleClass="requireLabel"/>
+                        <p:inputText id="newEmail" placeholder="Nhập email mới" maxlength="50"
+                                     onchange="this.value = this.value.trim()"
+                                     onkeypress="this.value = this.value.replace(' ', '');"
+                                     onkeyup="this.value = this.value.replace(' ', '');"
+                                     value="#{profileController.newEmail}" styleClass="input-new-style"
+                                     style="margin-bottom: 10px;"/>
+
+                        <p:outputLabel value="Mã xác nhận: " for="confirmCode" styleClass="requireLabel"
+                                       rendered="#{profileController.allowSendCode}"/>
+                        <p:inputText id="confirmCode" placeholder="Nhập mã xác nhận" maxlength="20"
+                                     rendered="#{profileController.allowSendCode}" styleClass="input-new-style"
+                                     value="#{profileController.accountDto.verifyCode}"
+                                     style="margin-bottom: 10px;"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank"
+                                 columnClasses="ui-grid-col-2.5, ui-grid-col-2.5, ui-grid-col-2.5">
+
+                        <p:commandButton value="Gửi mã" id="sendCodeButton"
+                                         icon="fa fa-save" style="width: 100%;"
+                                         update="#{Constant.ERROR_FE_GROWL_ID} formDialog" rendered="#{!profileController.allowSendCode}"
+                                         actionListener="#{profileController.onSendVerifyCode()}"/>
+
+                        <p:commandButton value="Xác nhận" id="saveEmailButton" widgetVar="buttonSaveEmail"
+                                         icon="fa fa-save" style="width: 100%;"
+                                         update="#{Constant.ERROR_FE_GROWL_ID} form"
+                                         rendered="#{profileController.allowSendCode}"
+                                         actionListener="#{profileController.onSaveEmail()}"/>
+
+                        <p:commandButton value="Hủy bỏ" styleClass="close" icon="fa fa-close" process="@this"
+                                         oncomplete="PF('changeEmailDialog').hide()"
+                                         update="form dialogConfirmSaveEmail"
+                                         actionListener="#{profileController.onCancelSaveEmail}"
+                                         style="width: 100px;"/>
+                    </p:panelGrid>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <div class="card" style="width: 50%; margin: auto; margin-bottom: 0.5em;margin-top: 80px">
+            <div class="ui-fluid">
+                <h:form prependId="false" id="form" styleClass="shows">
+                    <p:focus id="focus"/>
+
+                    <p:panelGrid columns="3" columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3"
+                                 styleClass="ui-panelgrid-blank" layout="grid">
+                        <p:outputPanel/>
+                        <p:outputPanel>
+                            <p:outputPanel id="singleImage" style="width: 245px; margin: auto; margin-bottom: 10px;">
+                                <div class="my-card-image-border row parent-image-file">
+                                    <p:graphicImage styleClass="image-file"
+                                                    style="width:200px;height: 200px;border-radius: 1rem; object-fit: cover"
+                                                    rendered="#{not empty uploadSingleImageController.imagePath}"
+                                                    name="#{uploadSingleImageController.imagePath}"/>
+                                    <p:graphicImage styleClass="image-file"
+                                                    style="width:200px;height: 200px;border-radius: 1rem; object-fit: cover"
+                                                    rendered="#{empty uploadSingleImageController.imagePath}"
+                                                    name="images/noavatar.png" library="apollo-layout"/>
+                                    <p:commandLink
+                                            actionListener="#{uploadSingleImageController.onRemoveImage}"
+                                            styleClass="command-hover"
+                                            rendered="#{uploadSingleImageController.showDeleteButton}"
+                                            update="singleImage"
+                                            process="@this">
+                                        <p:confirm header="Xác nhận xóa ảnh"
+                                                   message="Bạn chắc chắn muốn xóa ảnh này?"/>
+                                        <i class="fa fa-times"/>
+                                    </p:commandLink>
+                                </div>
+                            </p:outputPanel>
+                            <p:outputLabel/>
+
+                            <p:fileUpload mode="advanced" id="uploadImage"
+                                          auto="true" label="Tải ảnh"
+                                          style="text-align: center; margin-bottom: 20px; width: auto"
+                                          onstart="PF('statusDialog').show();"
+                                          oncomplete="PF('statusDialog').hide();"
+                                          fileUploadListener="#{uploadSingleImageController.onUploadImage}"
+                                          update="singleImage #{Constant.ERROR_FE_GROWL_ID}"/>
+                        </p:outputPanel>
+                        <p:outputLabel/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+                                 styleClass="ui-panelgrid-blank" layout="grid">
+                        <p:outputLabel value="Họ và tên:" for="fullName" styleClass="requireLabel"/>
+                        <p:inputText id="fullName" placeholder="Nhập họ và tên"
+                                     value="#{profileController.accountDto.fullName}"
+                                     onchange="this.value = this.value.trim()"
+                                     maxlength="50" styleClass="input-new-style" style="margin-bottom: 15px;"/>
+
+                        <p:outputLabel for="gender" value="Giới tính:" styleClass="requireLabel"/>
+                        <p:selectOneRadio id="gender" value="#{profileController.accountDto.gender}"
+                                          unselectable="false" style="margin-bottom: 15px;">
+                            <f:selectItem itemLabel="Nam" itemValue="#{DbConstant.MAN}"/>
+                            <f:selectItem itemLabel="Nữ" itemValue="#{DbConstant.WOMAN}"/>
+                        </p:selectOneRadio>
+
+                        <p:outputLabel value="Ngày sinh:" for="dateOfBirth" styleClass="requireLabel"/>
+                        <p:outputPanel style="margin-bottom: 15px;">
+                            <p:calendar id="dateOfBirth" placeholder="Nhập ngày sinh"
+                                        readonlyInput="true"
+                                        validatorMessage="Ngày sinh không hợp lệ"
+                                        value="#{profileController.accountDto.dateOfBirth}"
+                                        locale="de" navigator="true" pattern="dd/MM/yyyy"
+                                        maxdate="#{profileController.today}"
+                                        styleClass="input-new-style"/>
+                        </p:outputPanel>
+
+                        <p:outputLabel value="Số điện thoại:" for="phoneNumber" styleClass="requireLabel"/>
+                        <p:inputText id="phoneNumber" placeholder="Nhập số điện thoại"
+                                     onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                     onchange="this.value = this.value.trim()"
+                                     value="#{profileController.accountDto.phone}"
+                                     maxlength="11" styleClass="input-new-style" style="margin-bottom: 15px;"/>
+
+                        <p:outputLabel value="Email:" for="email" styleClass="requireLabel"/>
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-9 ui-no-margin-padding, ui-grid-col-3 ui-no-margin-padding"
+                                     styleClass="ui-panelgrid-blank" layout="grid" style="margin-bottom: 15px;">
+                            <p:inputText id="email" placeholder="Nhập email:"
+                                         value="#{profileController.accountDto.email}"
+                                         maxlength="50" styleClass="input-new-style" disabled="true"/>
+                            <p:commandButton id="btnChangeEmail" data-change="false" value="Thay đổi email"
+                                             style="width: auto; float: right" icon="fa fa-edit"
+                                             oncomplete="PF('changeEmailDialog').show()"/>
+                        </p:panelGrid>
+
+                        <p:outputLabel value="Địa chỉ:" for="address" styleClass="requireLabel"/>
+
+                        <p:outputPanel>
+                            <p:panelGrid id="address" columns="3" layout="grid" styleClass="ui-panelgrid-blank"
+                                         columnClasses="ui-no-margin-padding,ui-no-margin-padding,ui-no-margin-padding">
+                                <ui:include src="/common/tinh-quan-phuong.xhtml"/>
+                            </p:panelGrid>
+                            <p:message id="id-address" for="address" styleClass="focus-input-text" display="text"/>
+                        </p:outputPanel>
+                        <p:inputText id="address-home" placeholder="Nhập địa chỉ nhà"
+                                     onchange="this.value = this.value.trim()"
+                                     maxlength="100" value="#{profileController.accountDto.address}"/>
+
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="1" columnClasses="ui-grid-col-12" style="text-align: center"
+                                 styleClass="ui-panelgrid-blank" layout="grid">
+                        <p:commandButton value="Cập nhật"
+                                         icon="fa fa-save" style="width: auto;"
+                                         update="#{Constant.ERROR_FE_GROWL_ID} topbar form"
+                                         actionListener="#{profileController.onSave}"/>
+                    </p:panelGrid>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>

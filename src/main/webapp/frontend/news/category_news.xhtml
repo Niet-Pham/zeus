@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/frontend/template/template_detail.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{decisionNewsFEController.initData}"/>
+    </f:metadata>
+
+    <ui:define name="title">Tin tức</ui:define>
+    <ui:param name="bodyStyleClass" value="about"/>
+    <ui:param name="headerStyleClass" value="is-sticky fixed-header"/>
+
+    <ui:define name="breadcrumb">
+        <li>Tin tức</li>
+    </ui:define>
+
+    <ui:define name="screenTitle">
+        <h2>Tin tức</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="row">
+            <h:form prependId="true">
+                <div class="col-md-3 col-sm-12 col-xs-12 sidebar mb-f-r">
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-8 col-xs-8">
+                            <h:inputText id="simpleinput" class="form-control" type="text" style="height: 40px;"
+                                         maxlength="255" placeholder="Nhập tiêu đề tin tức"
+                                         value="#{decisionNewsFEController.title}"/>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-4 nopadding no-margin">
+                            <h:commandButton value="Tìm kiếm"
+                                             actionListener="#{decisionNewsFEController.loadDecisionNewsList()}"
+                                             styleClass="btn btn-warning growl search"/>
+                        </div>
+                    </div>
+                    <aside class="widget widget_worktime">
+                        <div class="title-widget has-divider">
+                            <h3 class="title-sidebar "><span>Tin mới nhất</span></h3>
+                        </div>
+                        <ui:include src="new-news.xhtml"/>
+                    </aside>
+                    <aside class="widget widget_newdocument">
+                        <div class="title-widget has-divider">
+                            <h3 class="title-sidebar "><span>Văn bản mới nhất</span></h3>
+                        </div>
+                        <ui:include src="new-decision-text.xhtml"/>
+                    </aside>
+                </div>
+            </h:form>
+            <div class="col-md-9 col-sm-12 col-xs-12 list-category-news">
+                <ui:repeat value="#{decisionNewsFEController.pagination.data}" var="ds">
+                    <h:panelGroup rendered="#{!ds.type}">
+                        <div class="news-item">
+                            <div class="row ">
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="text-align: justify;">
+                                    <div class="image-news">
+                                        <h:link outcome="/frontend/news/detail.xhtml?id=#{ds.decisionNewsId}" rendered="#{ds.imagePath ne null}">
+                                            <div class="img-news">
+                                                <h:graphicImage name="#{ds.imagePath}"/>
+                                            </div>
+                                        </h:link>
+                                    </div>
+
+                                    <p style="font-size: 13px"><i class="custom-icon calendar"/><h:outputText
+                                            value="#{ds.createDate}"><f:convertDateTime
+                                            pattern="dd/MM/yyyy"/></h:outputText></p>
+                                    <h4 class="title-news"><h:link value="#{ds.title}"
+                                                                   outcome="/frontend/news/detail.xhtml?id=#{ds.decisionNewsId}"/>
+                                    </h4>
+
+                                    <h:outputText escape="false" value="#{ds.decisionSummary}"/>
+
+                                    <h:link value="Đọc tiếp" class="view-more"
+                                            outcome="/frontend/news/detail.xhtml?id=#{ds.decisionNewsId}"
+                                            style="color: #F19B40"/>
+
+                                    <hr style="width: 100%"/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </ui:repeat>
+                <ui:include src="../template/paginate/pagination.xhtml">
+                    <ui:param name="pagination" value="#{decisionNewsFEController.pagination}"/>
+                </ui:include>
+            </div>
+        </div>
+        <script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        </script>
+    </ui:define>
+</ui:composition>

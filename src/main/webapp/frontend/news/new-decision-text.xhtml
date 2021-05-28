@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+    <ui:repeat value="#{decisionNewsFEController.decisionTextList}" var="dt" maxsize="5">
+        <div class="news-item">
+            <div class="row ">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <h:link outcome="/frontend/document/detail_document.xhtml?id=#{dt.decisionNewsId}" style="text-align: justify"
+                            value="#{commonController.abbreviate(dt.title, DbConstant.LIMITCHARACTER_HOME)}"/>
+                    <p style="font-size: 13px"><i class="custom-icon calendar"/><h:outputText value="#{dt.createDate}"><f:convertDateTime
+                            pattern="dd/MM/yyyy"/></h:outputText></p>
+                </div>
+            </div>
+        </div>
+    </ui:repeat>
+
+</ui:composition>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<p:importConstants type="vn.tech.website.store.util.Constant" var="Constant"/>
+
+<f:metadata>
+    <f:event type="preRenderView" listener="#{authorizationFEController.init}" />
+</f:metadata>
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+    </f:facet>
+    <title>Đăng ký</title>
+    <link type="image/x-icon" href="#{resource['images:favicon_backend.ico']}" rel="icon"/>
+
+    <ui:include src="/admin/template/css_lib.xhtml"/>
+    <ui:include src="../admin/template/common.xhtml"/>
+</h:head>
+
+<h:body styleClass="login-body">
+    <h:panelGroup id="notification">
+        <script>
+            //<![CDATA[
+            $('.btn').not('.no-processing').on('click', function() {
+                var $this = $(this);
+                if ("BUTTON,A".indexOf($this.prop("tagName")) > -1) {
+                    $this.data('loading-text', "<i class='fa fa-circle-o-notch fa-spin'></i> Đang xử lý...");
+                } else {
+                    $this.data('loading-text', "ĐANG XỬ LÝ...");
+                }
+                $this.button('loading');
+                setTimeout(function() {
+                    $this.button('reset');
+                }, 2000);
+            });
+            $(document).on('show.bs.modal', '.modal', function (event) {
+                var zIndex = 1040 + (10 * $('.modal:visible').length);
+                $(this).css('z-index', zIndex);
+                setTimeout(function() {
+                    $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+                }, 0);
+            });
+
+            $(document).ready(function () {
+                $('input').tooltip({
+                    placement: 'right'
+                });
+            });
+            //]]>
+        </script>
+        <h:outputScript rendered="#{not empty facesNoticeController.script}">
+            #{facesNoticeController.output()}
+        </h:outputScript>
+    </h:panelGroup>
+    <h:form id="register" prependId="false">
+        <input id="scrt_login" type="hidden" value="#{authorizationFEController.cryptoSecretKey}"/>
+        <div class="body-container">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="login-wrapper">
+                        <div class="login-container">
+                            <span class="title">Đăng ký tài khoản</span>
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-12">
+                                    <p:messages id="#{Constant.ERROR_GROWL_ID}" globalOnly="true" closable="true">
+                                        <p:effect type="pulsate" event="load" delay="100"/>
+                                    </p:messages>
+                                </div>
+                                <label style="padding-left: 13px" class="text-left" for="account">Tên đăng nhập</label>
+                                <div class="ui-g-12">
+                                    <input id="account" placeholder="Tên đăng nhập" autocomplete="off" autofocus=""
+                                           onkeyup="_inf_c_th(this, 'npt_accnt', 'scrt_login');"
+                                           onchange="_inf_c_th(this, 'npt_accnt', 'scrt_login');"
+                                           class="account ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"/>
+                                    <h:inputHidden id="npt_accnt" value="#{authorizationFEController.accountDto.userName}"/>
+                                </div>
+                                <label style="padding-left: 13px" class="text-left" for="password">Mật khẩu</label>
+                                <div class="ui-g-12">
+                                    <p:password id="password"
+                                                onkeyup="_inf_c_th(this, 'npt_psswd', 'scrt_login');"
+                                                onchange="_inf_c_th(this, 'npt_psswd', 'scrt_login');"
+                                                feedback="true" promptLabel="Hãy nhập mật khẩu"
+                                                weakLabel="Yếu" goodLabel="Tốt" strongLabel="Mạnh"
+                                                placeholder="Nhập mật khẩu mới" inline="true"/>
+                                    <h:inputHidden id="npt_psswd" value="#{authorizationFEController.accountDto.password}"/>
+                                </div>
+                                <label style="padding-left: 13px" class="text-left" for="rePassword">Nhập lại mật mật khẩu</label>
+                                <div class="ui-g-12">
+                                    <p:password id="rePassword"
+                                                onkeyup="_inf_c_th(this, 'npt_repsswd', 'scrt_login');"
+                                                onchange="_inf_c_th(this, 'npt_repsswd', 'scrt_login');"
+                                                feedback="true" promptLabel="Hãy nhập mật khẩu"
+                                                weakLabel="Yếu" goodLabel="Tốt" strongLabel="Mạnh"
+                                                placeholder="Nhập mật khẩu mới" inline="true"/>
+                                    <h:inputHidden id="npt_repsswd" value="#{authorizationFEController.accountDto.rePassword}"/>
+                                </div>
+
+                                <div class="ui-g-6">
+                                    <p:commandButton value="Đăng ký"
+                                                     actionListener="#{authorizationFEController.register}"
+                                                     update="#{Constant.ERROR_FE_GROWL_ID} register"
+                                                     onclick="document.getElementById('account').focus()"
+                                                     icon="fa fa-check"/>
+                                </div>
+                                <div class="ui-g-6 password-container">
+                                    <p:link outcome="/frontend/index.xthml" value="Trang chủ" target="_blank"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="apollo-layout"/>
+    <h:outputScript name="js/crypto/aes.js" library="apollo-layout" target="head"/>
+    <h:outputScript name="custom.js" library="myjs" target="head"/>
+</h:body>
+
+</html>

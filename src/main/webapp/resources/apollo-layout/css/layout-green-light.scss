@@ -1,0 +1,22 @@
+$primaryColor:#13b703;
+//$primaryColor:#00756E;
+$primaryTextColor:#ffffff;
+$menuBgColor:#ffffff;
+$menuitemTextColor:#3A3A3A;
+$submenuActiveBgColor:#ffffff;
+$menuItemHoverTextColor:#00756E;
+$menuItemActiveTextColor:#00756E;
+
+$bodyBgColor:#EEF2F6;
+$textColor:#3A3A3A;
+$textSecondaryColor:#7a7a7a;
+$placeholderColor:#a0a0a0;
+$dividerColor:#dddddd;
+
+$main_color: #3A3A3A;
+$green_color: #27AE60;
+$dark_color: #3A3A3A;
+$blue_color: #2F80ED;
+
+@import '../../sass/layout/_layout.scss';
+@import '../../sass/theme/theme_light.scss';

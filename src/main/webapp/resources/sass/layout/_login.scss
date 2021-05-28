@@ -1,0 +1,172 @@
+/* Login */
+.login-body {
+    min-height: 100%;
+    font-size: 16px;
+    margin: 0;
+    background-color: $primaryColor;
+
+    background: {
+        image: url("\#{resource['frontend-layout:images/bg-new.jpg']}");
+        position: top left;
+        repeat: no-repeat;
+        size: 50% 100%;
+    }
+
+    .body-container {
+        height: 7px;
+        border-top: 7px solid $primaryColor;
+    }
+
+    .left-side {
+        height: 100%;
+        //padding-left: 100px;
+
+        img {
+            padding: 100px 0 100px 0;
+            width: 60px;
+            height: 60px;
+        }
+
+        h1 {
+            font-size: 80px;
+            color: $textColor;
+        }
+
+        p {
+            color: $textColor;
+            padding-right: 50px;
+            margin-top: 0;
+            margin-bottom: 40px;
+        }
+    }
+}
+
+.login-wrapper {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+
+    .login-container {
+        box-sizing: border-box;
+        padding-top: 20vh;
+        text-align: center;
+        color: #4f575b;
+        border-radius: 4px;
+
+        background-color: $primaryColor;
+        .ui-g {
+            border: 1px solid #00000040;
+            border-radius: 1rem;
+            padding: 10px;
+            margin: 1.5rem;
+            background-color: $primaryTextColor;
+        }
+        input {
+            border-radius: 6px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: $primaryTextColor;
+            display: block;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .password-container {
+            text-align: right;
+        }
+        
+        a {
+            color: $primaryColor;
+            text-decoration: none;
+            font-size: 16px;
+            line-height: 32px;
+            display: inline-block;
+            padding-bottom: 2px;
+            border-bottom: 1px solid transparent;
+            @include transition(border-bottom-color $transitionDuration);
+
+            &:hover {
+                border-bottom-color: $primaryColor;
+            }
+        }
+
+        input {
+            font-size: 1em;
+        }
+
+        .ui-g-12, .ui-g-6 {
+            padding: .8em;
+        }
+
+        .ui-button {
+            font-size: 16px;
+        }
+
+    }
+}
+
+@media (max-width: 64em) {
+    .login-body {
+        text-align: center;
+        background-size: cover;
+
+        .left-side {
+            //height: 300px;
+            padding-left: 25px;
+
+            img {
+                padding: 20px 0 20px 0;
+                padding-top: 50px !important;
+            }
+
+            p {
+                display: none;
+            }
+        }
+
+        .right-side {
+            height: 100%;
+        }
+    }
+
+    .login-wrapper {
+        width: 320px;
+
+        .login-container {
+            padding-top: 5%;
+            margin-top: 0;
+        }
+    }
+}
+
+@media (max-width: 40em) {
+    .login-body {
+        .left-side {
+            height: 200px;
+            padding-left: 25px;
+            text-align: center;
+
+            img {
+                padding: 20px 0 20px 0;
+            }
+
+            h1 {
+                font-size: 40px;
+            }
+
+            p {
+                display: none;
+            }
+        }
+
+        .right-side {
+            height: calc(100% - 250px);
+        }
+    }
+
+    .login-wrapper {
+        width: 320px;
+    }
+}

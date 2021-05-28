@@ -1,0 +1,52 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pa="http://primefaces.org/apollo">
+
+    <div class="layout-menu-container">
+        <div class="nano">
+            <div class="nano-content menu-scroll-content">
+                <div class="layout-menu-title">MENU</div>
+                <h:form id="menuForm" prependId="false">
+                    <pa:menu widgetVar="menuWidget">
+                        <p:menuitem id="menu-1" icon="fa fa-home" value="Trang chủ" outcome="/admin/dashboard" />
+
+                        <p:submenu id="menu-2" label="Quản lý chung" icon="fa fa-server">
+                            <p:menuitem id="menu-2-1" value="Quản lý tỉnh/thành phố" icon="fa fa-arrows-alt" outcome="/admin/basic-manage/province"/>
+                            <p:menuitem id="menu-2-2" value="Quản lý quận/huyện" icon="fa fa-arrows" outcome="/admin/basic-manage/district"/>
+                            <p:menuitem id="menu-2-3" value="Quản lý phường/xã" icon="fa fa-arrows-h" outcome="/admin/basic-manage/commune"/>
+                            <p:menuitem id="menu-2-4" value="Quản lý đơn vị vận chuyển" icon="fa fa-truck" outcome="/admin/basic-manage/shipping"/>
+                        </p:submenu>
+
+                        <p:submenu id="menu-3" label="Quản lý người dùng" icon="fa fa-users">
+                            <p:menuitem id="menu-3-1" value="Quản lý khách hàng" icon="fa fa-user" outcome="/admin/user-manage/customer"/>
+                            <p:menuitem id="menu-3-2" value="Quản lý nhân viên" icon="fa fa-user-plus" outcome="/admin/user-manage/employee"/>
+                        </p:submenu>
+
+                        <p:submenu id="menu-4" label="Quản lý sản phẩm" icon="fa fa-cart-arrow-down">
+                            <p:menuitem id="menu-4-1" value="Quản lý thương hiệu" icon="fa fa-asterisk" outcome="/admin/product-manage/brand"/>
+                            <p:menuitem id="menu-4-2" value="Quản lý loại sản phẩm" icon="fa fa-ambulance" outcome="/admin/product-manage/category"/>
+                            <p:menuitem id="menu-4-3" value="Quản lý thuộc tính sản phẩm" icon="fa fa-sliders" outcome="/admin/product-manage/product-option"/>
+                            <p:menuitem id="menu-4-4" value="Quản lý chi tiết sản phẩm" icon="fa fa-shield" outcome="/admin/product-manage/product"/>
+                        </p:submenu>
+
+                        <p:submenu id="menu-5" label="Quản lý tin tức" icon="fa fa-newspaper-o">
+                            <p:menuitem id="menu-5-1" value="Quản lý loại tin tức" icon="fa fa-file-word-o" outcome="/admin/news-manage/news-category"/>
+                            <p:menuitem id="menu-5-2" value="Quản lý danh sách tin tức" icon="fa fa-file-text-o" outcome="/admin/news-manage/news"/>
+                        </p:submenu>
+
+                        <p:submenu id="menu-6" label="Quản lý đơn hàng" icon="fa fa-shopping-cart">
+                            <p:menuitem id="menu-6-1" value="Quản lý đơn đặt hàng" icon="fa fa-cart-plus" outcome="/admin/order-manage/order"/>
+                            <p:menuitem id="menu-6-2" value="Quản lý hóa đơn" icon="fa fa-credit-card" outcome="/admin/order-manage/bill"/>
+                        </p:submenu>
+                    </pa:menu>
+                </h:form>
+
+                <div class="layout-menu-footer"></div>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>

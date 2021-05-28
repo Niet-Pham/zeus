@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<!--<![endif]-->
+
+<f:view locale="#{languageController.currentLocale}">
+    <o:importConstants type="vn.tech.website.store.util.Constant"/>
+    <o:importConstants type="vn.tech.website.store.util.DbConstant"/>
+
+    <h:head>
+        <f:facet name="first">
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+            <meta name="author" content="Niet"/>
+            <meta name="keywords" content="Zeus shop"/>
+            <meta name="description" content="Zeus shop, Design by Niet"/>
+        </f:facet>
+
+        <title><ui:insert name="title">Thời trang và phong cách</ui:insert></title>
+
+        <link rel="profile" href="http://gmpg.org/xfn/11"/>
+        <link type="image/x-icon" href="#{resource['frontend-layout:img/zeus_logo.jpg']}" rel="icon"/>
+        <link rel="profile" href="http://gmpg.org/xfn/11"/>
+        <link type="image/x-icon" href="#{resource['frontend-layout:css/zeus_logo.jpg']}" rel="icon"/>
+        <h:outputStylesheet name="css/jquery/jquery.dataTables.min.css" library="frontend-layout"/>
+        <h:outputStylesheet name="css/jquery/responsive.dataTables.min.css" library="frontend-layout"/>
+        <h:outputStylesheet name="css/jquery.fancybox.css" library="frontend-layout"/>
+        <h:outputStylesheet name="css/slick.css" library="frontend-layout"/>
+        <h:outputStylesheet name="plugin/datatables/custom.css" library="frontend-layout"/>
+        <h:outputStylesheet name="css/pe-icon/pe-icon-7-stroke.css" library="frontend-layout"/>
+        <h:outputStylesheet name="css/style_responsive.css" library="frontend-layout"/>
+        <h:outputStylesheet name="css/simpleNotifyStyle.css" library="frontend-layout"/>
+        <h:outputStylesheet name="plugin/select2/css/select2.min.css" library="frontend-layout"/>
+
+        <h:outputStylesheet name="vender/bootstrap/css/bootstrap.min.css" library="frontend-layout"/>
+        <h:outputStylesheet name="vender/bootstrap/css/bootstrap-datepicker.min.css" library="frontend-layout"/>
+        <h:outputStylesheet name="vender/bootstrap/css/hover-min.css" library="frontend-layout"/>
+        <h:outputStylesheet name="vender/assets/owl.carousel.min.css" library="frontend-layout"/>
+        <h:outputStylesheet name="vender/assets/owl.theme.default.min.css" library="frontend-layout"/>
+        <h:outputStylesheet name="vender/fontawsome/css/all.css" library="frontend-layout"/>
+        <h:outputStylesheet name="vender/animate/css/animate.min.css" library="frontend-layout"/>
+        <h:outputScript name="vender/animate/js/wow.min.js" library="frontend-layout"/>
+        <h:outputScript>new WOW().init();</h:outputScript>
+        <h:outputStylesheet name="css/main.css" library="frontend-layout"/>
+
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body>
+        <div class="wapper">
+            <div class="topbar">
+                <ui:include src="topbar2.xhtml"/>
+                <ui:insert name="slide-bar"/>
+            </div>
+
+            <div class="body-content">
+                <ui:insert name="body-content"/>
+            </div>
+
+            <footer class="footer">
+                <ui:include src="footer2.xhtml"/>
+            </footer>
+        </div>
+
+        <c:if test="#{!authorizationFEController.hasLogged()}">
+            <ui:include src="/frontend/modal/login-modal.xhtml"/>
+            <ui:include src="/frontend/modal/register-modal.xhtml"/>
+            <ui:include src="/frontend/modal/lost-password-modal.xhtml"/>
+            <ui:include src="/frontend/common/modal_register.xhtml"/>
+            <ui:include src="/frontend/common/create_new_password.xhtml"/>
+        </c:if>
+
+        <ui:include src="/frontend/common/change_password.xhtml"/>
+
+        <h:outputScript>var urlContext = "#{request.contextPath}";</h:outputScript>
+        <h:outputScript name="vender/bootstrap/js/popper-1.16.0.min.js" library="frontend-layout"/>
+        <h:outputScript name="vender/bootstrap/js/bootstrap.min.js" library="frontend-layout"/>
+        <h:outputScript name="vender/bootstrap/js/bootstrap-datepicker.min.js" library="frontend-layout"/>
+        <h:outputScript name="vender/bootstrap/js/owl.carousel.js" library="frontend-layout"/>
+        <h:outputScript name="js/main.js" library="frontend-layout"/>
+        <h:outputScript name="js/notification.js" library="frontend-layout"/>
+        <h:outputScript name="js/myjs.js" library="frontend-layout"/>
+
+        <h:outputScript name="js/jquery-ui.js" library="frontend-layout"/>
+        <h:outputScript name="js/jquery.validate.min.js" library="frontend-layout"/>
+        <h:outputScript name="plugin/select2/js/select2.min.js" library="frontend-layout"/>
+        <h:outputScript name="js/moment.js" library="frontend-layout"/>
+        <h:outputScript name="js/slick.min.js" library="frontend-layout"/>
+        <h:outputScript name="custom.js" library="myjs"/>
+        <h:outputScript name="js/custom-slick.js" library="frontend-layout"/>
+        <h:outputScript name="js/jquery.fancybox.js" library="frontend-layout"/>
+        <h:outputScript name="plugin/datatables/datatables.min.js" library="frontend-layout"/>
+        <h:outputScript name="js/pdfobject.js" library="frontend-layout"/>
+        <h:outputScript name="js/autoNumeric.js" library="frontend-layout"/>
+
+        <!-- bootbox code -->
+        <h:outputScript name="plugin/bootbox/bootbox.min.js" library="frontend-layout"/>
+        <h:outputScript name="plugin/bootbox/bootbox.locales.min.js" library="frontend-layout"/>
+
+        <!-- vgca code -->
+        <h:outputScript name="js/vgca/base64.js" library="frontend-layout"/>
+        <h:outputScript name="js/vgca/vgcaplugin.js" library="frontend-layout"/>
+        <h:outputScript name="js/vgca/vgcasign.js" library="frontend-layout"/>
+
+        <!-- app -->
+        <h:outputScript name="js/custom.js" library="frontend-layout"/>
+        <h:outputScript name="js/validate-custom.js" library="frontend-layout"/>
+        <h:outputScript name="js/simpleNotify.js" library="frontend-layout"/>
+        <h:outputScript name="js/jquery.mask.js" library="frontend-layout"/>
+        <h:outputScript name="js/jquery-migrate-1.4.1.min.js" library="frontend-layout" target="head"/>
+        <h:outputScript name="js/crypto/aes.js" library="apollo-layout" target="head"/>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+
+        <ui:include src="common.xhtml"/>
+
+        <ui:insert name="jslibrary"/>
+
+        <script>
+            function onShowLostPassword() {
+                $("#code").hide();
+                $("#checkEmail").val("Lấy mã xác nhận");
+                $("#checkEmail").show();
+                $("#checkCode").hide();
+                $("#endTime").hide();
+                $("#countdownEx").hide();
+                $("#countdownEx").text('');
+                $('#lostpass_email').removeAttr('readonly');
+                clearInterval(timerLostPassword)
+            }
+        </script>
+
+        <h:panelGroup id="scriptResetListener">
+            <script>
+                //<![CDATA[
+                $(".email, .password, .phone, .username, .fromDate, .toDate, .datetimepicker1, .datetimepicker").attr('readonly', 'readonly');
+                validateForm();
+                // autonumeric
+                $(document).ready(function () {
+                    $('.autonumber').autoNumeric('init', {mDec: '0'});
+                });
+                //]]>
+            </script>
+        </h:panelGroup>
+
+        <h:outputScript name="js/language/modal.js" library="frontend-layout"/>
+        <h:outputScript name="js/listener-client.js" library="frontend-layout"/>
+        <h:outputScript name="listener.js" library="myjs"/>
+
+        <h:panelGroup id="notification">
+            <script>
+                //<![CDATA[
+                $('.btn').not('.no-processing').on('click', function() {
+                    var $this = $(this);
+                    if ("BUTTON,A".indexOf($this.prop("tagName")) > -1) {
+                        $this.data('loading-text', "<i class='fa fa-circle-o-notch fa-spin'></i> Đang xử lý...");
+                    } else {
+                        $this.data('loading-text', "ĐANG XỬ LÝ...");
+                    }
+                    $this.button('loading');
+                    setTimeout(function() {
+                        $this.button('reset');
+                    }, 2000);
+                });
+                $(document).on('show.bs.modal', '.modal', function (event) {
+                    var zIndex = 1040 + (10 * $('.modal:visible').length);
+                    $(this).css('z-index', zIndex);
+                    setTimeout(function() {
+                        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+                    }, 0);
+                });
+
+                $(document).ready(function () {
+                    $('input').tooltip({
+                        placement: 'right'
+                    });
+                });
+                //]]>
+            </script>
+            <h:outputScript rendered="#{not empty facesNoticeController.script}">
+                #{facesNoticeController.output()}
+            </h:outputScript>
+        </h:panelGroup>
+
+        <div class="overlay"></div>
+        <a class="scroll-to-top"><i class="fas fa-arrow-up"/></a>
+    </h:body>
+</f:view>
+
+</html>

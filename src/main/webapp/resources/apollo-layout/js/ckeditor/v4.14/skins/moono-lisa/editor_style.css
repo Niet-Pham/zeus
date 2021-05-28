@@ -1,0 +1,8 @@
+body {
+    font-family: Roboto, Tahoma, sans-serif;
+}
+
+body * {
+    max-width: 100% !important;
+    word-wrap: break-word;
+}

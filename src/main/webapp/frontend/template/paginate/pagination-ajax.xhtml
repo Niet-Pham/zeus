@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <c:if test="#{formId == null}">
+        <c:set var="formId" value="pagination"/>
+    </c:if>
+
+    <div class="pagination-area">
+        <h:form id="#{formId}">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="dataTables_length" id="key-table_length">
+                        <label>
+                            Hiển thị
+                            <h:selectOneMenu value="#{pagination.pageSize}"
+                                             name="key-table_length"
+                                             aria-controls="key-table"
+                                             styleClass="custom-select custom-select-sm form-control form-control-sm">
+                                <f:ajax event="change" listener="#{pagination.onChangePageSize()}" render="#{formId} #{update}"/>
+                                <f:selectItems value="#{pagination.getPageOptionList()}" var="item" itemValue="#{item}" itemLabel="#{item}" />
+                            </h:selectOneMenu>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-12  col-sm-6 col-md-6">
+                    <div class="pagination-bottom">
+                        <ul class="page-numbers">
+                            <h:panelGroup rendered="#{pagination.isShowPagePrev()}">
+                                <li class="page-next">
+                                    <h:commandLink styleClass="page-numbers">
+                                        <f:ajax execute="@this" listener="#{pagination.onChangePage(1)}" render="#{formId} #{update}"/>
+                                        <i class="fa fa-angle-double-left"/>
+                                    </h:commandLink>
+                                </li>
+                                <li class="page-next">
+                                    <h:commandLink styleClass="page-numbers">
+                                        <f:ajax execute="@this" listener="#{pagination.onChangePagePrev()}" render="#{formId} #{update}"/>
+                                        <i class="fa fa-angle-left"/>
+                                    </h:commandLink>
+                                </li>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{pagination.isShow3DotPrev()}">
+                                <li><span class="page-numbers current">...</span></li>
+                            </h:panelGroup>
+
+                            <ui:repeat value="#{pagination.pagePrev()}" var="prev">
+                                <li>
+                                    <h:commandLink styleClass="page-numbers" value="#{prev}">
+                                        <f:ajax execute="@this" listener="#{pagination.onChangePage(prev)}" render="#{formId} #{update}"/>
+                                    </h:commandLink>
+                                </li>
+                            </ui:repeat>
+                            <li><span class="page-numbers current">#{pagination.pageIndex}</span></li>
+                            <ui:repeat value="#{pagination.pageNext()}" var="next">
+                                <li>
+                                    <h:commandLink styleClass="page-numbers" value="#{next}">
+                                        <f:ajax execute="@this" listener="#{pagination.onChangePage(next)}" render="#{formId} #{update}"/>
+                                    </h:commandLink>
+                                </li>
+                            </ui:repeat>
+
+                            <h:panelGroup rendered="#{pagination.isShow3DotNext()}">
+                                <li><span class="page-numbers current">...</span></li>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{pagination.isShowPageNext()}">
+                                <li class="page-next">
+                                    <h:commandLink styleClass="page-numbers">
+                                        <f:ajax execute="@this" listener="#{pagination.onChangePageNext()}" render="#{formId} #{update}"/>
+                                        <i class="fa fa-angle-right"/>
+                                    </h:commandLink>
+                                </li>
+                                <li class="page-next">
+                                    <h:commandLink styleClass="page-numbers">
+                                        <f:ajax execute="@this" listener="#{pagination.onChangePage(pagination.pageTotal)}" render="#{formId} #{update}"/>
+                                        <i class="fa fa-angle-double-right"/>
+                                    </h:commandLink>
+                                </li>
+                            </h:panelGroup>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </div>
+
+</ui:composition>

@@ -1,0 +1,71 @@
+/* -----------------------------
+   Breadcrumb 
+------------------------------*/
+
+.side-breadcrumb {
+    background: rgba(0, 0, 0, 0) no-repeat scroll center center/cover;
+    border-radius: 0;
+    padding: 60px 0 0 0;
+    text-align: left;
+}
+
+.side-breadcrumb .page-title h2 {
+    color: $main_color;
+    font-family: $title_heading_font;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    padding: 30px 0px;
+}
+
+.breadcrumb {
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.breadcrumb li {
+    display: inline-block;
+    vertical-align: middle;
+    color: $main_color;
+    font-family: $content_font;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.breadcrumb li a {
+    color: $main_color;
+    font-size: 14px;
+    list-style: none;
+    padding-right: 15px;
+    position: relative;
+    &.home {
+        color: $primary_color;
+    }
+}
+
+.breadcrumb li a:hover {
+    color: $primary_color;
+}
+
+.breadcrumb>li+li::before {
+    content: none;
+}
+
+.breadcrumb li a::after {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid $dark_color;
+    position: absolute;
+    top: 25%;
+    /* margin-top: -50px; */
+    left: 95%;
+    z-index: 2;
+}

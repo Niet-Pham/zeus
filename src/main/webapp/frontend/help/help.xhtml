@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/frontend/template/template_detail.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{procedureGuideFEController.initData}"/>
+    </f:metadata>
+
+    <ui:define name="title">Hướng dẫn</ui:define>
+    <ui:param name="bodyStyleClass" value="about"/>
+    <ui:param name="headerStyleClass" value="is-sticky fixed-header"/>
+
+    <ui:define name="breadcrumb">
+        <li>Hướng dẫn</li>
+    </ui:define>
+
+    <ui:define name="screenTitle">
+        <h2>Hướng dẫn</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="row">
+            <h:form prependId="true">
+                <div class="col-md-3 col-sm-12 col-xs-12 sidebar mb-f-r">
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-8 col-xs-8">
+                            <h:inputText id="simpleinput" class="form-control" type="text" style="height: 40px;"
+                                         maxlength="255" placeholder="Nhập tiêu đề"
+                                         value="#{procedureGuideFEController.procedureGuideSearchDto.title}"/>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-4 nopadding no-margin">
+                            <h:commandButton value="Tìm kiếm"
+                                             actionListener="#{procedureGuideFEController.loadProcedureGuideList()}"
+                                             styleClass="btn btn-warning growl search"/>
+                        </div>
+                    </div>
+                    <aside class="widget widget_list_file">
+                        <ul class="list-file">
+                            <ui:repeat value="#{procedureGuideFEController.procedureGuideList}" var="pr" varStatus="status">
+                                <li class="file #{(status.index eq 0 and empty procedureGuideFEController.request.getParameter('id')) or pr.procedureGuideId == procedureGuideFEController.request.getParameter('id') ? 'active' : ''}">
+                                    <div style="display: inline-flex;">
+                                        <i class="custom-icon icon-doc"/>
+                                        <h:link value="#{pr.title}"
+                                                style="margin-left: 10px; margin-right: 15px; text-align: justify;"
+                                                outcome="/frontend/help/help.xhtml?id=#{pr.procedureGuideId}#{procedureGuideFEController.viewAll ? '&amp;view_all=true' : ''}">
+                                        </h:link>
+                                    </div>
+                                </li>
+                            </ui:repeat>
+                        </ul>
+                    </aside>
+                    <h:panelGroup rendered="#{!procedureGuideFEController.viewAll}">
+                        <p class="view-more">
+                            <a href="?view_all=true" style="text-align: right; color: #F19B40" aria-hidden="true">Xem tất cả <i class="fa fa-angle-double-right"/></a>
+                        </p>
+                    </h:panelGroup>
+                </div>
+                <div class="col-md-9 col-sm-12 col-xs-12 help-documents">
+                    <h:panelGroup rendered="#{procedureGuideFEController.checkShowFile and procedureGuideFEController.procedureGuide.filePath ne null}">
+                        <h:panelGroup
+                                rendered="#{commonController.isOfficeFile(procedureGuideFEController.procedureGuide.filePath)}">
+                            <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=#{commonController.getCurrentDomain()}#{resource[procedureGuideFEController.procedureGuide.filePath]}"
+                                    height="900" width="100%">
+                            </iframe>
+                        </h:panelGroup>
+
+                        <h:panelGroup
+                                rendered="#{commonController.isPdfFile(procedureGuideFEController.procedureGuide.filePath)}">
+                            <div id="example1"></div>
+                        </h:panelGroup>
+
+                        <h:panelGroup
+                                rendered="#{not commonController.isPdfFile(procedureGuideFEController.procedureGuide.filePath) and not commonController.isOfficeFile(procedureGuideFEController.procedureGuide.filePath)}">
+                            <h:form>
+                                <h:outputLabel
+                                        style="display: inline;">Không hỗ trợ hiển thị loại file này. Bạn vui lòng
+                                    <h:commandButton class="btn-custom main-color"
+                                                     style="height: 30px; padding: 5px;" value="Bấm vào đây"
+                                                     actionListener="#{procedureGuideFEController.download(procedureGuideFEController.procedureGuide.filePath)}"/>
+                                    để tải file về.</h:outputLabel>
+                            </h:form>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="Vui lòng chọn file để xem thông tin chi tiết."
+                                   rendered="#{procedureGuideFEController.procedureGuideList.size() ne 0 and !procedureGuideFEController.checkShowFile}"/>
+
+                    <h:outputLabel value="Không có bản ghi nào."
+                                   rendered="#{procedureGuideFEController.procedureGuideList.size() eq 0}"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+    <ui:define name="jslibrary">
+        <script>
+            var options = {
+                height: "900px",
+                pdfOpenParams: {
+                    pagemode: 'thumbs',
+                    search: 'lorem ipsum'
+                }
+            };
+            PDFObject.embed("#{resource[procedureGuideFEController.procedureGuide.filePath]}", "#example1", options);
+        </script>
+    </ui:define>
+</ui:composition>

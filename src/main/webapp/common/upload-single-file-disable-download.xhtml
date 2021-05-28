@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:fileUpload id="fileUpload" mode="advanced"
+                  auto="true" label="Tải file"
+                  onstart="PF('statusDialog').show();"
+                  oncomplete="PF('statusDialog').hide();"
+                  fileUploadListener="#{uploadSingleFileController.onUploadFile}"
+                  update="singleFile #{Constant.ERROR_GROWL_ID}" />
+
+    <p:outputPanel id="singleFile" style="margin-top: 10px; margin-bottom: 10px">
+        <p:panelGrid styleClass="ui-g-12" rendered="#{not empty uploadSingleFileController.filePath}">
+            <i class="fa fa-fw fa-file" style="margin-right: 5px;"/>
+            <p:commandLink value="#{commonController.abbreviate(uploadSingleFileController.fileName, DbConstant.LIMITCHARACTER)}" immediate="true" ajax="false"
+                           style="text-overflow: ellipsis;">
+                <p:fileDownload
+                        value="#{uploadSingleFileController.getFileDownload(uploadSingleFileController.filePath)}"/>
+            </p:commandLink>
+            <p:commandLink styleClass="delete" style="margin-left: 50px;"
+                           actionListener="#{uploadSingleFileController.onRemoveFile()}"
+                           update="@form"
+                           process="@this">
+                <p:confirm header="Xác nhận xóa" message="Bạn chắc chắn muốn xóa ?"
+                           icon="fa fa-question-circle"/>
+                <i class="fa fa-remove"/>
+            </p:commandLink>
+
+        </p:panelGrid>
+    </p:outputPanel>
+
+</ui:composition>

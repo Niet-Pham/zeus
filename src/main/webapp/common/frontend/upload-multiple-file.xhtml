@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div class="inputfile-box">
+        <p:fileUpload id="fileUpload" mode="advanced"
+                      multiple="true"
+                      styleClass="inputfile" auto="true"
+                      fileUploadListener="#{uploadMultipleFileFEController.onUploadFile}"
+                      update="fileList #{Constant.ERROR_FE_GROWL_ID}"/>
+        <label for="fileUpload_input" class="lable-for-file">
+            <span id="file-name-text" class="file-box">Chọn file hồ sơ đính kèm</span>
+            <span class="file-button"><i class="fa fa-folder-o" aria-hidden="true"/></span>
+        </label>
+    </div>
+    <h:panelGroup id="fileList" class="help-block" style="max-height: 80px; overflow: auto;">
+        <ui:repeat value="#{uploadMultipleFileFEController.uploadMultipleFileNameDto.listToShow.entrySet().toArray()}" var="file" varStatus="index">
+            <div>
+                #{index.index + 1}. <a href="#{request.contextPath}/resources#{file.key}" target="_blank">#{file.value}</a> <a style="color: red" onclick="confirmRemoveFiles(#{index.index});"><i class="fa fa-remove"/></a>
+                <h:commandLink styleClass="removeFile#{index.index}"
+                               style="display: none !important;"
+                               actionListener="#{uploadMultipleFileFEController.onRemoveFile(file.key)}">
+                    <f:ajax render="fileList"/>
+                </h:commandLink>
+            </div>
+        </ui:repeat>
+    </h:panelGroup>
+    <span class="help-block">
+        <mdall>Các giấy tờ yêu cầu cụ thể trong quy chế</mdall>
+        <br/>
+        <mdall>Lưu ý: CMND/Hộ chiếu/CCCD/Giấy ĐKKD đã có trên hệ thống bạn không cần upload lại tại đây!</mdall>
+        <br/>
+        <mdall style="font-style: italic">(Vui lòng chọn tài liệu định dạng PDF, DOCX, JPG, JPEG, PNG dung lượng ảnh nhỏ hơn 5MB)</mdall>
+    </span>
+
+    <script>
+        function confirmRemoveFiles(e) {
+            bootbox.confirm({
+                title: "Xác nhận xóa",
+                message: "Bạn có chắc chắn muốn xóa?",
+                className: "confirmStore modal-login",
+                swapButtonOrder: true,
+                buttons: {
+                    confirm: {
+                        label: 'XÁC NHẬN',
+                        className: 'btn btn-custom main-color'
+                    },
+                    cancel: {
+                        label: 'HỦY BỎ',
+                        className: 'btn btn-default btn-custom reset'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        jQuery(".removeFile" + e).click();
+                    }
+                }
+            });
+        }
+    </script>
+
+</ui:composition>

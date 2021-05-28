@@ -1,0 +1,33 @@
+// #2F80ED
+$primary-color: #3aaf29;
+$primary-color-blur: #02ff3985;
+$secondary-color: #000000;
+$secondary-color-copy: #828282;
+$third-color: #ffffff;
+$red-color: #F42F4C;
+$yellow-color: #f4ff04a6;
+$background-header-default: #ffffff;
+$background-header: #f8f9fac9;
+$background-project: #F7F9FD;
+$bottom-color: #8282828c;
+$background-default: #f4f4f4;
+// $linear-gradient-color: linear-gradient(to right, #2F80ED, #2F80ED);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin set-border-bottom-linear {
+    border-bottom: 2px solid transparent;
+    position: relative;
+    &::after {
+        content: '';
+        background: linear-gradient(to right, $primary-color, #00ff3742);
+        display: block;
+        height: 3px;
+        width: 100%;
+        position: absolute;
+        bottom: -3px;
+    }
+}

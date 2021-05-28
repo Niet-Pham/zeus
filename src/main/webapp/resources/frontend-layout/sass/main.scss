@@ -1,0 +1,56 @@
+@import './configure/configure';
+@import './body_content/body_content';
+@import './modal/modal';
+@import './theme_style';
+body {
+    overflow-x: hidden;
+    background-color: $background-default;
+    .container-fluid,
+    .container {
+        padding: 0;
+        .row {
+            margin: 0;
+            width: 100%;
+        }
+    }
+}
+
+.menu-bar {
+    position: fixed;
+    z-index: 10;
+}
+
+.slide-bar,
+.body-content,
+.technology-life,
+.resolve-service,
+.project-demo,
+.projects-slide,
+.my-partners,
+.feedbacks-slide,
+.footer {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.required-label:after {
+    content: " *";
+    color: $red-color;
+}
+
+.scroll-to-top {
+    background-color: $red-color;
+    color: $third-color !important;
+    cursor: pointer;
+    height: 3rem;
+    padding: 5px;
+    position: fixed;
+    right: 15px;
+    text-align: center;
+    width: 3rem;
+    border-radius: 1rem;
+    i {
+        font-size: 1.5rem;
+        margin-top: 0.4rem;
+    }
+}

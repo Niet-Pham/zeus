@@ -1,0 +1,38 @@
+#carouselExampleIndicators {
+    .carousel-inner {
+        .carousel-item {
+            img {
+                height: 825px;
+                justify-content: center;
+                object-fit: cover;
+            }
+            .carousel-caption {
+                bottom: 33vh;
+                left: 13%;
+                text-align: left;
+                h5 {
+                    font-size: 48px;
+                }
+                p {
+                    font-size: 24px;
+                }
+            }
+        }
+    }
+    .carousel-control-next,
+    .carousel-control-prev {
+        width: 10%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #carouselExampleIndicators {
+        .carousel-inner {
+            .carousel-item {
+                img {
+                    height: calc(678px / 2);
+                }
+            }
+        }
+    }
+}

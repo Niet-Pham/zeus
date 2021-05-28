@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div class="col-lg-3 col-md-4 col-xs-12 col-sm-6">
+        <div class="product-one-columns">
+            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 no-padding">
+                <h:panelGroup rendered="#{asset.status eq DbConstant.ASSET_STATUS_ENDED 
+                                        and asset.assetManagementEnding eq DbConstant.ASSET_MANAGEMENT_ENDING_GOOD}">
+                    <div class="product-image end-product">
+                        <h:link outcome="/frontend/asset/asset_detail.xhtml?id=#{asset.assetId}">
+                            <img src="#{resource[asset.filePaths.get(0)]}" alt=""/>
+                            <div class="middle">
+                                <div class="text"><i class="fa fa-eye"
+                                                     aria-hidden="true"/>Xem chi tiết
+                                </div>
+                            </div>
+                        </h:link>
+                        <div class="countdown-wrapper">
+                            <p>Giá thắng cuộc</p>
+                            <p class="end-price">
+                                <h:outputText value="#{asset.money}">
+                                    <f:convertNumber type="currency"
+                                                     currencySymbol="VNĐ"
+                                                     maxFractionDigits="6"
+                                                     minFractionDigits="0"
+                                                     locale="vi_VN"/>
+                                </h:outputText></p>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{asset.status eq DbConstant.ASSET_STATUS_CANCELED}">
+                    <div class="product-image stoped-product">
+                        <h:link outcome="/frontend/asset/asset_detail.xhtml?id=#{asset.assetId}">
+                            <img src="#{resource[asset.filePaths.get(0)]}" alt=""/>
+                            <div class="middle">
+                                <div class="text">
+                                    <i class="fa fa-eye" aria-hidden="true"/> Xem chi tiết
+                                </div>
+                            </div>
+                        </h:link>
+                        <div class="countdown-wrapper">
+                            <p style="line-height: 50px">Đã tạm dừng</p>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{asset.status eq DbConstant.ASSET_STATUS_NOT_SUCCESS
+                                          or asset.status eq DbConstant.ASSET_STATUS_ENDED and asset.assetManagementEnding eq DbConstant.ASSET_MANAGEMENT_ENDING_BAD}">
+                    <div class="product-image end-product">
+                        <h:link outcome="/frontend/asset/asset_detail.xhtml?id=#{asset.assetId}">
+                            <img src="#{resource[asset.filePaths.get(0)]}" alt=""/>
+                            <div class="middle">
+                                <div class="text">
+                                    <i class="fa fa-eye" aria-hidden="true"/> Xem chi tiết
+                                </div>
+                            </div>
+                        </h:link>
+                        <div class="countdown-wrapper">
+                            <p style="line-height: 50px">Đấu giá không thành</p>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </div>
+
+            <ui:include src="grid-asset-info.xhtml"/>
+        </div>
+    </div>
+    
+</ui:composition>

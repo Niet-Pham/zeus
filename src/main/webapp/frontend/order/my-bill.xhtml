@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/frontend/template/template2.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{billFEController.initData}"/>
+    </f:metadata>
+    <ui:define name="title">Đơn hàng của tôi</ui:define>
+
+    <ui:define name="body-content">
+        <div class="content-orders">
+            <div class="container">
+                <div class="title-orders">
+                    <div class="row">
+                        <h1>Lịch sử mua hàng</h1>
+                    </div>
+                </div>
+                <div class="orders-infor">
+                    <h:panelGroup layout="block" rendered="#{empty billFEController.ordersDtoMap}">
+                        <p class="orders-infor__empty">
+                            Bạn chưa có đơn hàng?
+                            <h:link value="Mua hàng ngay" outcome="/frontend/product/product2.xhtml"/>.
+                        </p>
+                    </h:panelGroup>
+                    <h:form id="orderList" prependId="false" rendered="#{not empty billFEController.ordersDtoMap}">
+                        <table class="table table-hover order-product">
+                            <thead>
+                            <tr class="order-product__header">
+                                <th scope="col">ID</th>
+                                <th scope="col">Mã hóa đơn</th>
+                                <th scope="col">Người nhận</th>
+                                <th scope="col">Tổng tiền</th>
+                                <th scope="col">Ngày</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Xem chi tiết</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <h:outputScript>var index = 1;</h:outputScript>
+                            <p:repeat value="#{billFEController.ordersDtoMap.values()}" var="ordersDto">
+                                <tr data-children="">
+                                    <td scope="row" class="order-product__id">
+                                        <p class="id-#{ordersDto.ordersId}"/>
+                                        <h:outputScript>$('.id-#{ordersDto.ordersId}').text(index)</h:outputScript>
+                                    </td>
+                                    <td class="order-product__code">#{ordersDto.code}</td>
+                                    <td class="order-product__name">#{ordersDto.customerName}</td>
+                                    <td class="order-product__price">
+                                        <h:outputText value="#{ordersDto.allTotalAmount}">
+                                            <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                             maxFractionDigits="6"
+                                                             minFractionDigits="0" locale="vi_VN"/>
+                                        </h:outputText>
+                                    </td>
+                                    <td class="order-product__code">
+                                        <h:outputText value="#{ordersDto.updateDate}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </td>
+                                    <td class="order-product__qty">
+                                        #{ordersDto.statusString}
+                                    </td>
+                                    <td class="order-product__action">
+                                        <p:remoteCommand name="getDetail" actionListener="#{billFEController.onShowDetail(ordersDto)}" update="detail"/>
+                                        <a class="main-color" onclick="getDetail();" data-toggle="modal" data-target="#detail-modal">
+                                            <i class="fas fa-eye"/>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <h:outputScript>index += 1</h:outputScript>
+                            </p:repeat>
+                            </tbody>
+                        </table>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-custom" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title width-100 text-center">Chi tiết đơn hàng</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&#xD7;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="content-orders no-margin-top">
+                            <h:panelGroup id="detail" layout="block" styleClass="orders-infor">
+                                <table class="table table-hover order-product" style="width: 80%; margin: 0 auto;">
+                                    <thead>
+                                    <tr class="order-product__header">
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Hình ảnh</th>
+                                        <th scope="col">Tên sản phẩm</th>
+                                        <th scope="col" class="display-none">Mã sản phẩm</th>
+                                        <th scope="col">Đơn giá</th>
+                                        <th scope="col">Số lượng</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <h:outputScript>var index2 = 1;</h:outputScript>
+                                    <p:repeat value="#{billFEController.ordersDetailDtoList}" var="ordersDto">
+                                        <tr>
+                                            <td scope="row" class="order-product__id">
+                                                <p class="id-#{ordersDto.productDto.productId}"/>
+                                                <h:outputScript>$('.id-#{ordersDto.productDto.productId}').text(index2)</h:outputScript>
+                                            </td>
+                                            <td class="order-product__img">
+                                                <p:graphicImage styleClass="profile__avatar" name="#{ordersDto.productDto.imageToShow}"/>
+                                            </td>
+                                            <td class="order-product__name">#{ordersDto.productDto.productName}</td>
+                                            <td class="order-product__code display-none">#{ordersDto.productDto.code}</td>
+                                            <td class="order-product__price">
+                                                <h:outputText value="#{ordersDto.amount}">
+                                                    <f:convertNumber type="currency" currencySymbol="VNĐ"
+                                                                     maxFractionDigits="6"
+                                                                     minFractionDigits="0" locale="vi_VN"/>
+                                                </h:outputText>
+                                            </td>
+                                            <td class="order-product__qty">
+                                                #{ordersDto.quantity}
+                                            </td>
+                                        </tr>
+                                        <h:outputScript>index2 += 1</h:outputScript>
+                                    </p:repeat>
+                                    </tbody>
+                                </table>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .modal-dialog-custom {
+                max-width: 70vw !important;
+            }
+        </style>
+    </ui:define>
+
+</ui:composition>

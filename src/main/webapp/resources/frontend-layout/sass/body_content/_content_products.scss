@@ -1,0 +1,312 @@
+.content-products {
+  margin-top: 5rem;
+
+  .pagination-bottom {
+    margin-right: 35%;
+  }
+
+  .title-products {
+    h1 {
+      text-align: center;
+      width: 100%;
+      padding-bottom: 2rem;
+      color: $primary-color;
+      text-transform: uppercase;
+
+      &._product, &._search {
+        padding-top: 2rem;
+      }
+
+      &._product {
+        padding-top: 2rem;
+        text-align: inherit;
+        padding-left: 21%;
+      }
+    }
+  }
+
+  .search-product {
+    margin: 0 2.5rem;
+    .search-by-price {
+      padding-left: 0.5rem;
+    }
+    .search-price {
+    }
+
+    .btn-clear, .btn-search {
+      color: $third-color;
+      width: 120px;
+      height: 50px;
+    }
+  }
+
+  .all-products {
+    &.container {
+      max-width: 1200px !important;
+      margin-left: 5rem;
+    }
+  }
+
+  .highlight-products,
+  .mobile-products,
+  .laptop-products,
+  .watch-products,
+  .wireless-products {
+    .row {
+      margin-left: 7rem;
+    }
+  }
+
+  .all-products,
+  .highlight-products,
+  .mobile-products,
+  .laptop-products,
+  .watch-products,
+  .wireless-products {
+    .grid-style {
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid $primary-color;
+      background-color: $third-color;
+      border-radius: 1rem;
+      margin: 0 1.5rem 1.5rem 0;
+
+      &:hover {
+        background-color: $red-color;
+
+        .all-products__title,
+        .highlight-products__title,
+        .mobile-products__title,
+        .laptop-products__title,
+        .watch-products__title,
+        .wireless-products__title,
+        .all-products__price,
+        .highlight-products__price,
+        .mobile-products__price,
+        .laptop-products__price,
+        .watch-products__price,
+        .wireless-products__price,
+        .add-to-cart,
+        .out-of-stock {
+          color: $third-color;
+        }
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    &__empty {
+      text-align: center;
+      font-size: 18px;
+    }
+
+    &__img {
+      width: 200px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+
+    p {
+      margin: 0;
+      padding: 6px 0;
+    }
+
+    &__title {
+      color: $primary-color;
+    }
+
+    &__discount {
+      color: $red-color;
+      font-size: 20px;
+      font-weight: bold;
+      background: $yellow-color;
+      margin: 0 !important;
+      padding: 1.5rem 0.5rem !important;
+      position: absolute;
+      top: 25%;
+      left: 0;
+      width: 100%;
+    }
+
+    &__price {
+      color: $red-color;
+
+      &.special-price {
+        text-decoration: line-through $third-color;
+        background: $red-color;
+        color: $third-color;
+      }
+    }
+
+    .add-to-cart, .out-of-stock {
+      i, span {
+        font-size: 18px;
+      }
+    }
+
+    .add-to-cart {
+      color: $primary-color;
+
+      &:hover {
+        color: $primary-color-blur;
+      }
+    }
+
+    .out-of-stock {
+      width: 100%;
+      background-color: $red-color;
+      color: $third-color;
+      padding: 0.3rem 0;
+    }
+  }
+
+  .more-products {
+    margin-bottom: 2rem;
+
+    & > .row {
+      margin-top: 1rem;
+    }
+
+    a {
+      width: 100%;
+      text-align: right;
+      text-decoration: none;
+
+      span {
+        color: $primary-color;
+        font-size: 18px;
+        padding-right: 7rem;
+
+        &:hover {
+          color: $primary-color-blur;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .detail-products {
+    &__option {
+      padding: 1rem 0;
+
+      .option-img {
+        .main-img {
+          width: 350px;
+          height: 350px;
+          object-fit: contain;
+          margin: 3rem;
+          border-radius: 1rem;
+        }
+
+        .child-img {
+          width: 70px;
+          height: 90px;
+          object-fit: contain;
+          margin: 0 2px;
+          opacity: .6;
+
+          &.selected, &:hover {
+            border: 4px solid $red-color;
+            cursor: pointer;
+            border-radius: 10px;
+            opacity: 1;
+          }
+        }
+      }
+
+      .option-detail {
+        &__price, &__price-discount {
+          color: $red-color;
+          padding: 1rem;
+        }
+
+        &__title {
+          width: 100%;
+          text-align: center;
+          color: $primary-color;
+          text-transform: uppercase;
+          padding: 1rem 0;
+        }
+
+        &__selected {
+          position: absolute;
+          margin-top: 1.1rem;
+          margin-left: 1.5rem;
+          color: $third-color;
+        }
+
+        &__detail {
+          margin: 1rem;
+          padding: 1rem;
+          border: 1px solid $primary-color;
+          border-radius: 1rem;
+          text-align: center;
+          background-color: $primary-color;
+          color: $third-color;
+
+          &:hover {
+            border: 1px solid $red-color;
+            background-color: $red-color;
+          }
+
+          &.selected {
+            border: 1px solid $red-color;
+            background-color: $red-color;
+          }
+        }
+
+        &__qty-custom {
+          width: 5rem;
+          height: 3rem;
+          margin-left: 70%;
+          margin-top: 4px;
+          border-radius: 1rem;
+          text-align: center;
+        }
+
+        &__add-to-cart {
+          padding: 1rem;
+          border-radius: 1rem;
+          color: $third-color;
+        }
+      }
+    }
+
+    &__content {
+      .content-title {
+        width: 100%;
+
+        h1 {
+          text-align: center;
+          color: $primary-color;
+          width: 100%;
+          text-transform: uppercase;
+          padding: 2rem 0;
+        }
+      }
+
+      .content-detail {
+        p {
+          width: 100%;
+          text-align: justify;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+          text-align: center;
+          text-transform: uppercase;
+          width: 100%;
+          padding-bottom: 2rem;
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}

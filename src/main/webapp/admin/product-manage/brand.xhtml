@@ -1,0 +1,165 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/admin/template/template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{brandController.initData}"/>
+    </f:metadata>
+
+    <ui:define name="breadcrumb">
+        <li>/</li>
+        <li>
+            <p:link outcome="/admin/product-manage/brand">Quản lý sản phẩm / Quản lý thương hiệu</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="title">Quản lý thương hiệu</ui:define>
+
+
+    <ui:define name="content">
+        <p:outputPanel styleClass="ui-g">
+            <div class="ui-g-12" style="padding-top:0">
+                <div class="card no-margin">
+                    <p:commandButton value="Thêm mới" icon="fa fa-plus"
+                                     actionListener="#{brandController.resetDialog}"
+                                     oncomplete="PF('dialogInsertUpdate').show();" update="dlForm"/>
+                </div>
+            </div>
+        </p:outputPanel>
+
+        <div class="ui-fluid">
+            <p:dialog id="dlg" header="Thông tin thương hiệu" widgetVar="dialogInsertUpdate" modal="true" width="800">
+                <h:form id="dlForm">
+                    <p:scrollPanel mode="native" style="width: 100%; max-height: 400px; border: none" id="panel">
+                        <p:focus id="focus"/>
+                        <p:panelGrid id="basicPanel1" columns="2"
+                                     columnClasses="ui-grid-col-3,ui-grid-col-9"
+                                     styleClass="ui-panelgrid-blank" layout="grid">
+
+
+                            <p:outputLabel value="Mã thương hiệu:" for="code" styleClass="requireLabel"/>
+                            <p:inputText id="code" placeholder="Nhập mã thương hiệu"
+                                         value="#{brandController.brandDto.brandName}"
+                                         maxlength="200"/>
+
+                            <p:outputLabel value="Tên thương hiệu:" for="title" styleClass="requireLabel"/>
+                            <p:inputText id="title" placeholder="Nhập tên thương hiệu"
+                                         value="#{brandController.brandDto.brandName}"
+                                         maxlength="200"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-6,ui-grid-col-6"
+                                     styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Lưu" action="#{brandController.onSave}"
+                                             icon="fa fa-save" style="width: 80px;float:right"
+                                             update="searchForm focus growl"/>
+                            <p:commandButton value="Ðóng" styleClass="close"
+                                             oncomplete="PF('dialogInsertUpdate').hide()" icon="fa fa-close"
+                                             style="width: 80px"/>
+                        </p:panelGrid>
+                    </p:scrollPanel>
+                </h:form>
+            </p:dialog>
+        </div>
+
+
+        <h:form id="searchForm">
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12" style="padding-top:0">
+                        <div class="card no-margin">
+                            <p:panel id="searchCode" header="Tìm kiếm thương hiệu" style="margin-bottom:5px">
+                                <p:panelGrid id="searchPanel" columns="3"
+                                             columnClasses="ui-grid-col-4,ui-grid-col-1.5,ui-grid-col-1.5"
+                                             styleClass="ui-panelgrid-blank" layout="grid">
+
+                                    <p:inputText id="smanhomquyen" placeholder="Nhập tên/mã thương hiệu"
+                                                 value="#{brandController.searchDto.keyword}"/>
+
+                                    <p:commandButton value="Tìm kiếm"
+                                                     actionListener="#{brandController.onSearch()}"
+                                                     update="searchForm tblSearchResult" icon="fa fa-search"
+                                                     style="width: auto"/>
+
+                                    <p:commandButton value="Làm mới"
+                                                     actionListener="#{brandController.resetAll()}"
+                                                     update="searchForm tblSearchResult" icon="fa fa-refresh"
+                                                     styleClass="orange-btn" style="width: auto"/>
+                                </p:panelGrid>
+                            </p:panel>
+
+
+                            <p:panel id="searchResult" header="Kết quả tìm kiếm" style="margin-bottom:5px">
+                                <p:dataTable id="tblSearchResult" tableStyle="table-layout: auto;"
+                                             widgetVar="wdgNhomQuyen"
+                                             resizableColumns="true" paginator="true"
+                                             reflow="true" rows="10"
+                                             value="#{brandController.lazyDataModel}"
+                                             lazy="true" pageLinks="5" paginatorPosition="top" var="resultDto"
+                                             paginatorAlwaysVisible="true" rowsPerPageTemplate="10,20,50,100"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="#{t['lbl.recordTotal']}: #{brandController.lazyDataModel.rowCount}"
+                                             emptyMessage="Không có bản ghi nào" rowIndexVar="rowIndex"
+                                             rowKey="#{resultDto.brandId}">
+
+                                    <p:column headerText="STT" width="30" style="text-align: center">
+                                        <h:outputText value="#{rowIndex + 1}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Tên thương hiệu " sortBy="#{resultDto.brandName}">
+                                        <h:outputText value="#{resultDto.brandName}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Mã thương hiệu " sortBy="#{resultDto.code}">
+                                        <h:outputText value="#{resultDto.code}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Người cập nhật" sortBy="#{resultDto.nameUpdate}">
+                                        <h:outputText value="#{resultDto.nameUpdate}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Ngày cập nhật" sortBy="#{resultDto.updateDate}"
+                                              style="text-align: center">
+                                        <h:outputText value="#{resultDto.updateDate}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Sửa"
+                                              exportable="false" style="width: 30px">
+                                        <div class="my-data-table">
+                                            <p:commandLink styleClass="edit"
+                                                             oncomplete="PF('dialogInsertUpdate').show();"
+                                                             update="dlForm growl"
+                                                             actionListener="#{brandController.showUpdatePopup(resultDto)}">
+                                                <i class="fa fa-edit"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Xóa"
+                                              exportable="false" style="width: 30px">
+                                        <div class="my-data-table">
+                                            <p:commandLink styleClass="delete"
+                                                             actionListener="#{brandController.onDelete(resultDto)}"
+                                                             update="tblSearchResult growl searchForm">
+                                                <p:confirm header="Xác nhận xóa" message="Bạn chắc chắn muốn xóa ?"
+                                                           icon="fa fa-question-circle"/>
+                                                <i class="fa fa-remove"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

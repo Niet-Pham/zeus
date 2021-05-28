@@ -1,0 +1,60 @@
+/* -----------------------------
+   Sidebar
+------------------------------*/
+
+.sidebar {
+    h3 {
+        font-family: $title_heading_font;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 19px;
+        text-transform: none;
+        margin-top: 5px;
+        span {
+            padding-right: 5px;
+            background: #fff;
+        }
+        // padding-left: 10px;
+    }
+    .worktime-table {
+        margin-top: 15px;
+        th {
+            border: none;
+        }
+        tr {
+            td {
+                border: none;
+            }
+        }
+    }
+    .has-divider {
+        background: url("\#{resource['frontend-layout:images/line.svg']}") repeat-x;
+        background-position: 100% 50%;
+    }
+    .title-widget {
+        margin-bottom: 10px;
+    }
+    a {
+        font-family: $title_heading_font;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 19px;
+    }
+    .news-item {
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-bottom: 1px solid #ECECEC;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    .img-sidebar {
+        width: 100%;
+        img {
+            width: 100%;
+            border-radius: 5px;
+        }
+    }
+}

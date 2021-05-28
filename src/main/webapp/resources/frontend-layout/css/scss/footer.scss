@@ -1,0 +1,261 @@
+/* -----------------------------
+   Footer 
+------------------------------*/
+
+.footer {
+    background: #F9F9F9;
+    background-size: cover;
+    overflow: hidden;
+    color: $dark_color;
+    width: 100%;
+}
+
+.logo {
+    margin-top: 20px;
+}
+
+.footer-info {
+    margin-top: 30px;
+    ul {
+        li {
+            font-family: $content_font;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 25px;
+            color: $dark_color;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            a {
+                display: inline;
+                &:hover {
+                    color: $primary_color;
+                }
+            }
+            img {
+                margin-right: 10px;
+            }
+            span {
+                margin-left: 5px;
+                margin-right: 5px;
+                color: #6f6565;
+            }
+        }
+    }
+}
+
+.footer-bottom {
+    border-top: 1px solid #ECECEC;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.footer-top {
+    padding-bottom: 32px;
+}
+
+.footer .widget {
+    margin-top: 75px;
+}
+
+.title-footer>h2 {
+    color: #ffffff;
+    font-size: 18px;
+    margin-bottom: 35px;
+    text-transform: uppercase;
+    font-family: $title_heading_font;
+}
+
+.widget-1 .title-footer>p {
+    color: #a4a4a4;
+    font-family: $title_heading_font;
+    font-size: 16px;
+    margin-bottom: 34px;
+}
+
+.location-footer {
+    color: #a4a4a4;
+}
+
+.title-footer li .fa {
+    float: left;
+    font-size: 14px;
+    margin-right: 10px;
+    width: 15px;
+}
+
+.footer .social-top {
+    padding-top: 25px;
+}
+
+.footer .social-top li a {
+    background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0;
+    color: #ffffff;
+    font-size: 15px;
+    height: 33px;
+    line-height: 33px;
+    width: 33px;
+}
+
+.widget li {
+    overflow: hidden
+}
+
+.widget li img {
+    float: left;
+    margin-right: 5px;
+}
+
+.widget li a {
+    color: $main_color;
+    position: relative;
+}
+
+.widget li a:hover {
+    color: #000;
+}
+
+.widget li {
+    margin-bottom: 15px;
+}
+
+.title-footer h4 {
+    color: #ffffff;
+    font-size: 16px;
+    padding-bottom: 33px;
+}
+
+.title-footer h4 span {
+    color: #e81e30;
+}
+
+.title-footer li p {
+    color: #ffffff;
+}
+
+.title-footer li i {
+    color: #e81e30;
+    margin-top: 5px;
+}
+
+.fb-footer {
+    margin-top: 80px;
+}
+
+.footer-bottom .border-top {
+    margin-bottom: 27px;
+}
+
+.menu-footer ul li {
+    display: inline-block;
+}
+
+.footer-top .blog-list .blog-desc>a {
+    color: #ffffff;
+    font-family: Lato;
+    font-size: 13px;
+}
+
+.footer-top .blog-list .blog-desc>a:hover {
+    color: #e81e30;
+}
+
+.footer-top .blog-list .blog-img>img {
+    border: none;
+    padding: 0;
+}
+
+.footer-top .blog-list .blog-item .blog-date>p {
+    color: #8f8f8f;
+    margin-top: 5px;
+    font-family: Lato;
+    font-size: 11px;
+}
+
+.menu-footer .menu-item>a {
+    color: #444444;
+    font-size: 13px;
+    padding: 0 10px;
+}
+
+.menu-footer .menu-item>a:hover {
+    color: #e81e30;
+}
+
+.copy-right a {
+    display: inline-block;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.copy-right a:hover {
+    color: #e81e30;
+}
+
+.subcribe-form {
+    margin-top: 30px;
+    label {
+        color: #9A9A9A;
+        line-height: 35px;
+        font-family: $title_heading_font;
+    }
+    .subcribe-btn {
+        background: #f87211;
+        border: none;
+        border-radius: 5px;
+    }
+}
+
+.menu-footer-menu {
+    list-style-type: none;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    columns: 2;
+    list-style-position: inside;
+    li {
+        a {
+            font-family: $content_font;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 25px;
+            color: $dark_color;
+            &:hover {
+                color: $primary_color;
+            }
+        }
+    }
+}
+
+.contact-info {
+    margin-top: 30px;
+    h4 {
+        text-transform: none;
+    }
+    ul {
+        li {
+            font-family: $content_font;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 25px;
+            color: $dark_color;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            a {
+                display: inline;
+                &:hover {
+                    color: $primary_color;
+                }
+            }
+            img {
+                margin-right: 10px;
+            }
+            span {
+                margin-left: 5px;
+                margin-right: 5px;
+                color: #6f6565;
+            }
+        }
+    }
+}

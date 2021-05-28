@@ -1,0 +1,160 @@
+.simple-notification-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 310px;
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 9999;
+}
+
+.simple-notification-wrapper {
+  max-height: 0px;
+
+  /* Animation on creation */
+  -webkit-animation: pushDown 500ms forwards;
+  animation: pushDown 500ms forwards;
+
+  /*back-end*/
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 2px 4px rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+@supports (-ms-ime-align:auto) {
+  .simple-notification {
+    margin-left: 0px !important;
+  }
+  .simple-notification-wrapper {
+    box-shadow: none;
+  }
+}
+
+.simple-notification {
+  position: relative;
+  color: white; /* Default */
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-weight: bold;
+  padding: 15px;
+  padding-right: 20px;
+  width: 300px;
+  opacity: 1;
+  margin-top: 10px;
+  font-family: sans-serif;
+
+  /* Animation on creation */
+  -webkit-animation: slideIn 500ms forwards;
+  -moz-animation: slideIn 500ms forwards;
+  -ms-animation: slideIn 500ms forwards;
+  -o-animation: slideIn 500ms forwards;
+  animation: slideIn 500ms forwards;
+  -webkit-animation-delay: 100ms;
+  -moz-animation-delay: 100ms;
+  -ms-animation-delay: 100ms;
+  -o-animation-delay: 100ms;
+  animation-delay: 100ms;
+}
+
+.simple-notification .close-notification {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-image: url("#{resource['frontend-layout:images/close-icon.svg']}");
+  background-size: contain;
+  background-repeat: no-repeat;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+}
+
+.close-notification:hover {
+  opacity: 0.7;
+}
+
+.simple-notification.warning {
+  color: #fff;
+  background-color: #8a6d3b;
+  border-color: #faebcc;
+}
+
+.simple-notification.good {
+  background-color: #39A3F4;
+  border-color: #39A3F4;
+  color: #ffffff;
+  /*color: #3c763d;*/
+  /*background-color: #dff0d8;*/
+  /*border-color: #d6e9c6;*/
+}
+
+.simple-notification.danger {
+  background-color: #EF5350;
+  border-color: #EF5350;
+  color: #ffffff;
+  /*color: #a94442;*/
+  /*background-color: #f2dede;*/
+  /*border-color: #ebccd1;*/
+}
+
+.simple-notification.attention {
+  color: #fff;
+  background-color: #31708f;
+  border-color: #bce8f1;
+}
+
+/* Outro transition */
+.simple-notification.fade-out {
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+  -moz-transition: opacity 500ms ease-in-out;
+  -webkit-transition: opacity 500ms ease-in-out;
+  -ms-transition: opacity 500ms ease-in-out;
+  -o-transition: opacity 500ms ease-in-out;
+}
+
+
+/* CSS Animations */
+@keyframes slideIn {
+  100% { margin-left: 0px; }
+}
+
+@-webkit-keyframes slideIn {
+  100% { margin-left: 0px; }
+}
+
+@-moz-keyframes slideIn {
+  100% { margin-left: 0px; }
+}
+
+@-o-keyframes slideIn {
+  100% { margin-left: 0px; }
+}
+
+@keyframes pushDown {
+  100% { max-height: 200px; }
+}
+
+@-webkit-keyframes slideIn {
+  100% { max-height: 200px; }
+}
+
+@-moz-keyframes slideIn {
+  100% { max-height: 200px; }
+}
+
+@-o-keyframes slideIn {
+  100% { max-height: 200px; }
+}
+
+.loading {
+  background-image: url("#{resource['frontend-layout:images/loading.gif']}");
+  background-size: 25px 25px;
+  background-position: 5px center;
+  background-repeat: no-repeat;
+}

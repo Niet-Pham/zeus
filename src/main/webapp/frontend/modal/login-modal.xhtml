@@ -1,0 +1,73 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Đăng nhập</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&#xD7;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h:form role="form" id="login" prependId="false">
+                        <input id="scrt_login" type="hidden" value="#{authorizationFEController.cryptoSecretKey}"/>
+                        <div class="form-group">
+                            <label class="control-label" for="login_account">Tên đăng nhập</label>
+                            <input class="form-control"
+                                   placeholder="Nhập tên đăng nhập"
+                                   onkeyup="_inf_c_th(this, 'npt_accnt', 'scrt_login');"
+                                   onchange="_inf_c_th(this, 'npt_accnt', 'scrt_login');"
+                                   id="login_account"/>
+                            <h:inputHidden id="npt_accnt" value="#{authorizationFEController.accountDto.userName}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="login_password">Mật khẩu</label>
+                            <input class="form-control"
+                                   placeholder="Nhập mật khẩu"
+                                   onkeyup="_inf_c_th(this, 'npt_psswd', 'scrt_login');"
+                                   onchange="_inf_c_th(this, 'npt_psswd', 'scrt_login');"
+                                   id="login_password" type="password"/>
+                            <h:inputHidden id="npt_psswd" value="#{authorizationFEController.accountDto.password}"/>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox type="checkbox" value="#{authorizationFEController.rememberLogin}"/>
+                                    <span class="save">
+                                        Nhớ tài khoản
+                                        <i class="far fa-check-circle"/>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="lost-password-btn">
+                                <a href="#" onclick="closeModal('#login-modal');resetModal(this);" data-toggle="modal"
+                                   data-target="#lost-pass-modal">Quên mật khẩu ?</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h:commandButton id="loginButton"
+                                             value="Đăng nhập"
+                                             styleClass="btn btn-custom main-color no-processing"
+                                             action="#{authorizationFEController.login}">
+                                <f:ajax execute="@form"
+                                        render="resend recaptcha loginButton #{Constant.ERROR_FE_GROWL_ID}"/>
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+                <div class="modal-footer">
+                    <div class="signup">Bạn chưa có tài khoản?
+                        <span class="text-success" onclick="useModal(true);resetModal(this);">Đăng ký</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

@@ -1,0 +1,172 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:inputHidden id="orgCompany" value="#{accountFEController.accountDto.org}"/>
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0">Tên tổ chức</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText class="form-control" name="c_name" autofocus="" type="text" placeholder="Tên tổ chức"
+                                     maxlength="200" id="c_name" onblur="this.value = this.value.trim()"
+                                     value="#{accountFEController.accountDto.orgName}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0">Điện thoại tổ chức</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText type="text"
+                                     onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');this.value = this.value.trim()"
+                                     onblur="this.value = this.value.trim()"
+                                     class="form-control" name="c_phone_number" placeholder="Nhập số điện thoại tổ chức"
+                                     id="c_phone_number"
+                                     value="#{accountFEController.accountDto.orgPhone}" maxlength="11" size="12"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0">Người đại diện</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText class="form-control" name="c_person" type="text" placeholder="Người đại diện"
+                                     maxlength="50" id="c_person" onblur="this.value = this.value.trim()"
+                                     value="#{accountFEController.accountDto.fullName}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0">Số điện thoại</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText type="text"
+                                     onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                     onblur="this.value = this.value.trim()"
+                                     class="form-control phone" name="c_per_phone_number" placeholder="Số điện thoại người đại diện"
+                                     id="c_per_phone_number"
+                                     onfocus="focusRemoveReadOnly(this);"
+                                     value="#{accountFEController.accountDto.phone}" maxlength="11" size="12"/>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0">Tên đăng nhập</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText class="form-control username" name="c_user_name" type="text"
+                                     placeholder="Tên đăng nhập" id="c_user_name"
+                                     onblur="this.value = this.value.trim()"
+                                     title="Tên đăng nhập phải có ít nhất 6 ký tự, được phép bao gồm ký tự '_' và '-'"
+                                     data-placement="right"
+                                     onkeyup="this.value=this.value.replace(/[^\w\d\.\_]/g, '');" maxlength="50"
+                                     onfocus="focusRemoveReadOnly(this);"
+                                     value="#{accountFEController.accountDto.username}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0px">Mật khẩu</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputSecret class="form-control password" name="c_password"
+                                       title="Mật khẩu phải từ 12 ký tự gồm chữ cái, chữ số và ký tự đặc biệt"
+                                       type="password" placeholder="Nhập mật khẩu"
+                                       id="c_password"
+                                       onfocus="focusRemoveReadOnly(this);"
+                                       value="#{accountFEController.accountDto.password}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0px">Nhập lại mật khẩu</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputSecret class="form-control password" name="c_re_password" id="c_re_password"
+                                       type="password" placeholder="Nhập lại mật khẩu"
+                                       onfocus="focusRemoveReadOnly(this);"
+                                       value="#{accountFEController.accountDto.rePassword}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0px">Email</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText id="c_email" class="form-control email" name="c_email" type="text"
+                                     placeholder="Nhập địa chỉ email" maxlength="50"
+                                     onblur="this.value = this.value.trim()"
+                                     value="#{accountFEController.accountDto.email}"
+                                     onfocus="focusRemoveReadOnly(this);">
+                        </h:inputText>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-2 col-sm-4 col-xs-12" style="padding-right: 0px">Địa chỉ </label>
+                    <div class="col-md-10 col-sm-8 col-xs-12 no-padding">
+                        <ui:include src="address.xhtml"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Địa chỉ tổ chức</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText styleClass="form-control" name="c_address" autofocus="" type="text"
+                                     maxlength="100" id="c_address"
+                                     placeholder="Địa chỉ tổ chức" onblur="this.value = this.value.trim()"
+                                     value="#{accountFEController.accountDto.orgAddress}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-3 col-sm-3 col-xs-12" style="padding-right: 0px">Mã xác nhận</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12 no-padding" style="left: 19px">
+                        <div class="g-recaptcha" id="g-company"
+                             data-sitekey="#{initParam['primefaces.PUBLIC_CAPTCHA_KEY']}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-30">
+        <div class="col-md-12 col-xs-12 col-sm-12 submit-area text-center">
+            <input type="submit" onclick="validateForm()" Class="btn btn-custom main-color no-processing"
+                   value="Đăng ký"/>
+            <h:commandButton id="registerCompany"
+                             style="width: auto; height: auto;display: none"
+                             actionListener="#{accountFEController.onSaveData}">
+                <f:ajax execute="@form"
+                        render="@form :personal-form #{Constant.ERROR_FE_GROWL_ID} :scriptResetListener"/>
+            </h:commandButton>
+        </div>
+    </div>
+</ui:composition>

@@ -1,0 +1,199 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <style>
+        #quanhuyen-error {
+            color: #a94442 !important;
+        }
+
+        #tinhThanhpho-error {
+            color: #a94442 !important;
+        }
+
+        #phuongxa-error {
+            color: #a94442 !important;
+        }
+    </style>
+    <h:inputHidden id="org" value="#{accountFEController.accountDto.org}"/>
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Họ và tên</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText styleClass="form-control" name="person_name" autofocus="" type="text"
+                                     maxlength="50" id="person_name"
+                                     placeholder="Họ và tên" onblur="this.value = this.value.trim()"
+                                     value="#{accountFEController.accountDto.fullName}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Số điện thoại</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText type="text"
+                                     onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                     styleClass="form-control phone" name="person_phone_number" id="person_phone_number"
+                                     placeholder="Nhập số điện thoại" onblur="this.value = this.value.trim()"
+                                     onfocus="focusRemoveReadOnly(this);"
+                                     value="#{accountFEController.accountDto.phone}" maxlength="11" size="12"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Email</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText styleClass="form-control email" name="person_email" type="text" id="person_email"
+                                     maxlength="50" onblur="this.value = this.value.trim()"
+                                     onfocus="focusRemoveReadOnly(this);"
+                                     value="#{accountFEController.accountDto.email}"
+                                     placeholder="Nhập địa chỉ email"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Tên đăng nhập</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText class="form-control username" id="person_user_name" type="text"
+                                     placeholder="Tên đăng nhập"
+                                     onfocus="focusRemoveReadOnly(this);"
+                                     title="Tên đăng nhập phải có ít nhất 6 ký tự, được phép bao gồm ký tự '_' và '-'"
+                                     onkeyup="this.value=this.value.replace(/[^\w\d\.\_]/g, '');" maxlength="50"
+                                     onblur="this.value = this.value.trim()"
+                                     value="#{accountFEController.accountDto.username}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Mật khẩu</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputSecret styleClass="form-control password" name="person_password" id="person_password"
+                                       title="Mật khẩu phải từ 12 ký tự gồm chữ cái, chữ số và ký tự đặc biệt"
+                                       type="password" placeholder="Nhập mật khẩu"
+                                       onfocus="focusRemoveReadOnly(this);"
+                                       value="#{accountFEController.accountDto.password}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Nhập lại mật khẩu
+                    </label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputSecret class="form-control password" name="person_re_password" id="person_re_password"
+                                       type="password" placeholder="Nhập lại mật khẩu"
+                                       onfocus="focusRemoveReadOnly(this);"
+                                       value="#{accountFEController.accountDto.rePassword}"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-12 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-2 col-sm-4 col-xs-12">Địa chỉ: </label>
+                    <div class="col-md-10 col-sm-8 col-sx-12 no-padding">
+                        <div class="col-md-4 col-sm-4 col-xs-12 " style="padding-right: 5px; padding-left: 0px;">
+                            <h:selectOneMenu id="tinhThanhpho" value="#{addressFEController.cityDistrictDto.provinceId}"
+                                             styleClass="form-control tinhThanhpho_select">
+                                <f:selectItem itemValue=""
+                                              itemLabel="Tỉnh/thành phố"/>
+                                <f:selectItems value="#{addressFEController.listProvince}" var="tinhTp"
+                                               itemLabel="#{addressFEController.upperCaseFirstChar(tinhTp.name)}"
+                                               itemValue="#{tinhTp.provinceId}"/>
+                                <f:ajax event="change" listener="#{addressFEController.onChangeCity}"
+                                        render="quanhuyen phuongxa scriptResetListener"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 " style="padding-left: 5px;padding-right: 5px">
+                            <h:selectOneMenu id="quanhuyen" value="#{addressFEController.cityDistrictDto.districtId}"
+                                             styleClass="form-control quanhuyen_select select2-hidden-accessible">
+                                <f:selectItem itemValue=""
+                                              itemLabel="Quận/huyện"/>
+                                <f:selectItems value="#{addressFEController.listDistrict}" var="quanHuyen"
+                                               itemLabel="#{addressFEController.upperCaseFirstChar(quanHuyen.name)}"
+                                               itemValue="#{quanHuyen.districtId}"/>
+                                <f:ajax event="change" listener="#{addressFEController.onChangeDistrict}"
+                                        render="phuongxa scriptResetListener"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 " style="padding-left: 5px; padding-right: 0px;">
+                            <h:selectOneMenu id="phuongxa" value="#{addressFEController.cityDistrictDto.communeId}"
+                                             styleClass="form-control phuongxa_select select2-hidden-accessible">
+                                <f:selectItem itemValue=""
+                                              itemLabel="Phường/xã"/>
+                                <f:selectItems value="#{addressFEController.listCommune}" var="phuongXa"
+                                               itemLabel="#{addressFEController.upperCaseFirstChar(phuongXa.name)}"
+                                               itemValue="#{phuongXa.communeId}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-4 col-sm-4 col-xs-12">Địa chỉ nhà</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12 no-padding">
+                        <h:inputText styleClass="form-control" name="address" type="text" maxlength="100"
+                                     id="address"
+                                     placeholder="Địa chỉ nhà" onblur="this.value = this.value.trim()"
+                                     value="#{accountFEController.accountDto.address}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="form-wrap">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-3 col-sm-3 col-xs-12">Mã xác nhận</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12 no-padding no-margin">
+                        <div class="g-recaptcha" id="g-pesonal"
+                             data-sitekey="#{initParam['primefaces.PUBLIC_CAPTCHA_KEY']}"
+                             style="margin-left: 35px; width: 300px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-30">
+        <div class="col-md-12 col-xs-12 col-sm-12 submit-area text-center">
+            <input type="submit" id="update" class="btn btn-custom main-color no-processing" value="Đăng ký"/>
+            <h:commandButton id="registerPerson"
+                             style="width: auto; height: auto;display: none !important"
+                             actionListener="#{accountFEController.onSaveData}">
+                <f:ajax execute="@form"
+                        render="@form :company-form #{Constant.ERROR_FE_GROWL_ID} :scriptResetListener"/>
+            </h:commandButton>
+        </div>
+    </div>
+</ui:composition>

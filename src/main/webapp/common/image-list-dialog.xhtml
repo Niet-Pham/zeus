@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div class="ui-fluid">
+        <p:dialog id="hinhAnhDialogId" header="Danh sách hình ảnh" widgetVar="hinhAnhDialog" modal="true" width="900"
+                  style="max-height: 90vh; max-width: 90vw">
+            <h:form id="dlFormHinhAnh" rendered="#{not empty imageList}">
+                <p:repeat value="#{imageList}" var="itemVar">
+                    <div class="ui-g-2" style="padding-top: 0; padding-right: 5px; padding-bottom: 5px; padding-left: 0; border: 1px dotted #ccc;">
+                        <div style="text-align: center">
+                            <p:graphicImage id="noImage" name="#{itemVar}" width="100px" height="auto" rendered="#{empty imageList}"/>
+                            <p:overlayPanel for="noImage" hideEffect="fade" rendered="#{empty imageList}">
+                                <p:graphicImage name="#{itemVar}" width="350px" height="auto" />
+                            </p:overlayPanel>
+
+                            <p:graphicImage id="image" name="#{itemVar}" rendered="#{not empty imageList}" width="100%" height="auto"/>
+                            <p:overlayPanel for="image" hideEffect="fade" rendered="#{not empty imageList}">
+                                <p:graphicImage name="#{itemVar}" width="350px" height="auto" />
+                            </p:overlayPanel>
+                        </div>
+                    </div>
+                </p:repeat>
+            </h:form>
+
+            <h:outputLabel value="Không có hình ảnh nào" rendered="#{empty imageList}"/>
+        </p:dialog>
+    </div>
+</ui:composition>

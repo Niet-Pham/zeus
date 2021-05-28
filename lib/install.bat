@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=momopayment.jar -DgroupId=vn.tech.momo-wallet -DartifactId=momopayment -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true

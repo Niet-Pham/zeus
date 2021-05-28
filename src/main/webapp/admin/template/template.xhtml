@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view locale="#{languageController.currentLocale}">
+    <p:importConstants type="vn.tech.website.store.util.Constant" var="Constant" />
+    <p:importConstants type="vn.tech.website.store.util.DbConstant" var="DbConstant" />
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title><ui:insert name="title">Trang quản trị cửa hàng</ui:insert></title>
+        <link type="image/x-icon" href="#{resource['frontend-layout:img/zeus_logo.jpg']}" rel="icon"/>
+        <ui:include src="/admin/template/css_lib.xhtml"/>
+        <h:outputScript>
+            var urlContext = "#{request.contextPath}";
+            var beRequest = true;
+            window.CKEDITOR_BASEPATH = '#{request.contextPath}/resources/apollo-layout/js/ckeditor/v4.14/';
+        </h:outputScript>
+        <h:outputScript name="js/nanoscroller.js" library="apollo-layout" />
+        <h:outputScript name="js/layout.js" library="apollo-layout" />
+        <h:outputScript name="custom-selectonemenu.js" library="myjs"/>
+        <h:outputScript name="js/jquery.fancybox.js" library="frontend-layout"/>
+        <h:outputStylesheet name="css/jquery.fancybox.css" library="frontend-layout"/>
+        <c:if test="#{authorizationController.hasLogged()}">
+            <h:outputScript name="listener-lib.js" library="myjs"/>
+            <h:outputScript name="listener.js" library="myjs"/>
+        </c:if>
+        <script>
+            //<![CDATA[
+            // js for disable scroll: open modal, select box
+            $(document).ready(function() {
+                $('body').on('DOMNodeInserted DOMNodeRemoved', 'div.ui-dialog-mask', function (event) {
+                    if (event.type === "DOMNodeInserted") $('body').css('overflow', 'hidden');
+                    else if ($('div.ui-dialog-mask').length <= 1) $('body').css('overflow', 'auto');
+                });
+                $(window).scroll(function () {
+                    $('div.ui-selectonemenu-panel').hide();
+                    $('div.ui-selectonemenu').removeClass('ui-state-focus');
+                    $('div.ui-datepicker').hide();
+                    $('input.ui-inputfield').blur();
+                });
+            });
+            //]]>
+        </script>
+
+
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body>
+        <div class="layout-wrapper layout-#{guestPreferences.layoutMode}">
+
+            <ui:include src="topbar.xhtml" />
+            <ui:include src="menu.xhtml" />
+
+            <div class="layout-content">
+                <p:growl id="growl" life="5000" widgetVar="growl"/>
+                <div class="layout-breadcrumb">
+                    <ul style="width: 100%">
+                        <li><p:link outcome="/admin/dashboard"><i class="fa fa-home" /></p:link></li>
+                        <ui:insert name="breadcrumb" />
+                    </ul>
+
+                    <!-- div class="layout-breadcrumb-options">
+                        <a href="#" title="Backup">
+                            <i class="fa fa-cloud-uploadProvince"></i>
+                        </a><a href="#" title="Bookmark">
+                            <i class="fa fa-bookmark"></i>
+                        </a><a href="#" title="Logout">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+                    </div>  -->
+                </div>
+
+                <div class="layout-content-container">
+                    <ui:insert name="content"/>
+                </div>
+
+                <ui:include src="footer.xhtml" />
+            </div>
+
+
+            <div class="layout-mask"></div>
+        </div>
+
+        <p:ajaxStatus widgetVar="ajaxStatus" style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+            <f:facet name="start">
+                <i class="ajax-status-icon fa fa-spinner fa-spin"/>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText />
+            </f:facet>
+        </p:ajaxStatus>
+
+        <ui:include src="common.xhtml"/>
+
+        <ui:insert name="jslibrary"/>
+
+        <h:outputStylesheet name="css/nanoscroller.css" library="apollo-layout" />
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="apollo-layout" />
+        <h:outputScript name="js/bootstrap/bootstrap.min.js" library="frontend-layout"/>
+        <h:outputScript name="locale.js" library="myjs"/>
+        <h:outputScript name="js/ckeditor/v4.14/ckeditor.js" library="apollo-layout" />
+        <h:outputScript name="ckeditor-init.js" library="myjs" />
+        <h:outputScript name="custom.js" library="myjs" />
+        <h:outputScript name="js/notification.js" library="frontend-layout"/>
+    </h:body>
+</f:view>
+
+</html>

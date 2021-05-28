@@ -1,0 +1,19 @@
+/* -----------------------------
+   About
+------------------------------*/
+
+.unit-info {
+    .panel-heading {
+        font-family: $title_heading_font;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 19px;
+    }
+    .info {
+        a {
+            display: inline;
+            color: $primary_color;
+        }
+    }
+}

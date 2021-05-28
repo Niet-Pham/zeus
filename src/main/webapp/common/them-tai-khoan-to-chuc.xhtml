@@ -1,0 +1,200 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <p:focus id="focus"/>
+    <p:scrollPanel mode="native" style="width: 100%; max-height: 450px;border: none">
+        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10"
+                     styleClass="ui-panelgrid-blank" layout="grid">
+            <p:outputLabel value="Tên tổ chức:" for="orgName"/>
+            <p:outputPanel>
+                <p:inputTextarea id="orgName" placeholder="Nhập tên tổ chức"
+                                 label="Tên tổ chức"
+                                 required="true" requiredMessage="Bạn vui lòng nhập tên tổ chức"
+                                 onchange="this.value = this.value.trim()"
+                                 maxlength="200"
+                                 value="#{accountController.accountDto.orgName}">
+                </p:inputTextarea>
+                <p:message id="id1" for="orgName" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Địa chỉ: " for="tinhThanhPho"/>
+            <p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank"
+                         columnClasses="ui-no-margin-padding,ui-no-margin-padding,ui-no-margin-padding">
+                <ui:include src="/common/city-district-commune.xhtml"/>
+                <div></div>
+                <p:message id="id4" for="tinhThanhPho" styleClass="focus-input-text" display="text"/>
+                <p:message id="id41" for="quanHuyen" styleClass="focus-input-text" display="text"/>
+                <p:message id="id42" for="phuongXa" styleClass="focus-input-text" display="text"/>
+            </p:panelGrid>
+
+            <p:outputLabel value="Địa chỉ tổ chức:" for="org-address"/>
+            <p:inputText id="org-address" placeholder="Nhập địa chỉ tổ chức"
+                         required="true" requiredMessage="Bạn vui lòng nhập địa chỉ tổ chức"
+                         onchange="this.value = this.value.trim()"
+                         maxlength="100" value="#{accountController.accountDto.orgAddress}"/>
+            <div></div>
+            <p:message id="id4-org-address" for="org-address" styleClass="focus-input-text" display="text"/>
+        </p:panelGrid>
+
+        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                     styleClass="ui-panelgrid-blank" layout="grid">
+
+            <p:outputLabel value="Tên đăng nhập:" for="username"/>
+            <p:outputPanel>
+                <p:inputText id="username" placeholder="Nhập tên đăng nhập" required="true"
+                             disabled="#{not empty accountController.accountDto.accountId}"
+                             requiredMessage="Bạn vui lòng nhập tên đăng nhập"
+                             onchange="this.value = this.value.trim()" maxlength="50"
+                             onkeyup="this.value=this.value.replace(/[^\w\d\.\_]/g, '');"
+                             value="#{accountController.accountDto.username}"
+                             validatorMessage="Tên đăng nhập phải có ít nhất 6 ký tự, được phép bao gồm ký tự '_' và '-'">
+                    <f:validateRegex pattern="^\s*[\w\_\-\s]{6,50}\s*$"/>
+                    <p:tooltip style="width: 250px;"
+                               value="Tên đăng nhập phải có ít nhất 6 ký tự, được phép bao gồm ký tự '_' và '-'"
+                               escape="false" id="toolTipFocus" for="username" showEvent="focus" hideEvent="blur"/>
+                </p:inputText>
+                <p:message id="id3" for="username" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Số điện thoại tổ chức: " for="orgphone"/>
+            <p:outputPanel>
+                <p:inputText id="orgphone" placeholder="Nhập số điện thoại tổ chức"
+                             value="#{accountController.accountDto.orgPhone}"
+                             required="true" requiredMessage="Bạn vui lòng nhập số điện thoại tổ chức"
+                             onchange="this.value = this.value.trim()"
+                             maxlength="11"
+                             validatorMessage="Số điện thoại tổ chức sai định dạng">
+                    <f:validateRegex pattern="^0[1-9]{1}[0-9]{8,9}$"/>
+                </p:inputText>
+                <p:message id="id6" for="orgphone" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Số ĐKKD:" for="dkkd"/>
+            <p:outputPanel>
+                <p:inputText id="dkkd" placeholder="Nhập số đăng ký kinh doanh"
+                             label="số ĐKKD"
+                             required="true" requiredMessage="Bạn vui lòng nhập số ĐKKD"
+                             onchange="this.value = this.value.trim()"
+                             maxlength="15"
+                             value="#{accountController.accountDto.businessLicense}"/>
+                <p:message id="id2" for="dkkd" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Người đại diện:" for="name"/>
+            <p:outputPanel>
+                <p:inputText id="name" placeholder="Nhập người đại diện" required="true"
+                             requiredMessage="Bạn vui lòng nhập người đại diện"
+                             onchange="this.value = this.value.trim()" maxlength="50"
+                             value="#{accountController.accountDto.fullName}"/>
+                <p:message id="id8" for="name" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Số CMND/CCCD:" for="cmnd"/>
+            <p:outputPanel>
+                <p:inputText id="cmnd" placeholder="Nhập số CMND/CCCD" maxlength="12" required="true"
+                             requiredMessage="Bạn vui lòng nhập số CMND/CCCD"
+                             onchange="this.value = this.value.trim()" validatorMessage="Số CMND/CCCD sai định dạng"
+                             value="#{accountController.accountDto.idCardNumber}"
+                             onkeyup="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                    <f:validateRegex pattern="^[0-9]{9}(?:[0-9]{3})?$"/>
+                </p:inputText>
+                <p:message id="id5" for="cmnd" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel styleClass="requireLabel" value="Nơi cấp:"/>
+            <p:outputPanel>
+                <p:selectOneMenu id="provinceId" value="#{accountController.accountDto.provinceIdOfIssue}"
+                                 dynamic="true" filter="true" filterMatchMode="contains" style="min-width: 104px"
+                                 required="true" requiredMessage="Bạn vui lòng chọn nơi cấp">
+                    <f:selectItem itemLabel="Chọn nơi cấp" itemValue=""/>
+                    <f:selectItems value="#{accountController.listProvinceAccount}"/>
+                </p:selectOneMenu>
+
+                <p:message id="id7" for="provinceId" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Ngày cấp: " for="dateOfIssue"/>
+            <p:outputPanel>
+                <p:calendar id="dateOfIssue" styleClass="calendar set-width-field" navigator="true"
+                            mode="popup"
+                            yearRange="c-50:c" placeholder="Chọn ngày cấp CMND/CCCD"
+                            value="#{accountController.accountDto.dateOfIssue}"
+                            required="true" requiredMessage="Bạn vui lòng nhập ngày cấp"
+                            onchange="this.value = this.value.trim()"
+                            validatorMessage="Ngày cấp không hợp lệ ">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </p:calendar>
+                <p:message id="id9" for="dateOfIssue" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Chức vụ NĐD:" for="position"/>
+            <p:outputPanel>
+                <p:inputText id="position" placeholder="Nhập chức vụ" required="true"
+                             requiredMessage="Bạn vui lòng nhập chức vụ NĐD"
+                             onchange="this.value = this.value.trim()" maxlength="50"
+                             value="#{accountController.accountDto.position}"/>
+                <p:message id="id10" for="position" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel for="permanentResidence" value="Hộ khẩu thường trú:"/>
+            <p:outputPanel>
+                <p:inputText id="permanentResidence" maxlength="100" required="true"
+                             requiredMessage="Bạn vui lòng nhập hộ khẩu thường trú"
+                             onchange="this.value = this.value.trim()" placeholder="Nhập hộ khẩu thường trú"
+                             value="#{accountController.accountDto.permanentResidence}"/>
+                <p:message id="id11" for="permanentResidence" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Giới tính:" for="gender"/>
+            <p:outputPanel>
+                <p:selectOneMenu id="gender" value="#{accountController.accountDto.sex}" required="true"
+                                 requiredMessage="Bạn vui lòng chọn giới tính">
+                    <f:selectItem itemLabel="Chọn giới tính" itemValue=""/>
+                    <f:selectItems value="#{accountController.apiSexList}"/>
+                </p:selectOneMenu>
+
+                <p:message id="id12" for="gender" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Số điện thoại :" for="phone"/>
+            <p:outputPanel>
+                <p:inputText id="phone" required="true" requiredMessage="Bạn vui lòng nhập số điện thoại người đại diện"
+                             onchange="this.value = this.value.trim()" placeholder="Nhập số điện thoại người đại diện"
+                             value="#{accountController.accountDto.phone}"
+                             maxlength="11" validatorMessage="Số điện thoại sai định dạng">
+                    <f:validateRegex pattern="^0[1-9]{1}[0-9]{8,9}$"/>
+                </p:inputText>
+                <p:message id="id13" for="phone" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+
+            <p:outputLabel value="Địa chỉ email:" for="email"/>
+            <p:outputPanel>
+                <p:inputText id="email" placeholder="Nhập địa chỉ email" maxlength="50" required="true"
+                             requiredMessage="Bạn vui lòng nhập địa chỉ email"
+                             onchange="this.value = this.value.trim()" value="#{accountController.accountDto.email}"
+                             validatorMessage="Email không đúng định dạng">
+                    <f:validateRegex
+                            pattern="^\s*[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})\s*$"/>
+                </p:inputText>
+                <p:message id="id14" for="email" styleClass="focus-input-text" display="text"/>
+            </p:outputPanel>
+        </p:panelGrid>
+    </p:scrollPanel>
+
+    <p:panelGrid columns="2" columnClasses="ui-grid-col-1.5, ui-grid-col-1.5" styleClass="ui-panelgrid-blank"
+                 layout="grid">
+        <p:commandButton value="Lưu" id="save"
+                         actionListener="#{accountController.onSaveData()}"
+                         icon="fa fa-save" style="width: 90px;"
+                         update="id1 id2 id3 id4 id5 id6 id7 id8 id9 id10 id11 id12 id13 id14 id41 id42 id4-org-address searchForm focus"/>
+        <p:commandButton value="Đóng" styleClass="close"
+                         global="false"
+                         actionListener="#{accountController.resetDialog}"
+                         oncomplete="PF('dialogInsertUpdate').hide()" icon="fa fa-close"
+                         style="width: 80px;"/>
+        <p:defaultCommand target="save" />
+    </p:panelGrid>
+
+</ui:composition>
